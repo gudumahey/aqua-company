@@ -1,202 +1,1472 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Office Visitor Management</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>OfficeOS — Management System</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --bg:#f4f6fb;
+ --card:#fff;
+ --text:#101828;
+ --muted:#667085;
+ --border:#eaecf0;
+ --blue:#5b5cf0;
+ --blue2:#7c3aed;
+ --green:#12b76a;
+ --red:#f04438;
+ --orange:#f79009;
+ --sidebar:#0b1020;
+}
+body{
+ font-family:Inter,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+ min-height:100vh;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+
+/* LOGIN */
+.login{
+ position:fixed;
+ inset:0;
+ background:
+ radial-gradient(circle at 20% 20%,#3538cd55,transparent 35%),
+ radial-gradient(circle at 80% 80%,#7f56d955,transparent 35%),
+ #080b16;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ z-index:9999;
+}
+.login-box{
+ width:430px;
+ padding:42px;
+ background:#111827ee;
+ border:1px solid #ffffff18;
+ border-radius:28px;
+ box-shadow:0 30px 100px #0008;
+ color:white;
+ animation:up .6s ease;
+}
+.brand{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ margin-bottom:35px;
+}
+.brand-icon{
+ width:48px;height:48px;
+ display:grid;place-items:center;
+ border-radius:15px;
+ background:linear-gradient(135deg,#6366f1,#9333ea);
+ font-size:23px;
+}
+.brand h2{font-size:21px}
+.brand small{color:#98a2b3}
+.login-box h1{font-size:31px;margin-bottom:8px}
+.login-box>p{color:#98a2b3;margin-bottom:28px}
+.login-box label{display:block;margin:15px 0 7px;font-size:13px;color:#d0d5dd}
+.login-box input{
+ width:100%;
+ padding:14px;
+ border-radius:11px;
+ border:1px solid #344054;
+ background:#1d2939;
+ color:white;
+ outline:none;
+}
+.login-btn{
+ width:100%;
+ margin-top:25px;
+ padding:14px;
+ border:0;
+ border-radius:11px;
+ color:white;
+ font-weight:700;
+ background:linear-gradient(135deg,#6366f1,#7c3aed);
+}
+.login-error{color:#fda29b;font-size:13px;margin-top:12px;display:none}
+
+/* APP */
+.app{display:none}
+.sidebar{
+ position:fixed;
+ left:0;top:0;bottom:0;
+ width:255px;
+ background:var(--sidebar);
+ color:white;
+ padding:25px 16px;
+ z-index:20;
+}
+.logo{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ padding:0 12px 30px;
+}
+.logo .brand-icon{width:42px;height:42px}
+.logo strong{font-size:18px}
+.logo span{display:block;color:#667085;font-size:11px;margin-top:2px}
+.menu-title{
+ font-size:10px;
+ color:#667085;
+ font-weight:800;
+ letter-spacing:1.5px;
+ padding:14px 13px 8px;
+}
+.menu{
+ border:0;
+ width:100%;
+ text-align:left;
+ padding:12px 13px;
+ margin:3px 0;
+ border-radius:10px;
+ color:#98a2b3;
+ background:transparent;
+ transition:.2s;
+}
+.menu:hover,.menu.active{
+ background:#ffffff12;
+ color:white;
+}
+.menu.active{box-shadow:inset 3px 0 #818cf8}
+.logout{
+ position:absolute;
+ bottom:25px;
+ left:16px;
+ right:16px;
+}
+.content{
+ margin-left:255px;
+ min-height:100vh;
+}
+.top{
+ height:75px;
+ background:var(--card);
+ border-bottom:1px solid var(--border);
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 32px;
+ position:sticky;
+ top:0;
+ z-index:10;
+}
+.search{
+ width:300px;
+ background:var(--bg);
+ border:1px solid var(--border);
+ padding:11px 15px;
+ border-radius:10px;
+ outline:none;
+}
+.profile{
+ display:flex;
+ align-items:center;
+ gap:10px;
+}
+.avatar{
+ width:38px;height:38px;
+ display:grid;place-items:center;
+ border-radius:50%;
+ background:linear-gradient(135deg,#6366f1,#9333ea);
+ color:white;font-weight:800;
+}
+.page{
+ display:none;
+ padding:32px;
+ animation:fade .3s ease;
+}
+.page.active{display:block}
+.heading{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:28px;
+}
+.heading h1{font-size:28px}
+.heading p{color:var(--muted);font-size:13px;margin-top:6px}
+.primary{
+ border:0;
+ background:linear-gradient(135deg,#5b5cf0,#7c3aed);
+ color:white;
+ padding:12px 17px;
+ border-radius:10px;
+ font-weight:700;
+ box-shadow:0 7px 20px #5b5cf033;
+}
+.secondary{
+ border:1px solid var(--border);
+ background:var(--card);
+ padding:11px 16px;
+ border-radius:10px;
+ color:var(--text);
+}
+.cards{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:17px;
+ margin-bottom:24px;
+}
+.stat{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:16px;
+ padding:20px;
+}
+.stat-top{display:flex;justify-content:space-between}
+.stat-icon{
+ width:42px;height:42px;
+ display:grid;place-items:center;
+ border-radius:12px;
+ background:#eef2ff;
+}
+.stat small{color:var(--muted)}
+.stat h2{font-size:28px;margin:13px 0 4px}
+.up{color:var(--green);font-size:11px;font-weight:700}
+
+.grid2{
+ display:grid;
+ grid-template-columns:1.5fr 1fr;
+ gap:20px;
+}
+.card{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:16px;
+ padding:22px;
+}
+.card-title{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:20px;
+}
+.card-title h3{font-size:16px}
+.muted{color:var(--muted);font-size:13px}
+table{width:100%;border-collapse:collapse}
+th{
+ text-align:left;
+ color:#667085;
+ font-size:11px;
+ text-transform:uppercase;
+ padding:11px;
+ border-bottom:1px solid var(--border);
+}
+td{
+ padding:14px 11px;
+ border-bottom:1px solid var(--border);
+ font-size:13px;
+}
+.badge{
+ display:inline-flex;
+ padding:5px 9px;
+ border-radius:20px;
+ font-size:10px;
+ font-weight:800;
+}
+.green{background:#ecfdf3;color:#027a48}
+.yellow{background:#fffaeb;color:#b54708}
+.red{background:#fef3f2;color:#b42318}
+.blue{background:#eef4ff;color:#3538cd}
+
+.activity{
+ display:flex;
+ gap:13px;
+ padding:13px 0;
+ border-bottom:1px solid var(--border);
+}
+.activity-icon{
+ width:35px;height:35px;
+ display:grid;place-items:center;
+ border-radius:10px;
+ background:#f2f4f7;
+}
+.activity p{font-size:13px}
+.activity small{color:var(--muted)}
+
+.form{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:16px;
+ padding:25px;
+ max-width:1000px;
+}
+.form-section{
+ font-size:16px;
+ margin:5px 0 18px;
+}
+.form-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:17px;
+ margin-bottom:25px;
+}
+.field.full{grid-column:1/-1}
+.field label{
+ display:block;
+ font-size:12px;
+ font-weight:700;
+ margin-bottom:7px;
+}
+.field input,.field select,.field textarea{
+ width:100%;
+ padding:12px 13px;
+ border:1px solid #d0d5dd;
+ border-radius:9px;
+ outline:none;
+ background:var(--card);
+ color:var(--text);
+}
+.field textarea{resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{
+ border-color:#6366f1;
+ box-shadow:0 0 0 3px #6366f11a;
+}
+.form-actions{
+ display:flex;
+ justify-content:flex-end;
+ gap:10px;
+ border-top:1px solid var(--border);
+ padding-top:20px;
+}
+
+.toolbar{
+ display:flex;
+ gap:10px;
+ margin-bottom:18px;
+}
+.toolbar input{
+ flex:1;
+ padding:12px 15px;
+ border:1px solid var(--border);
+ background:var(--card);
+ border-radius:10px;
+ outline:none;
+}
+.notice{
+ padding:15px;
+ border-radius:12px;
+ background:#f5f3ff;
+ border:1px solid #ddd6fe;
+ margin-bottom:12px;
+}
+.notice strong{font-size:13px}
+.notice p{font-size:12px;color:var(--muted);margin-top:5px}
+
+.task{
+ display:flex;
+ justify-content:space-between;
+ gap:15px;
+ padding:15px 0;
+ border-bottom:1px solid var(--border);
+}
+.task-left{display:flex;gap:12px}
+.check{
+ width:19px;height:19px;
+ accent-color:#6366f1;
+}
+.task.done .task-name{text-decoration:line-through;color:#98a2b3}
+
+.modal{
+ position:fixed;
+ inset:0;
+ background:#10182899;
+ display:none;
+ justify-content:center;
+ align-items:center;
+ z-index:100;
+ padding:20px;
+}
+.modal.show{display:flex}
+.modal-box{
+ background:var(--card);
+ width:600px;
+ max-width:100%;
+ border-radius:20px;
+ padding:27px;
+ max-height:90vh;
+ overflow:auto;
+ animation:up .25s ease;
+}
+.modal-head{
+ display:flex;
+ justify-content:space-between;
+ margin-bottom:20px;
+}
+.close{
+ border:0;background:var(--bg);
+ width:35px;height:35px;border-radius:9px;
+}
+.detail{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+}
+.detail div{
+ padding:14px;
+ background:var(--bg);
+ border-radius:10px;
+}
+.detail small{display:block;color:var(--muted);font-size:10px;margin-bottom:5px}
+.detail strong{font-size:13px}
+
+.toast{
+ position:fixed;
+ bottom:25px;
+ right:25px;
+ background:#101828;
+ color:white;
+ padding:14px 20px;
+ border-radius:10px;
+ transform:translateY(100px);
+ opacity:0;
+ transition:.3s;
+ z-index:999;
+}
+.toast.show{transform:translateY(0);opacity:1}
+
+@keyframes fade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+@media(max-width:1050px){
+ .cards{grid-template-columns:1fr 1fr}
+ .grid2{grid-template-columns:1fr}
+}
+@media(max-width:750px){
+ .sidebar{width:70px;padding:15px 8px}
+ .logo strong,.logo span,.menu-title{display:none}
+ .logo{padding:0 5px 25px}
+ .menu{text-align:center;font-size:0}
+ .menu:first-letter{font-size:20px}
+ .logout{left:8px;right:8px}
+ .content{margin-left:70px}
+ .top{padding:0 15px}
+ .search{display:none}
+ .page{padding:20px 15px}
+ .cards{grid-template-columns:1fr}
+ .form-grid{grid-template-columns:1fr}
+ .field.full{grid-column:auto}
+ .detail{grid-template-columns:1fr}
+ table{min-width:650px}
+ .card{overflow:auto}
+}
+</style>
 </head>
+
 <body>
 
-  <div class="sidebar">
-    <div class="logo">OFFICE<span>•</span></div>
-    <p class="logo-sub">Visitor Management</p>
+<!-- LOGIN -->
+<div class="login" id="login">
+ <div class="login-box">
+   <div class="brand">
+     <div class="brand-icon">◆</div>
+     <div>
+       <h2>OfficeOS</h2>
+       <small>Management Platform</small>
+     </div>
+   </div>
 
-    <button class="nav active" onclick="showPage('dashboard')">🏠 Dashboard</button>
-    <button class="nav" onclick="showPage('register')">➕ New Visitor</button>
-    <button class="nav" onclick="showPage('visitors')">👥 Visitors</button>
+   <h1>Welcome back</h1>
+   <p>Sign in to access your office dashboard.</p>
+
+   <label>Username</label>
+   <input id="username" placeholder="Enter username">
+
+   <label>Password</label>
+   <input id="password" type="password" placeholder="Enter password">
+
+   <button class="login-btn" onclick="login()">Sign in to dashboard</button>
+
+   <div class="login-error" id="loginError">
+     Incorrect username or password.
+   </div>
+ </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+
+<aside class="sidebar">
+
+ <div class="logo">
+   <div class="brand-icon">◆</div>
+   <div>
+     <strong>OfficeOS</strong>
+     <span>Management</span>
+   </div>
+ </div>
+
+ <div class="menu-title">MAIN</div>
+
+ <button class="menu active" onclick="page('dashboard',this)">📊 Dashboard</button>
+ <button class="menu" onclick="page('visitors',this)">👥 Visitors</button>
+ <button class="menu" onclick="page('appointments',this)">📅 Appointments</button>
+
+ <div class="menu-title">OFFICE</div>
+
+ <button class="menu" onclick="page('employees',this)">👨‍💼 Employees</button>
+ <button class="menu" onclick="page('notes',this)">📝 Notes & Reports</button>
+ <button class="menu" onclick="page('announcements',this)">📢 Announcements</button>
+ <button class="menu" onclick="page('tasks',this)">✅ Tasks</button>
+
+ <div class="menu-title">SYSTEM</div>
+
+ <button class="menu" onclick="page('settings',this)">⚙️ Settings</button>
+
+ <button class="menu logout" onclick="logout()">↪ Logout</button>
+</aside>
+
+<div class="content">
+
+<header class="top">
+ <input class="search" id="globalSearch" placeholder="⌕ Search anything...">
+ <div class="profile">
+   <div>
+     <strong style="font-size:13px">Administrator</strong>
+     <small style="display:block;color:#667085">Office Admin</small>
+   </div>
+   <div class="avatar">A</div>
+ </div>
+</header>
+
+<!-- DASHBOARD -->
+<section class="page active" id="dashboard">
+
+ <div class="heading">
+  <div>
+   <h1>Dashboard</h1>
+   <p>Here's what's happening in your office today.</p>
+  </div>
+  <button class="primary" onclick="page('newVisitor')">＋ New Visitor</button>
+ </div>
+
+ <div class="cards">
+
+  <div class="stat">
+   <div class="stat-top">
+    <small>Total Visitors</small>
+    <div class="stat-icon">👥</div>
+   </div>
+   <h2 id="totalVisitors">0</h2>
+   <span class="up">↑ Active records</span>
   </div>
 
-  <main class="main">
+  <div class="stat">
+   <div class="stat-top">
+    <small>Today's Visits</small>
+    <div class="stat-icon">📅</div>
+   </div>
+   <h2 id="todayVisits">0</h2>
+   <span class="up">Today's schedule</span>
+  </div>
 
-    <!-- DASHBOARD -->
-    <section id="dashboard" class="page active-page">
-      <div class="topbar">
-        <div>
-          <p class="small">OFFICE MANAGEMENT</p>
-          <h1>Good day 👋</h1>
-          <p class="muted">Manage your office visitors and appointments.</p>
-        </div>
-        <button class="primary" onclick="showPage('register')">+ Register Visitor</button>
-      </div>
+  <div class="stat">
+   <div class="stat-top">
+    <small>Employees</small>
+    <div class="stat-icon">👨‍💼</div>
+   </div>
+   <h2 id="employeeCount">0</h2>
+   <span class="up">Office members</span>
+  </div>
 
-      <div class="stats">
-        <div class="stat">
-          <span>👥</span>
-          <div>
-            <p>Total Visitors</p>
-            <h2 id="totalVisitors">0</h2>
-          </div>
-        </div>
+  <div class="stat">
+   <div class="stat-top">
+    <small>Pending Tasks</small>
+    <div class="stat-icon">✓</div>
+   </div>
+   <h2 id="pendingTasks">0</h2>
+   <span class="up">Need attention</span>
+  </div>
 
-        <div class="stat">
-          <span>📅</span>
-          <div>
-            <p>Today's Visits</p>
-            <h2 id="todayVisitors">0</h2>
-          </div>
-        </div>
+ </div>
 
-        <div class="stat">
-          <span>🕐</span>
-          <div>
-            <p>Upcoming</p>
-            <h2 id="upcomingVisitors">0</h2>
-          </div>
-        </div>
-      </div>
+ <div class="grid2">
 
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <h2>Recent Visitors</h2>
-            <p class="muted">Latest registered visitors</p>
-          </div>
-          <button class="outline" onclick="showPage('visitors')">View all</button>
-        </div>
+  <div class="card">
+   <div class="card-title">
+    <div>
+     <h3>Recent Visitors</h3>
+     <p class="muted">Latest visitor activity</p>
+    </div>
+    <button class="secondary" onclick="page('visitors')">View all</button>
+   </div>
+   <div id="dashboardVisitors"></div>
+  </div>
 
-        <div id="recentVisitors" class="visitor-list"></div>
-      </div>
-    </section>
+  <div class="card">
+   <div class="card-title">
+    <div>
+     <h3>Office Activity</h3>
+     <p class="muted">Recent actions</p>
+    </div>
+   </div>
+   <div id="activity"></div>
+  </div>
 
-    <!-- REGISTER -->
-    <section id="register" class="page">
-      <div class="topbar">
-        <div>
-          <p class="small">VISITOR REGISTRATION</p>
-          <h1>New Visitor</h1>
-          <p class="muted">Enter the visitor's information below.</p>
-        </div>
-      </div>
+ </div>
+</section>
 
-      <form id="visitorForm" class="card form-card">
+<!-- VISITORS -->
+<section class="page" id="visitors">
 
-        <h2>Personal Information</h2>
+ <div class="heading">
+  <div>
+   <h1>Visitors</h1>
+   <p>Manage everyone who visits your office.</p>
+  </div>
+  <button class="primary" onclick="page('newVisitor')">＋ Add Visitor</button>
+ </div>
 
-        <div class="form-grid">
-          <div class="field">
-            <label>Full Name *</label>
-            <input id="name" type="text" placeholder="Enter full name" required>
-          </div>
+ <div class="card">
+  <div class="toolbar">
+   <input id="visitorSearch" placeholder="🔎 Search visitor..." oninput="renderVisitors()">
+   <button class="secondary">Filter</button>
+  </div>
 
-          <div class="field">
-            <label>Age *</label>
-            <input id="age" type="number" min="1" max="120" placeholder="Age" required>
-          </div>
+  <table>
+   <thead>
+    <tr>
+     <th>Visitor</th>
+     <th>Company</th>
+     <th>Host</th>
+     <th>Date</th>
+     <th>Status</th>
+     <th></th>
+    </tr>
+   </thead>
+   <tbody id="visitorTable"></tbody>
+  </table>
+ </div>
+</section>
 
-          <div class="field">
-            <label>Phone Number</label>
-            <input id="phone" type="tel" placeholder="+34 600 000 000">
-          </div>
+<!-- NEW VISITOR -->
+<section class="page" id="newVisitor">
 
-          <div class="field">
-            <label>Email</label>
-            <input id="email" type="email" placeholder="visitor@email.com">
-          </div>
+ <div class="heading">
+  <div>
+   <h1>Register Visitor</h1>
+   <p>Create a complete visitor record.</p>
+  </div>
+ </div>
 
-          <div class="field">
-            <label>Occupation / Job *</label>
-            <input id="occupation" type="text" placeholder="e.g. Engineer" required>
-          </div>
+ <form class="form" id="visitorForm">
 
-          <div class="field">
-            <label>Company / Organization</label>
-            <input id="company" type="text" placeholder="Company name">
-          </div>
-        </div>
+  <h3 class="form-section">Personal Information</h3>
 
-        <hr>
+  <div class="form-grid">
 
-        <h2>Visit Information</h2>
+   <div class="field">
+    <label>Full Name *</label>
+    <input id="vName" required placeholder="John Smith">
+   </div>
 
-        <div class="form-grid">
-          <div class="field">
-            <label>Person to Visit *</label>
-            <input id="host" type="text" placeholder="Employee / Manager name" required>
-          </div>
+   <div class="field">
+    <label>Age *</label>
+    <input id="vAge" type="number" required placeholder="25">
+   </div>
 
-          <div class="field">
-            <label>Department</label>
-            <select id="department">
-              <option>Administration</option>
-              <option>Management</option>
-              <option>Human Resources</option>
-              <option>Finance</option>
-              <option>IT</option>
-              <option>Sales</option>
-              <option>Other</option>
-            </select>
-          </div>
+   <div class="field">
+    <label>Phone Number</label>
+    <input id="vPhone" placeholder="+34 600 000 000">
+   </div>
 
-          <div class="field">
-            <label>Appointment Date *</label>
-            <input id="date" type="date" required>
-          </div>
+   <div class="field">
+    <label>Email</label>
+    <input id="vEmail" type="email" placeholder="john@email.com">
+   </div>
 
-          <div class="field">
-            <label>Appointment Time *</label>
-            <input id="time" type="time" required>
-          </div>
+   <div class="field">
+    <label>Occupation</label>
+    <input id="vJob" placeholder="Engineer">
+   </div>
 
-          <div class="field full">
-            <label>Reason for Visit *</label>
-            <select id="reason" required>
-              <option value="">Select reason</option>
-              <option>Business Meeting</option>
-              <option>Job Interview</option>
-              <option>Delivery</option>
-              <option>Maintenance</option>
-              <option>Client Appointment</option>
-              <option>Document Submission</option>
-              <option>Personal Appointment</option>
-              <option>Other</option>
-            </select>
-          </div>
+   <div class="field">
+    <label>Company / Organization</label>
+    <input id="vCompany" placeholder="Company name">
+   </div>
 
-          <div class="field full">
-            <label>Additional Information</label>
-            <textarea id="notes" rows="4" placeholder="Write any additional information..."></textarea>
-          </div>
-        </div>
+  </div>
 
-        <div class="form-actions">
-          <button type="button" class="outline" onclick="showPage('dashboard')">Cancel</button>
-          <button type="submit" class="primary">✓ Register Visitor</button>
-        </div>
-      </form>
-    </section>
+  <h3 class="form-section">Visit Information</h3>
 
-    <!-- VISITORS -->
-    <section id="visitors" class="page">
-      <div class="topbar">
-        <div>
-          <p class="small">VISITOR RECORDS</p>
-          <h1>All Visitors</h1>
-          <p class="muted">Search and manage registered visitors.</p>
-        </div>
-        <button class="primary" onclick="showPage('register')">+ New Visitor</button>
-      </div>
+  <div class="form-grid">
 
-      <div class="card">
-        <input class="search" id="search" type="search" placeholder="🔎 Search by name, company or host..." oninput="renderVisitors()">
-        <div id="allVisitors" class="visitor-list"></div>
-      </div>
-    </section>
+   <div class="field">
+    <label>Person to Visit *</label>
+    <input id="vHost" required placeholder="Employee name">
+   </div>
 
-  </main>
+   <div class="field">
+    <label>Department</label>
+    <select id="vDepartment">
+     <option>Administration</option>
+     <option>Management</option>
+     <option>Human Resources</option>
+     <option>Finance</option>
+     <option>IT</option>
+     <option>Sales</option>
+     <option>Other</option>
+    </select>
+   </div>
 
-  <div id="toast" class="toast"></div>
+   <div class="field">
+    <label>Appointment Date *</label>
+    <input id="vDate" type="date" required>
+   </div>
 
-  <script src="script.js"></script>
+   <div class="field">
+    <label>Appointment Time *</label>
+    <input id="vTime" type="time" required>
+   </div>
+
+   <div class="field full">
+    <label>Reason for Visit *</label>
+    <select id="vReason" required>
+     <option value="">Select reason</option>
+     <option>Business Meeting</option>
+     <option>Job Interview</option>
+     <option>Client Appointment</option>
+     <option>Delivery</option>
+     <option>Maintenance</option>
+     <option>Document Submission</option>
+     <option>Personal Appointment</option>
+     <option>Other</option>
+    </select>
+   </div>
+
+   <div class="field full">
+    <label>Additional Information</label>
+    <textarea id="vNotes" rows="5" placeholder="Anything the office should know..."></textarea>
+   </div>
+
+  </div>
+
+  <div class="form-actions">
+   <button type="button" class="secondary" onclick="page('visitors')">Cancel</button>
+   <button class="primary">Register Visitor</button>
+  </div>
+
+ </form>
+</section>
+
+<!-- APPOINTMENTS -->
+<section class="page" id="appointments">
+
+ <div class="heading">
+  <div>
+   <h1>Appointments</h1>
+   <p>Manage scheduled office meetings.</p>
+  </div>
+  <button class="primary" onclick="page('newVisitor')">＋ New Appointment</button>
+ </div>
+
+ <div class="card">
+  <div id="appointmentList"></div>
+ </div>
+</section>
+
+<!-- EMPLOYEES -->
+<section class="page" id="employees">
+
+ <div class="heading">
+  <div>
+   <h1>Employees</h1>
+   <p>Manage your office team.</p>
+  </div>
+  <button class="primary" onclick="openEmployee()">＋ Add Employee</button>
+ </div>
+
+ <div class="card">
+  <table>
+   <thead>
+    <tr>
+     <th>Name</th>
+     <th>Position</th>
+     <th>Department</th>
+     <th>Email</th>
+     <th>Status</th>
+    </tr>
+   </thead>
+   <tbody id="employeeTable"></tbody>
+  </table>
+ </div>
+</section>
+
+<!-- NOTES -->
+<section class="page" id="notes">
+
+ <div class="heading">
+  <div>
+   <h1>Notes & Reports</h1>
+   <p>Keep important office information organized.</p>
+  </div>
+  <button class="primary" onclick="openNote()">＋ New Note</button>
+ </div>
+
+ <div class="grid2">
+  <div class="card">
+   <div class="card-title">
+    <h3>Office Notes</h3>
+   </div>
+   <div id="notesList"></div>
+  </div>
+
+  <div class="card">
+   <div class="card-title">
+    <h3>Quick Report</h3>
+   </div>
+   <p class="muted" style="margin-bottom:15px">Office activity summary</p>
+   <div class="notice">
+    <strong>Visitor Records</strong>
+    <p id="reportVisitors">0 total visitors</p>
+   </div>
+   <div class="notice">
+    <strong>Appointments</strong>
+    <p id="reportAppointments">0 scheduled appointments</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ANNOUNCEMENTS -->
+<section class="page" id="announcements">
+
+ <div class="heading">
+  <div>
+   <h1>Announcements</h1>
+   <p>Important messages for the office.</p>
+  </div>
+  <button class="primary" onclick="openAnnouncement()">＋ Announcement</button>
+ </div>
+
+ <div class="card">
+  <div id="announcementList"></div>
+ </div>
+</section>
+
+<!-- TASKS -->
+<section class="page" id="tasks">
+
+ <div class="heading">
+  <div>
+   <h1>Tasks</h1>
+   <p>Keep office work organized.</p>
+  </div>
+  <button class="primary" onclick="addTask()">＋ Add Task</button>
+ </div>
+
+ <div class="card">
+  <div id="taskList"></div>
+ </div>
+</section>
+
+<!-- SETTINGS -->
+<section class="page" id="settings">
+
+ <div class="heading">
+  <div>
+   <h1>Settings</h1>
+   <p>Configure your OfficeOS system.</p>
+  </div>
+ </div>
+
+ <div class="card" style="max-width:700px">
+
+  <h3 style="margin-bottom:20px">Office Information</h3>
+
+  <div class="form-grid">
+
+   <div class="field">
+    <label>Office Name</label>
+    <input id="officeName" value="My Office">
+   </div>
+
+   <div class="field">
+    <label>Office Phone</label>
+    <input value="+34 000 000 000">
+   </div>
+
+   <div class="field full">
+    <label>Office Address</label>
+    <input value="Barcelona, Spain">
+   </div>
+
+  </div>
+
+  <button class="primary" onclick="saveSettings()">Save Settings</button>
+
+ </div>
+</section>
+
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+ <div class="modal-box">
+  <div class="modal-head">
+   <h2 id="modalTitle">Details</h2>
+   <button class="close" onclick="closeModal()">×</button>
+  </div>
+  <div id="modalBody"></div>
+ </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let visitors=JSON.parse(localStorage.getItem("office_visitors")||"[]");
+
+let employees=JSON.parse(localStorage.getItem("office_employees")||"[]");
+
+let notes=JSON.parse(localStorage.getItem("office_notes")||"[]");
+
+let announcements=JSON.parse(localStorage.getItem("office_announcements")||"[]");
+
+let tasks=JSON.parse(localStorage.getItem("office_tasks")||"[]");
+
+let activities=JSON.parse(localStorage.getItem("office_activity")||"[]");
+
+if(!employees.length){
+ employees=[
+  {name:"Alex Johnson",position:"Office Manager",department:"Management",email:"alex@office.com",status:"Active"},
+  {name:"Maria Garcia",position:"HR Manager",department:"Human Resources",email:"maria@office.com",status:"Active"},
+  {name:"Daniel Smith",position:"IT Specialist",department:"IT",email:"daniel@office.com",status:"Active"}
+ ];
+ saveAll();
+}
+
+if(!tasks.length){
+ tasks=[
+  {name:"Review visitor records",done:false},
+  {name:"Prepare Monday meeting",done:false},
+  {name:"Check office documents",done:true}
+ ];
+ saveAll();
+}
+
+function login(){
+
+ let u=document.getElementById("username").value;
+ let p=document.getElementById("password").value;
+
+ if(u==="admin"&&p==="admin123"){
+  document.getElementById("login").style.display="none";
+  document.getElementById("app").style.display="block";
+  update();
+ }else{
+  document.getElementById("loginError").style.display="block";
+ }
+}
+
+function logout(){
+ location.reload();
+}
+
+function page(id,btn){
+
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+
+ document.getElementById(id).classList.add("active");
+
+ document.querySelectorAll(".menu").forEach(x=>x.classList.remove("active"));
+
+ if(btn) btn.classList.add("active");
+
+ update();
+}
+
+function saveAll(){
+ localStorage.setItem("office_visitors",JSON.stringify(visitors));
+ localStorage.setItem("office_employees",JSON.stringify(employees));
+ localStorage.setItem("office_notes",JSON.stringify(notes));
+ localStorage.setItem("office_announcements",JSON.stringify(announcements));
+ localStorage.setItem("office_tasks",JSON.stringify(tasks));
+ localStorage.setItem("office_activity",JSON.stringify(activities));
+}
+
+document.getElementById("visitorForm").addEventListener("submit",function(e){
+
+ e.preventDefault();
+
+ let visitor={
+  id:Date.now(),
+  name:vName.value,
+  age:vAge.value,
+  phone:vPhone.value,
+  email:vEmail.value,
+  job:vJob.value,
+  company:vCompany.value,
+  host:vHost.value,
+  department:vDepartment.value,
+  date:vDate.value,
+  time:vTime.value,
+  reason:vReason.value,
+  notes:vNotes.value,
+  status:"Scheduled"
+ };
+
+ visitors.unshift(visitor);
+
+ activities.unshift({
+  icon:"👤",
+  text:visitor.name+" was registered as a visitor",
+  time:"Just now"
+ });
+
+ saveAll();
+
+ this.reset();
+
+ toast("Visitor registered successfully ✓");
+
+ page("visitors");
+
+ update();
+});
+
+function renderVisitors(){
+
+ let q=(document.getElementById("visitorSearch")?.value||"").toLowerCase();
+
+ let list=visitors.filter(v=>
+  v.name.toLowerCase().includes(q)||
+  (v.company||"").toLowerCase().includes(q)||
+  v.host.toLowerCase().includes(q)
+ );
+
+ let table=document.getElementById("visitorTable");
+
+ if(!list.length){
+  table.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:40px;color:#667085">No visitors found.</td></tr>`;
+  return;
+ }
+
+ table.innerHTML=list.map(v=>`
+ <tr>
+  <td><strong>${safe(v.name)}</strong><br><small style="color:#667085">${safe(v.phone||"No phone")}</small></td>
+  <td>${safe(v.company||"—")}</td>
+  <td>${safe(v.host)}</td>
+  <td>${safe(v.date)}<br><small>${safe(v.time)}</small></td>
+  <td><span class="badge blue">${safe(v.status)}</span></td>
+  <td><button class="secondary" onclick="visitorDetails(${v.id})">View</button></td>
+ </tr>
+ `).join("");
+}
+
+function visitorDetails(id){
+
+ let v=visitors.find(x=>x.id===id);
+
+ document.getElementById("modalTitle").textContent="Visitor Details";
+
+ document.getElementById("modalBody").innerHTML=`
+ <div class="detail">
+  ${detail("Full Name",v.name)}
+  ${detail("Age",v.age)}
+  ${detail("Phone",v.phone||"—")}
+  ${detail("Email",v.email||"—")}
+  ${detail("Occupation",v.job||"—")}
+  ${detail("Company",v.company||"—")}
+  ${detail("Host",v.host)}
+  ${detail("Department",v.department)}
+  ${detail("Date",v.date)}
+  ${detail("Time",v.time)}
+  ${detail("Reason",v.reason)}
+  ${detail("Status",v.status)}
+ </div>
+
+ <div style="margin-top:15px;padding:15px;background:var(--bg);border-radius:10px">
+  <small style="color:#667085">Additional Information</small>
+  <p style="margin-top:7px;font-size:13px">${safe(v.notes||"No additional information.")}</p>
+ </div>
+
+ <div style="display:flex;gap:10px;margin-top:20px">
+  <button class="primary" onclick="checkIn(${v.id})">✓ Check In</button>
+  <button class="secondary" onclick="checkOut(${v.id})">Check Out</button>
+  <button class="secondary" onclick="deleteVisitor(${v.id})">Delete</button>
+ </div>
+ `;
+
+ document.getElementById("modal").classList.add("show");
+}
+
+function detail(a,b){
+ return `<div><small>${a}</small><strong>${safe(b)}</strong></div>`;
+}
+
+function checkIn(id){
+ let v=visitors.find(x=>x.id===id);
+ v.status="Checked In";
+ saveAll();
+ closeModal();
+ toast(v.name+" checked in ✓");
+ update();
+}
+
+function checkOut(id){
+ let v=visitors.find(x=>x.id===id);
+ v.status="Checked Out";
+ saveAll();
+ closeModal();
+ toast(v.name+" checked out");
+ update();
+}
+
+function deleteVisitor(id){
+
+ if(confirm("Delete this visitor record?")){
+  visitors=visitors.filter(v=>v.id!==id);
+  saveAll();
+  closeModal();
+  toast("Visitor deleted");
+  update();
+ }
+}
+
+function renderAppointments(){
+
+ let box=document.getElementById("appointmentList");
+
+ if(!visitors.length){
+  box.innerHTML=`<div style="text-align:center;padding:45px;color:#667085">No appointments scheduled.</div>`;
+  return;
+ }
+
+ box.innerHTML=visitors.map(v=>`
+ <div class="activity">
+  <div class="activity-icon">📅</div>
+  <div style="flex:1">
+   <p><strong>${safe(v.name)}</strong> — meeting with ${safe(v.host)}</p>
+   <small>${safe(v.date)} at ${safe(v.time)} • ${safe(v.reason)}</small>
+  </div>
+  <span class="badge blue">${safe(v.status)}</span>
+ </div>
+ `).join("");
+}
+
+function renderEmployees(){
+
+ document.getElementById("employeeTable").innerHTML=employees.map(e=>`
+ <tr>
+  <td><strong>${safe(e.name)}</strong></td>
+  <td>${safe(e.position)}</td>
+  <td>${safe(e.department)}</td>
+  <td>${safe(e.email)}</td>
+  <td><span class="badge green">${safe(e.status)}</span></td>
+ </tr>
+ `).join("");
+}
+
+function openEmployee(){
+
+ document.getElementById("modalTitle").textContent="Add Employee";
+
+ document.getElementById("modalBody").innerHTML=`
+ <div class="form-grid">
+  <div class="field">
+   <label>Name</label>
+   <input id="newEmpName" placeholder="Employee name">
+  </div>
+  <div class="field">
+   <label>Position</label>
+   <input id="newEmpPosition" placeholder="Position">
+  </div>
+  <div class="field">
+   <label>Department</label>
+   <input id="newEmpDepartment" placeholder="Department">
+  </div>
+  <div class="field">
+   <label>Email</label>
+   <input id="newEmpEmail" placeholder="email@office.com">
+  </div>
+ </div>
+ <button class="primary" onclick="saveEmployee()">Save Employee</button>
+ `;
+
+ document.getElementById("modal").classList.add("show");
+}
+
+function saveEmployee(){
+
+ let e={
+  name:newEmpName.value,
+  position:newEmpPosition.value,
+  department:newEmpDepartment.value,
+  email:newEmpEmail.value,
+  status:"Active"
+ };
+
+ if(!e.name)return;
+
+ employees.push(e);
+ saveAll();
+ closeModal();
+ toast("Employee added ✓");
+ update();
+}
+
+function openNote(){
+
+ document.getElementById("modalTitle").textContent="New Office Note";
+
+ document.getElementById("modalBody").innerHTML=`
+ <div class="field" style="margin-bottom:15px">
+  <label>Title</label>
+  <input id="noteTitle" placeholder="Note title">
+ </div>
+ <div class="field" style="margin-bottom:15px">
+  <label>Priority</label>
+  <select id="notePriority">
+   <option>Normal</option>
+   <option>Important</option>
+   <option>Urgent</option>
+  </select>
+ </div>
+ <div class="field" style="margin-bottom:18px">
+  <label>Details</label>
+  <textarea id="noteText" rows="6" placeholder="Write your note..."></textarea>
+ </div>
+ <button class="primary" onclick="saveNote()">Save Note</button>
+ `;
+
+ document.getElementById("modal").classList.add("show");
+}
+
+function saveNote(){
+
+ notes.unshift({
+  title:noteTitle.value,
+  priority:notePriority.value,
+  text:noteText.value
+ });
+
+ saveAll();
+ closeModal();
+ toast("Note saved ✓");
+ update();
+}
+
+function renderNotes(){
+
+ document.getElementById("notesList").innerHTML=notes.length?
+ notes.map(n=>`
+ <div class="notice">
+  <strong>${safe(n.title)}</strong>
+  <span class="badge ${n.priority==="Urgent"?"red":"yellow"}" style="float:right">${safe(n.priority)}</span>
+  <p>${safe(n.text)}</p>
+ </div>
+ `).join("")
+ :
+ `<div class="muted" style="padding:30px;text-align:center">No notes yet.</div>`;
+}
+
+function openAnnouncement(){
+
+ document.getElementById("modalTitle").textContent="New Announcement";
+
+ document.getElementById("modalBody").innerHTML=`
+ <div class="field" style="margin-bottom:15px">
+  <label>Announcement Title</label>
+  <input id="annTitle" placeholder="Important announcement">
+ </div>
+ <div class="field" style="margin-bottom:18px">
+  <label>Message</label>
+  <textarea id="annText" rows="6" placeholder="Write announcement..."></textarea>
+ </div>
+ <button class="primary" onclick="saveAnnouncement()">Publish Announcement</button>
+ `;
+
+ document.getElementById("modal").classList.add("show");
+}
+
+function saveAnnouncement(){
+
+ announcements.unshift({
+  title:annTitle.value,
+  text:annText.value,
+  date:new Date().toLocaleDateString()
+ });
+
+ saveAll();
+ closeModal();
+ toast("Announcement published 📢");
+ update();
+}
+
+function renderAnnouncements(){
+
+ document.getElementById("announcementList").innerHTML=announcements.length?
+ announcements.map(a=>`
+ <div class="notice">
+  <strong>${safe(a.title)}</strong>
+  <p>${safe(a.text)}</p>
+  <small style="color:#98a2b3">${safe(a.date)}</small>
+ </div>
+ `).join("")
+ :
+ `<div class="muted" style="text-align:center;padding:40px">No announcements yet.</div>`;
+}
+
+function addTask(){
+
+ let name=prompt("Enter task name:");
+
+ if(!name)return;
+
+ tasks.push({name,done:false});
+
+ saveAll();
+ toast("Task added ✓");
+ update();
+}
+
+function toggleTask(i){
+
+ tasks[i].done=!tasks[i].done;
+
+ saveAll();
+ update();
+}
+
+function renderTasks(){
+
+ document.getElementById("taskList").innerHTML=tasks.map((t,i)=>`
+ <div class="task ${t.done?"done":""}">
+  <div class="task-left">
+   <input class="check" type="checkbox" ${t.done?"checked":""} onchange="toggleTask(${i})">
+   <div>
+    <div class="task-name" style="font-size:13px;font-weight:600">${safe(t.name)}</div>
+    <small class="muted">${t.done?"Completed":"Pending"}</small>
+   </div>
+  </div>
+ </div>
+ `).join("");
+}
+
+function update(){
+
+ document.getElementById("totalVisitors").textContent=visitors.length;
+
+ let today=new Date().toISOString().split("T")[0];
+
+ document.getElementById("todayVisits").textContent=
+ visitors.filter(v=>v.date===today).length;
+
+ document.getElementById("employeeCount").textContent=employees.length;
+
+ document.getElementById("pendingTasks").textContent=
+ tasks.filter(t=>!t.done).length;
+
+ renderVisitors();
+ renderAppointments();
+ renderEmployees();
+ renderNotes();
+ renderAnnouncements();
+ renderTasks();
+
+ let recent=visitors.slice(0,5);
+
+ document.getElementById("dashboardVisitors").innerHTML=recent.length?
+ recent.map(v=>`
+ <div class="activity">
+  <div class="avatar" style="width:35px;height:35px;font-size:11px">
+   ${v.name.split(" ").map(x=>x[0]).join("").slice(0,2)}
+  </div>
+  <div>
+   <p><strong>${safe(v.name)}</strong></p>
+   <small>${safe(v.reason)} • ${safe(v.date)}</small>
+  </div>
+ </div>
+ `).join("")
+ :
+ `<div class="muted" style="text-align:center;padding:35px">No visitors yet.</div>`;
+
+ document.getElementById("activity").innerHTML=activities.length?
+ activities.slice(0,5).map(a=>`
+ <div class="activity">
+  <div class="activity-icon">${a.icon}</div>
+  <div>
+   <p>${safe(a.text)}</p>
+   <small>${safe(a.time)}</small>
+  </div>
+ </div>
+ `).join("")
+ :
+ `<div class="muted" style="text-align:center;padding:35px">No activity yet.</div>`;
+
+ document.getElementById("reportVisitors").textContent=
+ visitors.length+" total visitors";
+
+ document.getElementById("reportAppointments").textContent=
+ visitors.length+" scheduled appointments";
+}
+
+function closeModal(){
+ document.getElementById("modal").classList.remove("show");
+}
+
+function toast(msg){
+
+ let t=document.getElementById("toast");
+
+ t.textContent=msg;
+ t.classList.add("show");
+
+ setTimeout(()=>t.classList.remove("show"),2500);
+}
+
+function saveSettings(){
+
+ let name=document.getElementById("officeName").value;
+
+ localStorage.setItem("office_name",name);
+
+ toast("Settings saved ✓");
+}
+
+function safe(x){
+
+ return String(x??"")
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
+}
+
+document.getElementById("globalSearch").addEventListener("keydown",function(e){
+
+ if(e.key==="Enter"){
+
+  let q=this.value.toLowerCase();
+
+  let found=visitors.find(v=>
+   v.name.toLowerCase().includes(q)||
+   (v.company||"").toLowerCase().includes(q)
+  );
+
+  if(found){
+   page("visitors");
+   document.getElementById("visitorSearch").value=this.value;
+   renderVisitors();
+  }else{
+   toast("Nothing found");
+  }
+ }
+});
+
+document.getElementById("modal").addEventListener("click",function(e){
+ if(e.target===this)closeModal();
+});
+</script>
+
 </body>
 </html>
