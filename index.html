@@ -329,62 +329,8 @@ textarea{min-height:100px;resize:vertical}
 <body>
 
 <!-- VISITOR PORTAL -->
-<section id="visitorPortal">
-
-<div class="login-page">
-<div class="login-card">
-
-<div class="logo">
-  <div class="logo-box">OF</div>
-  OfficeFlow
-</div>
-
-<h1>Request an Appointment</h1>
-<p>Verify your mobile number and submit your visit request.</p>
-
-<div id="phoneStep">
-
-<div class="form-group">
-<label>Mobile Number</label>
-<input id="phone" type="tel" placeholder="+34 612 345 678">
-</div>
-
-<div id="recaptcha-container"></div>
-
-<button class="btn btn-primary" style="width:100%;margin-top:15px"
-onclick="sendOTP()">
-SEND VERIFICATION CODE
-</button>
-
-</div>
-
-<div id="otpStep" class="hidden">
-
-<div class="otp-box">
-
-<div class="form-group">
-<label>Verification Code</label>
-<input id="otp" maxlength="6" inputmode="numeric"
-placeholder="000000">
-</div>
-
-<button class="btn btn-primary"
-style="width:100%;margin-top:15px"
-onclick="verifyOTP()">
-VERIFY MOBILE
-</button>
-
-<div id="otpMessage"></div>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
+<section id="visitorPortal" class="hidden">
 </section>
-
 
 <!-- MAIN APPLICATION -->
 <div id="app" class="app">
@@ -464,13 +410,6 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
 import {
-  getAuth,
-  RecaptchaVerifier,
-  signInWithPhoneNumber
-}
-from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-
-import {
   getFirestore,
   collection,
   addDoc,
@@ -508,114 +447,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
-
 const db = getFirestore(app);
-
-let confirmationResult = null;
-let phoneVerified = false;
-
-
-/* =========================================================
-   SEND OTP
-   ========================================================= */
-
-window.sendOTP = async function(){
-
-  const phone = document.getElementById("phone").value.trim();
-
-  if(!phone){
-    alert("Please enter your mobile number.");
-    return;
-  }
-
-  try{
-
-    if(!window.recaptchaVerifier){
-
-      window.recaptchaVerifier =
-      new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
-        {
-          size:"normal"
-        }
-      );
-
-    }
-
-    confirmationResult =
-      await signInWithPhoneNumber(
-        auth,
-        phone,
-        window.recaptchaVerifier
-      );
-
-    document.getElementById("phoneStep")
-      .classList.add("hidden");
-
-    document.getElementById("otpStep")
-      .classList.remove("hidden");
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "OTP could not be sent.\n\n"+
-      error.message
-    );
-
-  }
-
-};
-
-
-/* =========================================================
-   VERIFY OTP
-   ========================================================= */
-
-window.verifyOTP = async function(){
-
-  const code =
-    document.getElementById("otp").value.trim();
-
-  if(code.length !== 6){
-
-    document.getElementById("otpMessage").innerHTML =
-      `<div style="color:#dc2626;margin-top:10px">
-      Enter the 6-digit code.
-      </div>`;
-
-    return;
-  }
-
-  try{
-
-    await confirmationResult.confirm(code);
-
-    phoneVerified = true;
-
-    document.getElementById("visitorPortal")
-      .classList.add("hidden");
-
-    document.getElementById("app")
-      .style.display = "block";
-
-    showPage("newAppointment");
-
-  }catch(error){
-
-    console.error(error);
-
-    document.getElementById("otpMessage").innerHTML =
-      `<div style="color:#dc2626;margin-top:10px">
-      Invalid verification code.
-      </div>`;
-
-  }
-
-};
 
 
 /* =========================================================
@@ -684,11 +516,9 @@ document.getElementById("content").innerHTML = `
 <div>
 <h3>Appointment Application</h3>
 <p style="color:#7a8496;margin-top:5px">
-Mobile number verified ✓
+Fill in the details below to request your appointment.
 </p>
 </div>
-
-<span class="badge checked">PHONE VERIFIED</span>
 
 </div>
 
@@ -866,14 +696,6 @@ document
 async function submitAppointment(e){
 
 e.preventDefault();
-
-if(!phoneVerified){
-
-alert("Please verify your mobile number first.");
-
-return;
-
-}
 
 const form =
 new FormData(e.target);
@@ -1453,6 +1275,8 @@ document
 
 /* START */
 
+document.getElementById("visitorPortal").classList.add("hidden");
+document.getElementById("app").style.display = "block";
 showPage("dashboard");
 
 </script>
