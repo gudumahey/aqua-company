@@ -300,6 +300,27 @@ textarea{min-height:100px;resize:vertical}
   margin-top:10px;
 }
 
+
+.chat-layout{display:grid;grid-template-columns:250px 1fr;height:calc(100vh - 140px);min-height:520px;background:white;border:1px solid var(--border);border-radius:18px;overflow:hidden}
+.chat-users{border-right:1px solid var(--border);background:#fafbff;padding:15px;overflow:auto}
+.chat-users h4{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin:5px 8px 12px}
+.chat-user{width:100%;border:0;background:transparent;padding:12px;border-radius:11px;display:flex;align-items:center;gap:10px;text-align:left;margin-bottom:4px}
+.chat-user:hover,.chat-user.active{background:#eef0ff}
+.chat-avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#ede9fe;color:#5b21b6;font-weight:800;flex:none}
+.chat-user strong{display:block;font-size:13px}.chat-user small{color:var(--muted);font-size:11px}
+.chat-main{display:flex;flex-direction:column;min-width:0}
+.chat-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.chat-head h3{font-size:16px}.chat-head small{color:var(--muted)}
+.chat-messages{flex:1;overflow:auto;padding:22px;background:#f8fafc;display:flex;flex-direction:column;gap:10px}
+.chat-empty{margin:auto;color:var(--muted);text-align:center}
+.chat-bubble{max-width:min(70%,520px);padding:10px 13px;border-radius:15px;background:white;border:1px solid #e6e9ef;box-shadow:0 2px 8px #11182708}
+.chat-bubble.me{align-self:flex-end;background:#eef0ff;border-color:#dfe2ff}
+.chat-meta{font-size:10px;color:#8a94a6;margin-bottom:4px}.chat-text{font-size:13px;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+.chat-compose{display:flex;gap:10px;padding:14px;border-top:1px solid var(--border);background:white}
+.chat-compose input{flex:1;border:1px solid #dce1e8;border-radius:11px;padding:12px;outline:none}
+.chat-compose input:focus{border-color:var(--primary);box-shadow:0 0 0 3px #4f46e51a}
+@media(max-width:700px){.chat-layout{grid-template-columns:1fr;height:calc(100vh - 115px)}.chat-users{display:none}.chat-bubble{max-width:85%}}
+
 .mobile-menu{display:none}
 
 @media(max-width:950px){
@@ -371,6 +392,9 @@ OfficeFlow
 <button onclick="showPage('reports')" id="nav-reports">
 <span>▤</span> Reports
 </button>
+<button onclick="showPage('staffChat')" id="nav-staffChat">
+<span>💬</span> Staff Chat
+</button>
 
 <button onclick="showPage('settings')" id="nav-settings">
 <span>⚙</span> Settings
@@ -417,7 +441,9 @@ import {
   updateDoc,
   doc,
   query,
-  orderBy
+  orderBy,
+  onSnapshot,
+  serverTimestamp
 }
 from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
@@ -470,6 +496,8 @@ window.showPage = function(page){
 
     reports:"Reports",
 
+    staffChat:"Staff Chat",
+
     settings:"Settings"
 
   };
@@ -496,6 +524,8 @@ window.showPage = function(page){
   if(page==="employees") renderEmployees();
 
   if(page==="reports") renderReports();
+
+  if(page==="staffChat") renderStaffChat();
 
   if(page==="settings") renderSettings();
 
@@ -697,6 +727,9 @@ async function submitAppointment(e){
 
 e.preventDefault();
 
+const submitButton=e.target.querySelector('button[type="submit"]');
+if(submitButton){submitButton.disabled=true;submitButton.innerText="SUBMITTING...";}
+
 const form =
 new FormData(e.target);
 
@@ -729,6 +762,8 @@ data.appointmentId
 
 e.target.reset();
 
+if(submitButton){submitButton.disabled=false;submitButton.innerText="SUBMIT APPLICATION";}
+
 showPage("appointments");
 
 }catch(error){
@@ -739,6 +774,8 @@ alert(
 "Could not submit application:\n"+
 error.message
 );
+
+if(submitButton){submitButton.disabled=false;submitButton.innerText="SUBMIT APPLICATION";}
 
 }
 
@@ -1208,6 +1245,130 @@ margin-top:25px">
 
 `;
 
+}
+
+
+
+/* =========================================================
+   STAFF CHAT
+   ========================================================= */
+
+let chatUnsubscribe = null;
+let selectedChatUser = "all";
+
+const staffMembers = [
+  {id:"alex", name:"Alex Johnson", role:"Office Manager"},
+  {id:"maria", name:"Maria Garcia", role:"HR Manager"},
+  {id:"daniel", name:"Daniel Smith", role:"IT Specialist"},
+  {id:"sofia", name:"Sofia Martinez", role:"Finance Manager"}
+];
+
+window.selectChatUser = function(id){
+  selectedChatUser = id;
+  renderStaffChat();
+};
+
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function renderStaffChat(){
+  if(chatUnsubscribe){ chatUnsubscribe(); chatUnsubscribe=null; }
+
+  document.getElementById("content").innerHTML = `
+    <div class="chat-layout">
+      <aside class="chat-users">
+        <h4>Staff</h4>
+        <button class="chat-user ${selectedChatUser==="all"?"active":""}" onclick="selectChatUser('all')">
+          <div class="chat-avatar">👥</div>
+          <div><strong>All Staff</strong><small>Company chat</small></div>
+        </button>
+        ${staffMembers.map(s=>`
+          <button class="chat-user ${selectedChatUser===s.id?"active":""}" onclick="selectChatUser('${s.id}')">
+            <div class="chat-avatar">${escapeHtml(s.name.charAt(0))}</div>
+            <div><strong>${escapeHtml(s.name)}</strong><small>${escapeHtml(s.role)}</small></div>
+          </button>
+        `).join("")}
+      </aside>
+
+      <section class="chat-main">
+        <div class="chat-head">
+          <div class="chat-avatar">${selectedChatUser==="all"?"👥":escapeHtml((staffMembers.find(x=>x.id===selectedChatUser)?.name||"S").charAt(0))}</div>
+          <div>
+            <h3>${selectedChatUser==="all"?"All Staff":escapeHtml(staffMembers.find(x=>x.id===selectedChatUser)?.name||"Staff")}</h3>
+            <small>${selectedChatUser==="all"?"Everyone in the office":"Internal staff conversation"}</small>
+          </div>
+        </div>
+
+        <div id="chatMessages" class="chat-messages">
+          <div class="chat-empty">Loading messages...</div>
+        </div>
+
+        <form id="chatForm" class="chat-compose">
+          <input id="chatInput" maxlength="1000" autocomplete="off" placeholder="Write a message..." required>
+          <button class="btn btn-primary" type="submit">Send</button>
+        </form>
+      </section>
+    </div>`;
+
+  document.getElementById("chatForm").addEventListener("submit", sendStaffMessage);
+
+  const q = query(collection(db,"staffChat"), orderBy("createdAt","asc"));
+  chatUnsubscribe = onSnapshot(q, snap=>{
+    const box=document.getElementById("chatMessages");
+    if(!box) return;
+
+    const messages=[];
+    snap.forEach(item=>{
+      const d=item.data();
+      if(selectedChatUser==="all" || d.chatWith==="all" || d.chatWith===selectedChatUser){
+        messages.push(d);
+      }
+    });
+
+    if(!messages.length){
+      box.innerHTML='<div class="chat-empty">No messages yet.<br>Start the conversation.</div>';
+      return;
+    }
+
+    box.innerHTML=messages.map(d=>{
+      const mine=d.sender==="Reception Admin";
+      const time=d.createdAt?.toDate ? d.createdAt.toDate().toLocaleString([], {hour:"2-digit",minute:"2-digit"}) : "";
+      return `<div class="chat-bubble ${mine?"me":""}">
+        <div class="chat-meta">${escapeHtml(d.sender||"Staff")} ${time?"• "+time:""}</div>
+        <div class="chat-text">${escapeHtml(d.text)}</div>
+      </div>`;
+    }).join("");
+    box.scrollTop=box.scrollHeight;
+  }, error=>{
+    const box=document.getElementById("chatMessages");
+    if(box) box.innerHTML='<div class="chat-empty">Chat could not load.<br>Check Firebase Firestore.</div>';
+    console.error(error);
+  });
+}
+
+async function sendStaffMessage(e){
+  e.preventDefault();
+  const input=document.getElementById("chatInput");
+  const value=input.value.trim();
+  if(!value) return;
+
+  try{
+    await addDoc(collection(db,"staffChat"),{
+      sender:"Reception Admin",
+      chatWith:selectedChatUser,
+      text:value,
+      createdAt:serverTimestamp()
+    });
+    input.value="";
+    input.focus();
+  }catch(error){
+    console.error(error);
+    alert("Message could not be sent.\n\n"+error.message);
+  }
 }
 
 
