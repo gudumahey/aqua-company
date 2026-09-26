@@ -2,207 +2,183 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>OfficeFlow — Visitor Management</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-:root{
-  --bg:#f5f7fb;
-  --white:#fff;
-  --dark:#101827;
-  --dark2:#182235;
-  --text:#172033;
-  --muted:#748096;
-  --border:#e5e8ef;
-  --primary:#635bff;
-  --primary2:#5148dc;
-  --green:#16a34a;
-  --red:#dc2626;
-  --yellow:#d97706;
-  --blue:#2563eb;
-  --purple:#7c3aed;
-  --shadow:0 12px 35px rgba(20,30,60,.07);
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:Inter,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
+  background:#f5f7fb;
+  color:#172033;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+:root{
+  --primary:#4f46e5;
+  --primary2:#6366f1;
+  --dark:#111827;
+  --muted:#697386;
+  --border:#e5e7eb;
+  --white:#fff;
+  --green:#16a34a;
+  --red:#dc2626;
+  --orange:#d97706;
 }
 
-button,input,select,textarea{
-  font:inherit;
+.hidden{display:none!important}
+
+/* LOGIN */
+.login-page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at 20% 20%,#dfe3ff,transparent 35%),
+    radial-gradient(circle at 80% 80%,#e4e9ff,transparent 35%),
+    #f6f7fb;
 }
-
-button{
-  cursor:pointer;
-  border:0;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  width:255px;
-  background:var(--dark);
-  color:white;
-  padding:24px 15px;
-  z-index:50;
-}
-
-.logo{
-  font-size:24px;
-  font-weight:900;
-  padding:8px 12px 30px;
-}
-
-.logo span{
-  color:#8178ff;
-}
-
-.menu-title{
-  color:#68748a;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:1.2px;
-  padding:13px 12px 7px;
-}
-
-.nav-btn{
+.login-card{
   width:100%;
+  max-width:460px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:38px;
+  box-shadow:0 25px 70px #1f29371a;
+}
+.logo{
   display:flex;
   align-items:center;
   gap:12px;
-  padding:12px 14px;
-  margin:4px 0;
-  border-radius:10px;
+  font-weight:800;
+  font-size:23px;
+}
+.logo-box{
+  width:44px;height:44px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  color:white;
+  background:linear-gradient(135deg,var(--primary),#7c3aed);
+}
+.login-card h1{
+  margin-top:32px;
+  font-size:30px;
+}
+.login-card p{
+  color:var(--muted);
+  margin:8px 0 25px;
+}
+
+/* APP */
+.app{display:none;min-height:100vh}
+.sidebar{
+  position:fixed;
+  left:0;top:0;bottom:0;
+  width:255px;
+  background:#111827;
+  color:white;
+  padding:24px 16px;
+  z-index:20;
+}
+.sidebar .logo{padding:0 10px 35px}
+.sidebar .logo-box{background:linear-gradient(135deg,#6366f1,#8b5cf6)}
+
+.nav-title{
+  color:#788196;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  padding:0 12px;
+  margin:20px 0 8px;
+}
+.nav button{
+  width:100%;
+  border:0;
   background:transparent;
-  color:#b9c2d0;
+  color:#aeb7c8;
+  padding:12px;
+  border-radius:10px;
   text-align:left;
-  transition:.2s;
+  margin:2px 0;
 }
-
-.nav-btn:hover{
-  background:#1c273a;
+.nav button:hover,.nav button.active{
   color:white;
+  background:#ffffff12;
 }
-
-.nav-btn.active{
-  background:linear-gradient(135deg,#635bff,#5148dc);
-  color:white;
-  box-shadow:0 8px 20px rgba(99,91,255,.25);
-}
-
-.icon{
-  width:23px;
-  text-align:center;
-}
-
-/* MAIN */
+.nav button span{margin-right:10px}
 
 .main{
   margin-left:255px;
   min-height:100vh;
 }
-
 .topbar{
   height:76px;
   background:white;
   border-bottom:1px solid var(--border);
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  padding:0 30px;
+  align-items:center;
+  padding:0 35px;
   position:sticky;
   top:0;
-  z-index:20;
+  z-index:10;
 }
-
-.page-title{
-  font-size:22px;
-  font-weight:850;
+.topbar h2{font-size:20px}
+.user{
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
-
-.top-right{
-  color:var(--muted);
-  font-size:13px;
+.avatar{
+  width:38px;height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#ede9fe;
+  color:#5b21b6;
+  font-weight:800;
 }
-
-.mobile-menu{
-  display:none;
-  background:var(--dark);
-  color:white;
-  padding:9px 11px;
-  border-radius:8px;
-}
-
-.content{
-  padding:30px;
-}
-
-/* HERO */
+.content{padding:32px}
 
 .hero{
-  position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 90% 10%,rgba(99,91,255,.35),transparent 28%),
-    linear-gradient(135deg,#101827,#242d49);
+  background:linear-gradient(135deg,#111827,#312e81);
   color:white;
   border-radius:20px;
-  padding:35px;
+  padding:30px;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  align-items:center;
   margin-bottom:25px;
 }
+.hero h1{font-size:27px;margin-bottom:8px}
+.hero p{color:#c7cbd8}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap}
 
-.hero h1{
-  font-size:32px;
-  margin-bottom:9px;
+.btn{
+  border:0;
+  border-radius:10px;
+  padding:11px 16px;
+  font-weight:700;
 }
-
-.hero p{
-  color:#cbd5e1;
-  max-width:650px;
-  line-height:1.6;
-}
-
-.hero-buttons{
-  display:flex;
-  gap:12px;
-  margin-top:25px;
-  flex-wrap:wrap;
-}
-
-.hero-btn{
-  padding:14px 20px;
-  border-radius:11px;
-  font-weight:800;
-  transition:.2s;
-}
-
-.hero-btn:hover{
-  transform:translateY(-2px);
-}
-
-.hero-primary{
-  background:white;
-  color:#4f46e5;
-}
-
-.hero-secondary{
-  background:#635bff;
+.btn-primary{
   color:white;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
 }
-
-/* STATS */
+.btn-dark{background:#111827;color:white}
+.btn-light{background:white;color:#111827;border:1px solid var(--border)}
+.btn-green{background:#dcfce7;color:#166534}
+.btn-red{background:#fee2e2;color:#991b1b}
+.btn-orange{background:#fef3c7;color:#92400e}
+.btn:hover{transform:translateY(-1px)}
 
 .stats{
   display:grid;
@@ -210,2866 +186,1274 @@ button{
   gap:18px;
   margin-bottom:25px;
 }
-
-.stat-card{
+.stat{
   background:white;
   border:1px solid var(--border);
   border-radius:16px;
-  padding:22px;
-  box-shadow:var(--shadow);
+  padding:20px;
+}
+.stat small{color:var(--muted)}
+.stat strong{
+  display:block;
+  font-size:28px;
+  margin-top:8px;
 }
 
-.stat-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.stat-icon{
-  width:43px;
-  height:43px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#eeecff;
-  border-radius:12px;
-  font-size:19px;
-}
-
-.stat-label{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.stat-number{
-  font-size:30px;
-  font-weight:900;
-  margin-top:12px;
-}
-
-/* PANELS */
-
-.panel{
+.card{
   background:white;
   border:1px solid var(--border);
   border-radius:17px;
-  box-shadow:var(--shadow);
-  overflow:hidden;
-  margin-bottom:22px;
+  padding:22px;
+  margin-bottom:20px;
 }
-
-.panel-head{
-  padding:20px 22px;
-  border-bottom:1px solid var(--border);
+.card-head{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:15px;
+  margin-bottom:18px;
 }
+.card-head h3{font-size:17px}
 
-.panel-title{
-  font-size:17px;
-  font-weight:850;
-}
-
-.panel-subtitle{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:5px;
-}
-
-.panel-body{
-  padding:22px;
-}
-
-/* BUTTONS */
-
-.btn{
-  padding:10px 15px;
-  border-radius:9px;
-  font-weight:750;
-  transition:.2s;
-}
-
-.btn:hover{
-  transform:translateY(-1px);
-}
-
-.btn-primary{
-  background:var(--primary);
-  color:white;
-}
-
-.btn-light{
-  background:#f0f2f7;
-  color:#343b4d;
-}
-
-.btn-green{
-  background:#dcfce7;
-  color:#15803d;
-}
-
-.btn-red{
-  background:#fee2e2;
-  color:#b91c1c;
-}
-
-.btn-blue{
-  background:#dbeafe;
-  color:#1d4ed8;
-}
-
-.btn-purple{
-  background:#ede9fe;
-  color:#6d28d9;
-}
-
-.btn-sm{
-  padding:7px 10px;
-  font-size:12px;
-}
-
-/* TABLE */
-
-.table-wrap{
-  overflow-x:auto;
-}
-
-table{
-  width:100%;
-  min-width:850px;
-  border-collapse:collapse;
-}
-
+table{width:100%;border-collapse:collapse}
 th,td{
-  padding:14px 16px;
-  border-bottom:1px solid var(--border);
+  padding:14px 10px;
   text-align:left;
+  border-bottom:1px solid #edf0f4;
   font-size:13px;
 }
-
-th{
-  color:#718096;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.5px;
-}
-
-td strong{
-  font-weight:750;
-}
-
-.actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-}
-
-/* BADGES */
+th{color:#7a8496;font-size:11px;text-transform:uppercase}
+td strong{font-size:13px}
 
 .badge{
   display:inline-flex;
-  padding:5px 9px;
+  padding:6px 9px;
   border-radius:20px;
-  font-size:10px;
-  font-weight:850;
-}
-
-.badge-pending{
-  background:#fef3c7;
-  color:#a16207;
-}
-
-.badge-approved{
-  background:#dbeafe;
-  color:#1d4ed8;
-}
-
-.badge-rejected{
-  background:#fee2e2;
-  color:#b91c1c;
-}
-
-.badge-registered{
-  background:#ede9fe;
-  color:#6d28a8;
-}
-
-.badge-checked-in{
-  background:#dcfce7;
-  color:#15803d;
-}
-
-.badge-checked-out{
-  background:#e5e7eb;
-  color:#4b5563;
-}
-
-/* FORM */
-
-.form-section{
-  border:1px solid var(--border);
-  border-radius:14px;
-  overflow:hidden;
-  margin-bottom:18px;
-}
-
-.form-section-title{
-  background:#f8f9fc;
-  border-bottom:1px solid var(--border);
-  padding:15px 18px;
-  font-weight:850;
-}
-
-.form-number{
-  width:28px;
-  height:28px;
-  background:var(--primary);
-  color:white;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:8px;
-  margin-right:8px;
   font-size:11px;
+  font-weight:700;
 }
+.pending{background:#fef3c7;color:#92400e}
+.approved{background:#dbeafe;color:#1d4ed8}
+.rejected{background:#fee2e2;color:#991b1b}
+.registered{background:#ede9fe;color:#6d28d9}
+.checked{background:#dcfce7;color:#166534}
+.out{background:#f1f5f9;color:#475569}
 
 .form-grid{
-  padding:20px;
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:17px;
+  gap:18px;
 }
-
-.form-group{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.full{
-  grid-column:1/-1;
-}
-
-label{
-  color:#4b5563;
+.form-group{display:flex;flex-direction:column;gap:7px}
+.form-group.full{grid-column:1/-1}
+.form-group label{
   font-size:12px;
-  font-weight:750;
+  font-weight:700;
+  color:#4b5563;
 }
-
-input,select,textarea{
+.form-group input,
+.form-group select,
+.form-group textarea{
   width:100%;
-  border:1px solid #dfe3eb;
-  background:#fbfcfe;
-  color:var(--text);
-  border-radius:9px;
-  padding:11px 12px;
+  border:1px solid #dce1e8;
+  border-radius:10px;
+  padding:12px;
   outline:none;
+  background:white;
 }
-
-input:focus,
-select:focus,
-textarea:focus{
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
   border-color:var(--primary);
-  box-shadow:0 0 0 3px rgba(99,91,255,.08);
+  box-shadow:0 0 0 3px #4f46e51a;
 }
+textarea{min-height:100px;resize:vertical}
 
-textarea{
-  min-height:105px;
-  resize:vertical;
+.section-title{
+  font-size:14px;
+  font-weight:800;
+  margin:27px 0 15px;
+  padding-bottom:10px;
+  border-bottom:1px solid var(--border);
 }
-
-.check-row{
-  display:flex;
-  align-items:flex-start;
-  gap:10px;
-  line-height:1.5;
-}
-
-.check-row input{
-  width:auto;
-  margin-top:3px;
-}
-
-.form-footer{
-  padding:20px;
-  border-top:1px solid var(--border);
+.form-actions{
   display:flex;
   justify-content:flex-end;
   gap:10px;
+  margin-top:25px;
 }
 
-/* PROCESS */
-
-.process-grid{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:14px;
-}
-
-.process-card{
-  background:#f8f9fc;
+.otp-box{
+  background:#f8fafc;
   border:1px solid var(--border);
-  border-radius:13px;
-  padding:18px;
-}
-
-.process-number{
-  font-size:12px;
-  color:var(--primary);
-  font-weight:900;
-}
-
-.process-card h3{
-  font-size:14px;
-  margin:8px 0 5px;
-}
-
-.process-card p{
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.5;
-}
-
-/* EMPTY */
-
-.empty{
-  text-align:center;
-  padding:45px;
-  color:#8993a5;
-}
-
-.empty-icon{
-  font-size:38px;
-  margin-bottom:10px;
-}
-
-/* MODAL */
-
-.modal-overlay{
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  background:rgba(15,23,42,.55);
-  backdrop-filter:blur(5px);
-  z-index:100;
   padding:20px;
+  border-radius:15px;
+  margin-top:15px;
+}
+.otp-box input{
+  text-align:center;
+  font-size:24px;
+  letter-spacing:8px;
+}
+.verified{
+  color:#15803d;
+  font-weight:700;
+  margin-top:10px;
 }
 
-.modal-overlay.show{
-  display:flex;
-}
+.mobile-menu{display:none}
 
-.modal{
-  width:min(700px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:white;
-  border-radius:18px;
-  box-shadow:0 25px 70px rgba(0,0,0,.2);
-}
-
-.modal-header{
-  padding:19px 22px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.close{
-  width:34px;
-  height:34px;
-  background:#f0f2f7;
-  border-radius:9px;
-  font-size:18px;
-}
-
-.modal-body{
-  padding:22px;
-  line-height:1.7;
-}
-
-/* TOAST */
-
-.toast{
-  position:fixed;
-  right:25px;
-  bottom:25px;
-  background:#111827;
-  color:white;
-  padding:13px 18px;
-  border-radius:10px;
-  box-shadow:0 15px 40px rgba(0,0,0,.2);
-  transform:translateY(100px);
-  opacity:0;
-  transition:.3s;
-  z-index:200;
-}
-
-.toast.show{
-  transform:translateY(0);
-  opacity:1;
-}
-
-/* MOBILE */
-
-@media(max-width:1050px){
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .process-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-}
-
-@media(max-width:750px){
-
+@media(max-width:950px){
   .sidebar{
     transform:translateX(-100%);
     transition:.25s;
   }
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .mobile-menu{display:block}
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
 
-  .sidebar.open{
-    transform:translateX(0);
-  }
-
-  .main{
-    margin-left:0;
-  }
-
-  .mobile-menu{
-    display:block;
-  }
-
-  .topbar{
-    padding:0 15px;
-  }
-
-  .top-right{
-    display:none;
-  }
-
-  .content{
-    padding:16px;
-  }
-
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  .full{
-    grid-column:auto;
-  }
-
-  .process-grid{
-    grid-template-columns:1fr;
-  }
-
-  .hero{
-    padding:25px;
-  }
-
-  .hero h1{
-    font-size:25px;
-  }
+@media(max-width:650px){
+  .content{padding:18px}
+  .topbar{padding:0 18px}
+  .hero{flex-direction:column;align-items:flex-start}
+  .stats{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .form-group.full{grid-column:auto}
+  table{min-width:700px}
+  .card{overflow:auto}
 }
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
+<!-- VISITOR PORTAL -->
+<section id="visitorPortal">
+
+<div class="login-page">
+<div class="login-card">
+
+<div class="logo">
+  <div class="logo-box">OF</div>
+  OfficeFlow
+</div>
+
+<h1>Request an Appointment</h1>
+<p>Verify your mobile number and submit your visit request.</p>
+
+<div id="phoneStep">
+
+<div class="form-group">
+<label>Mobile Number</label>
+<input id="phone" type="tel" placeholder="+34 612 345 678">
+</div>
+
+<div id="recaptcha-container"></div>
+
+<button class="btn btn-primary" style="width:100%;margin-top:15px"
+onclick="sendOTP()">
+SEND VERIFICATION CODE
+</button>
+
+</div>
+
+<div id="otpStep" class="hidden">
+
+<div class="otp-box">
+
+<div class="form-group">
+<label>Verification Code</label>
+<input id="otp" maxlength="6" inputmode="numeric"
+placeholder="000000">
+</div>
+
+<button class="btn btn-primary"
+style="width:100%;margin-top:15px"
+onclick="verifyOTP()">
+VERIFY MOBILE
+</button>
+
+<div id="otpMessage"></div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</section>
+
+
+<!-- MAIN APPLICATION -->
+<div id="app" class="app">
 
 <aside class="sidebar" id="sidebar">
 
-  <div class="logo">
-    Office<span>Flow</span>
-  </div>
+<div class="logo">
+<div class="logo-box">OF</div>
+OfficeFlow
+</div>
 
-  <div class="menu-title">Main</div>
+<div class="nav">
 
-  <button class="nav-btn active"
-    onclick="showPage('dashboard',this)">
-    <span class="icon">▦</span>
-    Dashboard
-  </button>
+<div class="nav-title">Workspace</div>
 
-  <button class="nav-btn"
-    onclick="showPage('appointments',this)">
-    <span class="icon">📅</span>
-    Appointments
-  </button>
+<button onclick="showPage('dashboard')" id="nav-dashboard">
+<span>▦</span> Dashboard
+</button>
 
-  <button class="nav-btn"
-    onclick="showPage('visitors',this)">
-    <span class="icon">👤</span>
-    Visitors
-  </button>
+<button onclick="showPage('appointments')" id="nav-appointments">
+<span>◷</span> Appointments
+</button>
 
-  <button class="nav-btn"
-    onclick="showPage('employees',this)">
-    <span class="icon">👥</span>
-    Employees
-  </button>
+<button onclick="showPage('visitors')" id="nav-visitors">
+<span>♙</span> Visitors
+</button>
 
-  <div class="menu-title">Management</div>
+<button onclick="showPage('newAppointment')" id="nav-newAppointment">
+<span>＋</span> New Appointment
+</button>
 
-  <button class="nav-btn"
-    onclick="showPage('visitorForm',this)">
-    <span class="icon">📝</span>
-    Visitor Form
-  </button>
+<div class="nav-title">Management</div>
 
-  <button class="nav-btn"
-    onclick="showPage('tasks',this)">
-    <span class="icon">✓</span>
-    Tasks
-  </button>
+<button onclick="showPage('employees')" id="nav-employees">
+<span>♙</span> Employees
+</button>
 
-  <button class="nav-btn"
-    onclick="showPage('settings',this)">
-    <span class="icon">⚙</span>
-    Settings
-  </button>
+<button onclick="showPage('reports')" id="nav-reports">
+<span>▤</span> Reports
+</button>
+
+<button onclick="showPage('settings')" id="nav-settings">
+<span>⚙</span> Settings
+</button>
+
+</div>
 
 </aside>
-
-<!-- MAIN -->
 
 <main class="main">
 
 <header class="topbar">
+<div>
+<button class="btn btn-light mobile-menu" onclick="toggleSidebar()">☰</button>
+<h2 id="pageTitle" style="display:inline;margin-left:8px">Dashboard</h2>
+</div>
 
-  <div style="display:flex;align-items:center;gap:12px">
-
-    <button class="mobile-menu"
-      onclick="toggleSidebar()">
-      ☰
-    </button>
-
-    <div class="page-title" id="pageTitle">
-      Dashboard
-    </div>
-
-  </div>
-
-  <div class="top-right">
-    Office Visitor Management
-  </div>
-
+<div class="user">
+<div>
+<strong>Reception Admin</strong><br>
+<small style="color:#8a94a6">Office Management</small>
+</div>
+<div class="avatar">A</div>
+</div>
 </header>
 
 <section class="content" id="content"></section>
 
 </main>
-
-<!-- MODAL -->
-
-<div class="modal-overlay" id="modal">
-
-  <div class="modal">
-
-    <div class="modal-header">
-
-      <strong id="modalTitle">
-        Details
-      </strong>
-
-      <button class="close"
-        onclick="closeModal()">
-        ×
-      </button>
-
-    </div>
-
-    <div class="modal-body"
-      id="modalBody">
-    </div>
-
-  </div>
-
 </div>
 
-<div class="toast" id="toast"></div>
 
-<script>
+<!-- FIREBASE -->
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+}
+from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  doc,
+  query,
+  orderBy
+}
+from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
 
 /* =========================================================
-   STORAGE
-========================================================= */
+   🔥 PASTE YOUR FIREBASE CONFIG HERE
+   ========================================================= */
 
-const STORAGE={
-  appointments:"officeflow_appointments",
-  visitors:"officeflow_visitors",
-  employees:"officeflow_employees",
-  tasks:"officeflow_tasks"
+const firebaseConfig = {
+
+  apiKey: "PASTE_API_KEY",
+
+  authDomain: "PASTE_PROJECT_ID.firebaseapp.com",
+
+  projectId: "PASTE_PROJECT_ID",
+
+  storageBucket: "PASTE_PROJECT_ID.firebasestorage.app",
+
+  messagingSenderId: "PASTE_MESSAGING_SENDER_ID",
+
+  appId: "PASTE_APP_ID"
+
 };
 
-let appointments=load(STORAGE.appointments);
-let visitors=load(STORAGE.visitors);
-let employees=load(STORAGE.employees);
-let tasks=load(STORAGE.tasks);
 
-function load(key){
+/* FIREBASE START */
 
-  try{
-    return JSON.parse(localStorage.getItem(key)) || [];
-  }catch{
-    return [];
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+let confirmationResult = null;
+let phoneVerified = false;
+
+
+/* =========================================================
+   SEND OTP
+   ========================================================= */
+
+window.sendOTP = async function(){
+
+  const phone = document.getElementById("phone").value.trim();
+
+  if(!phone){
+    alert("Please enter your mobile number.");
+    return;
   }
 
-}
+  try{
 
-function save(){
+    if(!window.recaptchaVerifier){
 
-  localStorage.setItem(
-    STORAGE.appointments,
-    JSON.stringify(appointments)
-  );
+      window.recaptchaVerifier =
+      new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size:"normal"
+        }
+      );
 
-  localStorage.setItem(
-    STORAGE.visitors,
-    JSON.stringify(visitors)
-  );
-
-  localStorage.setItem(
-    STORAGE.employees,
-    JSON.stringify(employees)
-  );
-
-  localStorage.setItem(
-    STORAGE.tasks,
-    JSON.stringify(tasks)
-  );
-
-}
-
-/* =========================================================
-   DEFAULT EMPLOYEES
-========================================================= */
-
-if(!employees.length){
-
-  employees=[
-    {
-      id:"EMP-001",
-      name:"Alex Johnson",
-      position:"Office Manager",
-      department:"Management",
-      email:"alex@office.com"
-    },
-    {
-      id:"EMP-002",
-      name:"Maria Garcia",
-      position:"HR Manager",
-      department:"Human Resources",
-      email:"maria@office.com"
-    },
-    {
-      id:"EMP-003",
-      name:"Daniel Smith",
-      position:"IT Specialist",
-      department:"IT",
-      email:"daniel@office.com"
     }
-  ];
 
-  save();
+    confirmationResult =
+      await signInWithPhoneNumber(
+        auth,
+        phone,
+        window.recaptchaVerifier
+      );
 
-}
+    document.getElementById("phoneStep")
+      .classList.add("hidden");
+
+    document.getElementById("otpStep")
+      .classList.remove("hidden");
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "OTP could not be sent.\n\n"+
+      error.message
+    );
+
+  }
+
+};
+
 
 /* =========================================================
-   HELPERS
-========================================================= */
+   VERIFY OTP
+   ========================================================= */
 
-function escapeHTML(value){
+window.verifyOTP = async function(){
 
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+  const code =
+    document.getElementById("otp").value.trim();
 
-}
+  if(code.length !== 6){
 
-function generateID(prefix,array){
+    document.getElementById("otpMessage").innerHTML =
+      `<div style="color:#dc2626;margin-top:10px">
+      Enter the 6-digit code.
+      </div>`;
 
-  const year=new Date().getFullYear();
+    return;
+  }
 
-  return prefix+"-"+year+"-"+
-    String(array.length+1).padStart(5,"0");
+  try{
 
-}
+    await confirmationResult.confirm(code);
 
-function today(){
+    phoneVerified = true;
 
-  return new Date()
-    .toISOString()
-    .split("T")[0];
+    document.getElementById("visitorPortal")
+      .classList.add("hidden");
 
-}
+    document.getElementById("app")
+      .style.display = "block";
 
-function formatDate(date){
+    showPage("newAppointment");
 
-  if(!date)return "-";
+  }catch(error){
 
-  return new Date(date+"T00:00:00")
-    .toLocaleDateString("en-GB",{
-      day:"2-digit",
-      month:"short",
-      year:"numeric"
-    });
+    console.error(error);
 
-}
+    document.getElementById("otpMessage").innerHTML =
+      `<div style="color:#dc2626;margin-top:10px">
+      Invalid verification code.
+      </div>`;
 
-function showToast(message){
+  }
 
-  const toast=document.getElementById("toast");
+};
 
-  toast.textContent=message;
-  toast.classList.add("show");
-
-  setTimeout(()=>{
-    toast.classList.remove("show");
-  },2500);
-
-}
-
-function statusBadge(status){
-
-  let cls="badge-"+status
-    .toLowerCase()
-    .replaceAll(" ","-");
-
-  return `
-    <span class="badge ${cls}">
-      ${escapeHTML(status)}
-    </span>
-  `;
-
-}
 
 /* =========================================================
    NAVIGATION
-========================================================= */
+   ========================================================= */
 
-const pageTitles={
-  dashboard:"Dashboard",
-  appointments:"Appointments",
-  visitors:"Visitors",
-  employees:"Employees",
-  visitorForm:"Visitor Form",
-  tasks:"Tasks",
-  settings:"Settings"
+window.showPage = function(page){
+
+  const titles = {
+
+    dashboard:"Dashboard",
+
+    appointments:"Appointments",
+
+    visitors:"Visitors",
+
+    newAppointment:"New Appointment",
+
+    employees:"Employees",
+
+    reports:"Reports",
+
+    settings:"Settings"
+
+  };
+
+  document.getElementById("pageTitle")
+    .innerText = titles[page] || "Dashboard";
+
+  document.querySelectorAll(".nav button")
+    .forEach(x=>x.classList.remove("active"));
+
+  const nav =
+    document.getElementById("nav-"+page);
+
+  if(nav) nav.classList.add("active");
+
+  if(page==="dashboard") renderDashboard();
+
+  if(page==="appointments") renderAppointments();
+
+  if(page==="visitors") renderVisitors();
+
+  if(page==="newAppointment") renderAppointmentForm();
+
+  if(page==="employees") renderEmployees();
+
+  if(page==="reports") renderReports();
+
+  if(page==="settings") renderSettings();
+
 };
 
-function showPage(page,button){
-
-  document.querySelectorAll(".nav-btn")
-    .forEach(btn=>btn.classList.remove("active"));
-
-  if(button){
-    button.classList.add("active");
-  }
-
-  document.getElementById("pageTitle")
-    .textContent=pageTitles[page];
-
-  document.getElementById("sidebar")
-    .classList.remove("open");
-
-  if(page==="dashboard")renderDashboard();
-  if(page==="appointments")renderAppointments();
-  if(page==="visitors")renderVisitors();
-  if(page==="employees")renderEmployees();
-  if(page==="visitorForm")renderVisitorForm();
-  if(page==="tasks")renderTasks();
-  if(page==="settings")renderSettings();
-
-}
-
-function toggleSidebar(){
-
-  document.getElementById("sidebar")
-    .classList.toggle("open");
-
-}
 
 /* =========================================================
-   DASHBOARD
-========================================================= */
+   APPOINTMENT FORM
+   ========================================================= */
 
-function renderDashboard(){
+function renderAppointmentForm(){
 
-  const pending=appointments.filter(
-    x=>x.status==="Pending"
-  ).length;
+document.getElementById("content").innerHTML = `
 
-  const approved=appointments.filter(
-    x=>x.status==="Approved"
-  ).length;
+<div class="card">
 
-  const registered=visitors.length;
+<div class="card-head">
+<div>
+<h3>Appointment Application</h3>
+<p style="color:#7a8496;margin-top:5px">
+Mobile number verified ✓
+</p>
+</div>
 
-  const todayVisits=visitors.filter(
-    x=>x.date===today()
-  ).length;
+<span class="badge checked">PHONE VERIFIED</span>
 
-  document.getElementById("content").innerHTML=`
+</div>
 
-    <div class="hero">
+<form id="appointmentForm">
 
-      <h1>Welcome to OfficeFlow 👋</h1>
+<div class="section-title">
+Personal Information
+</div>
 
-      <p>
-        Professional visitor management from the first
-        appointment request to final check-out.
-      </p>
+<div class="form-grid">
 
-      <div class="hero-buttons">
+<div class="form-group">
+<label>Full Legal Name *</label>
+<input name="name" required>
+</div>
 
-        <button class="hero-btn hero-primary"
-          onclick="openVisitorForm()">
-          👤 VISITOR FORM
-        </button>
+<div class="form-group">
+<label>Preferred Name</label>
+<input name="preferredName">
+</div>
 
-        <button class="hero-btn hero-secondary"
-          onclick="showPage('appointments')">
-          📅 APPOINTMENTS
-        </button>
+<div class="form-group">
+<label>Date of Birth</label>
+<input type="date" name="dob">
+</div>
 
-      </div>
+<div class="form-group">
+<label>Nationality</label>
+<input name="nationality">
+</div>
 
-    </div>
+<div class="form-group">
+<label>Email *</label>
+<input type="email" name="email" required>
+</div>
 
-    <div class="stats">
+<div class="form-group">
+<label>Occupation</label>
+<input name="occupation">
+</div>
 
-      <div class="stat-card">
+</div>
 
-        <div class="stat-top">
 
-          <div class="stat-label">
-            Pending Appointments
-          </div>
+<div class="section-title">
+Appointment Details
+</div>
 
-          <div class="stat-icon">⏳</div>
+<div class="form-grid">
 
-        </div>
+<div class="form-group">
+<label>Person You Want to Visit *</label>
 
-        <div class="stat-number">
-          ${pending}
-        </div>
+<input name="personToVisit" required
+placeholder="Employee name">
 
-      </div>
+</div>
 
-      <div class="stat-card">
+<div class="form-group">
 
-        <div class="stat-top">
+<label>Department *</label>
 
-          <div class="stat-label">
-            Approved
-          </div>
+<select name="department" required>
 
-          <div class="stat-icon">✓</div>
+<option value="">Select department</option>
+<option>Management</option>
+<option>Human Resources</option>
+<option>IT</option>
+<option>Finance</option>
+<option>Sales</option>
+<option>Operations</option>
+<option>Other</option>
 
-        </div>
+</select>
 
-        <div class="stat-number">
-          ${approved}
-        </div>
+</div>
 
-      </div>
+<div class="form-group">
+<label>Appointment Date *</label>
+<input type="date" name="date" required>
+</div>
 
-      <div class="stat-card">
+<div class="form-group">
+<label>Appointment Time *</label>
+<input type="time" name="time" required>
+</div>
 
-        <div class="stat-top">
+<div class="form-group full">
+<label>Reason for Visit *</label>
+<select name="reason" required>
+<option value="">Select reason</option>
+<option>Business Meeting</option>
+<option>Interview</option>
+<option>Delivery</option>
+<option>Personal Appointment</option>
+<option>Document Submission</option>
+<option>Other</option>
+</select>
+</div>
 
-          <div class="stat-label">
-            Registered Visitors
-          </div>
+<div class="form-group full">
+<label>Detailed Purpose</label>
+<textarea name="purpose"
+placeholder="Explain briefly why you are visiting..."></textarea>
+</div>
 
-          <div class="stat-icon">👤</div>
+</div>
 
-        </div>
 
-        <div class="stat-number">
-          ${registered}
-        </div>
+<div class="section-title">
+Additional Information
+</div>
 
-      </div>
+<div class="form-grid">
 
-      <div class="stat-card">
+<div class="form-group">
+<label>Number of Visitors</label>
+<input type="number" name="visitors" value="1" min="1">
+</div>
 
-        <div class="stat-top">
+<div class="form-group">
+<label>Vehicle Registration</label>
+<input name="vehicle"
+placeholder="Optional">
+</div>
 
-          <div class="stat-label">
-            Today's Visits
-          </div>
+<div class="form-group full">
+<label>Additional Notes</label>
+<textarea name="notes"></textarea>
+</div>
 
-          <div class="stat-icon">📅</div>
+</div>
 
-        </div>
 
-        <div class="stat-number">
-          ${todayVisits}
-        </div>
+<div class="form-group" style="margin-top:20px">
 
-      </div>
+<label>
 
-    </div>
+<input type="checkbox" required>
 
-    <div class="panel">
+I confirm that the information provided is correct.
 
-      <div class="panel-head">
+</label>
 
-        <div>
+</div>
 
-          <div class="panel-title">
-            Visitor Registration Process
-          </div>
 
-          <div class="panel-subtitle">
-            Every visitor goes through these steps.
-          </div>
+<div class="form-actions">
 
-        </div>
+<button type="submit"
+class="btn btn-primary">
 
-      </div>
+SUBMIT APPLICATION
 
-      <div class="panel-body">
+</button>
 
-        <div class="process-grid">
+</div>
 
-          <div class="process-card">
-            <div class="process-number">01</div>
-            <h3>Appointment</h3>
-            <p>
-              Visitor submits an appointment request.
-            </p>
-          </div>
+</form>
 
-          <div class="process-card">
-            <div class="process-number">02</div>
-            <h3>Approval</h3>
-            <p>
-              Office staff checks and approves the request.
-            </p>
-          </div>
+</div>
+`;
 
-          <div class="process-card">
-            <div class="process-number">03</div>
-            <h3>Registration</h3>
-            <p>
-              Approved visitor completes the detailed form.
-            </p>
-          </div>
-
-          <div class="process-card">
-            <div class="process-number">04</div>
-            <h3>Check-In</h3>
-            <p>
-              Visitor arrives and is checked into the office.
-            </p>
-          </div>
-
-          <div class="process-card">
-            <div class="process-number">05</div>
-            <h3>Check-Out</h3>
-            <p>
-              Visit is completed and visitor checks out.
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="panel">
-
-      <div class="panel-head">
-
-        <div class="panel-title">
-          Recent Appointments
-        </div>
-
-        <button class="btn btn-primary btn-sm"
-          onclick="showPage('appointments')">
-          View All
-        </button>
-
-      </div>
-
-      <div class="table-wrap">
-
-        ${appointmentTable(
-          appointments.slice().reverse().slice(0,5)
-        )}
-
-      </div>
-
-    </div>
-
-  `;
+document
+.getElementById("appointmentForm")
+.addEventListener("submit",submitAppointment);
 
 }
 
-/* =========================================================
-   OPEN VISITOR FORM
-========================================================= */
-
-function openVisitorForm(){
-
-  document.getElementById("pageTitle")
-    .textContent="Visitor Form";
-
-  renderVisitorForm();
-
-}
-
-/* =========================================================
-   VISITOR / APPOINTMENT FORM
-========================================================= */
-
-function renderVisitorForm(approved=null){
-
-  const edit=!!approved;
-
-  document.getElementById("content").innerHTML=`
-
-    <div class="panel">
-
-      <div class="panel-head">
-
-        <div>
-
-          <div class="panel-title">
-            ${edit
-              ?"New Visitor Registration"
-              :"Visitor Appointment Form"
-            }
-          </div>
-
-          <div class="panel-subtitle">
-
-            ${edit
-              ?"Appointment approved. Complete all required visitor information."
-              :"Submit an appointment first. Registration becomes available after approval."
-            }
-
-          </div>
-
-        </div>
-
-        ${edit ? `
-          <span class="badge badge-approved">
-            APPOINTMENT APPROVED
-          </span>
-        `:""}
-
-      </div>
-
-      <form onsubmit="${
-        edit
-        ? `completeRegistration(event,'${approved.appointmentId}')`
-        : `submitAppointment(event)`
-      }">
-
-        <!-- 01 -->
-
-        <div class="form-section">
-
-          <div class="form-section-title">
-            <span class="form-number">01</span>
-            Personal Information
-          </div>
-
-          <div class="form-grid">
-
-            <div class="form-group">
-              <label>Full Legal Name *</label>
-              <input
-                id="fullName"
-                required
-                value="${escapeHTML(approved?.name)}">
-            </div>
-
-            <div class="form-group">
-              <label>Preferred Name</label>
-              <input id="preferredName">
-            </div>
-
-            <div class="form-group">
-              <label>Date of Birth</label>
-              <input id="dateOfBirth" type="date">
-            </div>
-
-            <div class="form-group">
-              <label>Age *</label>
-              <input
-                id="age"
-                type="number"
-                min="1"
-                max="120"
-                required
-                value="${escapeHTML(approved?.age)}">
-            </div>
-
-            <div class="form-group">
-              <label>Gender</label>
-              <select id="gender">
-                <option value="">Select</option>
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
-                <option>Prefer not to say</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Nationality</label>
-              <input id="nationality">
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 02 -->
-
-        <div class="form-section">
-
-          <div class="form-section-title">
-            <span class="form-number">02</span>
-            Contact Information
-          </div>
-
-          <div class="form-grid">
-
-            <div class="form-group">
-              <label>Phone Number *</label>
-              <input
-                id="phone"
-                required
-                value="${escapeHTML(approved?.phone)}">
-            </div>
-
-            <div class="form-group">
-              <label>Email Address</label>
-              <input
-                id="email"
-                type="email"
-                value="${escapeHTML(approved?.email)}">
-            </div>
-
-            <div class="form-group full">
-              <label>Home Address</label>
-              <input id="address">
-            </div>
-
-            <div class="form-group">
-              <label>City</label>
-              <input id="city">
-            </div>
-
-            <div class="form-group">
-              <label>Postal Code</label>
-              <input id="postalCode">
-            </div>
-
-            <div class="form-group">
-              <label>Country</label>
-              <input id="country">
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 03 -->
-
-        <div class="form-section">
-
-          <div class="form-section-title">
-            <span class="form-number">03</span>
-            Identification
-          </div>
-
-          <div class="form-grid">
-
-            <div class="form-group">
-              <label>Document Type</label>
-              <select id="documentType">
-                <option value="">Select document</option>
-                <option>DNI</option>
-                <option>NIE</option>
-                <option>Passport</option>
-                <option>Driving Licence</option>
-                <option>Other</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Document Number</label>
-              <input id="documentNumber">
-            </div>
-
-            <div class="form-group">
-              <label>Document Expiry</label>
-              <input id="documentExpiry" type="date">
-            </div>
-
-            <div class="form-group">
-              <label>Issuing Country</label>
-              <input id="issuingCountry">
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 04 -->
-
-        <div class="form-section">
-
-          <div class="form-section-title">
-            <span class="form-number">04</span>
-            Employment & Organization
-          </div>
-
-          <div class="form-grid">
-
-            <div class="form-group">
-              <label>Occupation</label>
-              <input
-                id="occupation"
-                value="${escapeHTML(approved?.job)}">
-            </div>
-
-            <div class="form-group">
-              <label>Company / Organization</label>
-              <input
-                id="company"
-                value="${escapeHTML(approved?.company)}">
-            </div>
-
-            <div class="form-group">
-              <label>Job Title</label>
-              <input id="jobTitle">
-            </div>
-
-            <div class="form-group">
-              <label>Work Email</label>
-              <input id="workEmail" type="email">
-            </div>
-
-            <div class="form-group">
-              <label>Work Phone</label>
-              <input id="workPhone">
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 05 -->
-
-        <div class="form-section">
-
-          <div class="form-section-title">
-            <span class="form-number">05</span>
-            Appointment Details
-          </div>
-
-          <div class="form-grid">
-
-            <div class="form-group">
-              <label>Person to Visit *</label>
-
-              <select id="host" required>
-
-                <option value="">
-                  Select employee
-                </option>
-
-                ${employees.map(employee=>`
-
-                  <option
-                    value="${escapeHTML(employee.name)}"
-                    ${
-                      approved?.host===employee.name
-                      ?"selected"
-                      :""
-                    }>
-
-                    ${escapeHTML(employee.name)}
-                    — ${escapeHTML(employee.department)}
-
-                  </option>
-
-                `).join("")}
-
-              </select>
-
-            </div>
-
-            <div class="form-group">
-              <label>Department</label>
-              <input
-                id="department"
-                value="${escapeHTML(approved?.department)}">
-            </div>
-
-            <div class="form-group">
-              <label>Appointment Date *</label>
-              <input
-                id="appointmentDate"
-                type="date"
-                required
-                value="${escapeHTML(approved?.date)}">
-            </div>
-
-            <div class="form-group">
-              <label>Appointment Time *</label>
-              <input
-                id="appointmentTime"
-                type="time"
-                required
-                value="${escapeHTML(approved?.time)}">
-            </div>
-
-            <div class="form-group full">
-              <label>Reason for Visit *</label>
-              <input
-                id="reason"
-                required
-                value="${escapeHTML(approved?.reason)}">
-            </div>
-
-            <div class="form-group full">
-              <label>Detailed Purpose of Visit</label>
-              <textarea id="purpose"></textarea>
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 06 -->
-
-        <div class="form-section">
-
-          <div class="form-section-title">
-            <span class="form-number">06</span>
-            Emergency Contact
-          </div>
-
-          <div class="form-grid">
-
-            <div class="form-group">
-              <label>Emergency Contact Name</label>
-              <input id="emergencyName">
-            </div>
-
-            <div class="form-group">
-              <label>Relationship</label>
-              <input id="emergencyRelationship">
-            </div>
-
-            <div class="form-group">
-              <label>Emergency Phone</label>
-              <input id="emergencyPhone">
-            </div>
-
-            <div class="form-group">
-              <label>Emergency Email</label>
-              <input id="emergencyEmail">
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 07 -->
-
-        <div class="form-section">
-
-          <div class="form-section-title">
-            <span class="form-number">07</span>
-            Visit & Access Details
-          </div>
-
-          <div class="form-grid">
-
-            <div class="form-group">
-              <label>Number of Visitors</label>
-              <input
-                id="visitorCount"
-                type="number"
-                min="1"
-                value="1">
-            </div>
-
-            <div class="form-group">
-              <label>Access Area</label>
-              <select id="accessArea">
-                <option>Reception</option>
-                <option>Meeting Room</option>
-                <option>Conference Room</option>
-                <option>Office Area</option>
-                <option>Other</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Vehicle</label>
-              <select id="vehicle">
-                <option>No Vehicle</option>
-                <option>Car</option>
-                <option>Motorcycle</option>
-                <option>Bicycle</option>
-                <option>Other</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Vehicle Registration</label>
-              <input id="vehicleRegistration">
-            </div>
-
-            <div class="form-group full">
-              <label>Items Being Brought</label>
-              <textarea
-                id="items"
-                placeholder="Laptop, documents, equipment, samples, etc."></textarea>
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 08 -->
-
-        <div class="form-section">
-
-          <div class="form-section-title">
-            <span class="form-number">08</span>
-            Additional Information
-          </div>
-
-          <div class="form-grid">
-
-            <div class="form-group full">
-              <label>Special Requirements</label>
-              <textarea id="specialRequirements"></textarea>
-            </div>
-
-            <div class="form-group full">
-              <label>Additional Notes</label>
-              <textarea id="additionalNotes">${escapeHTML(approved?.notes)}</textarea>
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 09 -->
-
-        <div class="form-section">
-
-          <div class="form-section-title">
-            <span class="form-number">09</span>
-            Confirmation
-          </div>
-
-          <div class="form-grid">
-
-            <div class="form-group full">
-
-              <label class="check-row">
-
-                <input
-                  id="informationConfirm"
-                  type="checkbox"
-                  required>
-
-                <span>
-                  I confirm that the information provided
-                  in this form is correct and complete.
-                </span>
-
-              </label>
-
-            </div>
-
-            <div class="form-group full">
-
-              <label class="check-row">
-
-                <input
-                  id="rulesConfirm"
-                  type="checkbox"
-                  required>
-
-                <span>
-                  I agree to follow the office visitor
-                  rules and instructions.
-                </span>
-
-              </label>
-
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="form-footer">
-
-          <button
-            type="button"
-            class="btn btn-light"
-            onclick="showPage('dashboard')">
-            Cancel
-          </button>
-
-          <button class="btn btn-primary">
-
-            ${
-              edit
-              ?"✓ Complete Registration"
-              :"📅 Submit Appointment Request"
-            }
-
-          </button>
-
-        </div>
-
-      </form>
-
-    </div>
-
-  `;
-
-}
 
 /* =========================================================
    SUBMIT APPOINTMENT
-========================================================= */
+   ========================================================= */
 
-function submitAppointment(event){
+async function submitAppointment(e){
 
-  event.preventDefault();
+e.preventDefault();
 
-  const appointment={
+if(!phoneVerified){
 
-    appointmentId:
-      generateID("APT",appointments),
+alert("Please verify your mobile number first.");
 
-    name:
-      document.getElementById("fullName").value.trim(),
-
-    preferredName:
-      document.getElementById("preferredName").value.trim(),
-
-    dob:
-      document.getElementById("dateOfBirth").value,
-
-    age:
-      document.getElementById("age").value,
-
-    gender:
-      document.getElementById("gender").value,
-
-    nationality:
-      document.getElementById("nationality").value.trim(),
-
-    phone:
-      document.getElementById("phone").value.trim(),
-
-    email:
-      document.getElementById("email").value.trim(),
-
-    address:
-      document.getElementById("address").value.trim(),
-
-    city:
-      document.getElementById("city").value.trim(),
-
-    postalCode:
-      document.getElementById("postalCode").value.trim(),
-
-    country:
-      document.getElementById("country").value.trim(),
-
-    occupation:
-      document.getElementById("occupation").value.trim(),
-
-    job:
-      document.getElementById("occupation").value.trim(),
-
-    company:
-      document.getElementById("company").value.trim(),
-
-    jobTitle:
-      document.getElementById("jobTitle").value.trim(),
-
-    host:
-      document.getElementById("host").value,
-
-    department:
-      document.getElementById("department").value.trim(),
-
-    date:
-      document.getElementById("appointmentDate").value,
-
-    time:
-      document.getElementById("appointmentTime").value,
-
-    reason:
-      document.getElementById("reason").value.trim(),
-
-    purpose:
-      document.getElementById("purpose").value.trim(),
-
-    emergencyName:
-      document.getElementById("emergencyName").value.trim(),
-
-    emergencyPhone:
-      document.getElementById("emergencyPhone").value.trim(),
-
-    notes:
-      document.getElementById("additionalNotes").value.trim(),
-
-    status:"Pending",
-
-    createdAt:
-      new Date().toISOString()
-
-  };
-
-  appointments.push(appointment);
-
-  save();
-
-  showToast(
-    "Appointment request submitted successfully ✓"
-  );
-
-  setTimeout(()=>{
-    showPage("appointments");
-  },400);
+return;
 
 }
+
+const form =
+new FormData(e.target);
+
+const data =
+Object.fromEntries(form.entries());
+
+data.phone =
+auth.currentUser?.phoneNumber || "";
+
+data.status = "Pending";
+
+data.createdAt =
+new Date().toISOString();
+
+data.appointmentId =
+"APT-"+Date.now();
+
+try{
+
+await addDoc(
+collection(db,"appointments"),
+data
+);
+
+alert(
+"Application submitted successfully!\n\n"+
+"Your Appointment ID:\n"+
+data.appointmentId
+);
+
+e.target.reset();
+
+showPage("appointments");
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Could not submit application:\n"+
+error.message
+);
+
+}
+
+}
+
 
 /* =========================================================
-   APPOINTMENTS
-========================================================= */
+   DASHBOARD
+   ========================================================= */
 
-function renderAppointments(){
+async function renderDashboard(){
 
-  document.getElementById("content").innerHTML=`
+document.getElementById("content").innerHTML = `
 
-    <div class="panel">
+<div class="hero">
 
-      <div class="panel-head">
+<div>
 
-        <div>
+<h1>Good afternoon, Reception.</h1>
 
-          <div class="panel-title">
-            Appointment Management
-          </div>
+<p>
+Manage appointments, visitors and office access
+from one place.
+</p>
 
-          <div class="panel-subtitle">
-            Review, approve or reject visitor appointment requests.
-          </div>
+</div>
 
-        </div>
+<div class="hero-actions">
 
-        <button class="btn btn-primary"
-          onclick="openVisitorForm()">
-          + New Appointment
-        </button>
+<button class="btn btn-light"
+onclick="showPage('newAppointment')">
++ NEW APPOINTMENT
+</button>
 
-      </div>
+<button class="btn"
+style="background:#ffffff20;color:white"
+onclick="showPage('appointments')">
+VIEW APPOINTMENTS
+</button>
 
-      <div class="table-wrap">
+</div>
 
-        ${appointmentTable(appointments)}
+</div>
 
-      </div>
+<div class="stats">
 
-    </div>
+<div class="stat">
+<small>Pending Appointments</small>
+<strong id="pendingCount">—</strong>
+</div>
 
-  `;
+<div class="stat">
+<small>Approved</small>
+<strong id="approvedCount">—</strong>
+</div>
 
-}
+<div class="stat">
+<small>Registered Visitors</small>
+<strong id="registeredCount">—</strong>
+</div>
 
-function appointmentTable(list){
+<div class="stat">
+<small>Today's Visits</small>
+<strong id="todayCount">—</strong>
+</div>
 
-  if(!list.length){
+</div>
 
-    return `
-      <div class="empty">
+<div class="card">
 
-        <div class="empty-icon">📅</div>
+<div class="card-head">
+<h3>Office Activity</h3>
+<button class="btn btn-light"
+onclick="showPage('appointments')">
+View all
+</button>
+</div>
 
-        <p>
-          No appointment requests yet.
-        </p>
+<p style="color:#7a8496">
+Your latest appointment and visitor activity will appear here.
+</p>
 
-      </div>
-    `;
+</div>
+`;
 
-  }
+try{
 
-  return `
+const snap =
+await getDocs(collection(db,"appointments"));
 
-    <table>
+let pending=0;
+let approved=0;
+let today=0;
 
-      <thead>
+const todayDate =
+new Date().toISOString().split("T")[0];
 
-        <tr>
-          <th>Appointment ID</th>
-          <th>Visitor</th>
-          <th>Date & Time</th>
-          <th>Person to Visit</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
+snap.forEach(x=>{
 
-      </thead>
+const d=x.data();
 
-      <tbody>
+if(d.status==="Pending") pending++;
 
-        ${list.map(a=>`
+if(d.status==="Approved") approved++;
 
-          <tr>
-
-            <td>
-              <strong>
-                ${escapeHTML(a.appointmentId)}
-              </strong>
-            </td>
-
-            <td>
-
-              <strong>
-                ${escapeHTML(a.name)}
-              </strong>
-
-              <br>
-
-              <span class="muted">
-                ${escapeHTML(a.phone)}
-              </span>
-
-            </td>
-
-            <td>
-
-              ${formatDate(a.date)}
-
-              <br>
-
-              <span class="muted">
-                ${escapeHTML(a.time)}
-              </span>
-
-            </td>
-
-            <td>
-              ${escapeHTML(a.host)}
-            </td>
-
-            <td>
-              ${statusBadge(a.status)}
-            </td>
-
-            <td>
-
-              <div class="actions">
-
-                <button
-                  class="btn btn-light btn-sm"
-                  onclick="viewAppointment('${a.appointmentId}')">
-                  View
-                </button>
-
-                ${
-                  a.status==="Pending"
-                  ?`
-
-                    <button
-                      class="btn btn-green btn-sm"
-                      onclick="approveAppointment('${a.appointmentId}')">
-                      Approve
-                    </button>
-
-                    <button
-                      class="btn btn-red btn-sm"
-                      onclick="rejectAppointment('${a.appointmentId}')">
-                      Reject
-                    </button>
-
-                  `
-                  :""
-                }
-
-                ${
-                  a.status==="Approved"
-                  ?`
-
-                    <button
-                      class="btn btn-purple btn-sm"
-                      onclick="startRegistration('${a.appointmentId}')">
-                      New Registration
-                    </button>
-
-                  `
-                  :""
-                }
-
-              </div>
-
-            </td>
-
-          </tr>
-
-        `).join("")}
-
-      </tbody>
-
-    </table>
-
-  `;
-
-}
-
-/* =========================================================
-   APPROVE / REJECT
-========================================================= */
-
-function approveAppointment(id){
-
-  const appointment=appointments.find(
-    x=>x.appointmentId===id
-  );
-
-  if(!appointment)return;
-
-  appointment.status="Approved";
-
-  appointment.approvedAt=
-    new Date().toISOString();
-
-  save();
-
-  showToast(
-    "Appointment approved ✓"
-  );
-
-  renderAppointments();
-
-}
-
-function rejectAppointment(id){
-
-  const appointment=appointments.find(
-    x=>x.appointmentId===id
-  );
-
-  if(!appointment)return;
-
-  appointment.status="Rejected";
-
-  appointment.rejectedAt=
-    new Date().toISOString();
-
-  save();
-
-  showToast(
-    "Appointment rejected"
-  );
-
-  renderAppointments();
-
-}
-
-/* =========================================================
-   START REGISTRATION
-========================================================= */
-
-function startRegistration(id){
-
-  const appointment=appointments.find(
-    x=>x.appointmentId===id
-  );
-
-  if(!appointment)return;
-
-  if(appointment.status!=="Approved"){
-
-    showToast(
-      "This appointment is not approved yet."
-    );
-
-    return;
-
-  }
-
-  document.getElementById("pageTitle")
-    .textContent="New Registration";
-
-  renderVisitorForm(appointment);
-
-}
-
-/* =========================================================
-   COMPLETE REGISTRATION
-========================================================= */
-
-function completeRegistration(event,id){
-
-  event.preventDefault();
-
-  const appointment=appointments.find(
-    x=>x.appointmentId===id
-  );
-
-  if(!appointment)return;
-
-  const visitor={
-
-    visitorId:
-      generateID("VIS",visitors),
-
-    appointmentId:
-      appointment.appointmentId,
-
-    name:
-      document.getElementById("fullName").value.trim(),
-
-    preferredName:
-      document.getElementById("preferredName").value.trim(),
-
-    dob:
-      document.getElementById("dateOfBirth").value,
-
-    age:
-      document.getElementById("age").value,
-
-    gender:
-      document.getElementById("gender").value,
-
-    nationality:
-      document.getElementById("nationality").value.trim(),
-
-    phone:
-      document.getElementById("phone").value.trim(),
-
-    email:
-      document.getElementById("email").value.trim(),
-
-    address:
-      document.getElementById("address").value.trim(),
-
-    city:
-      document.getElementById("city").value.trim(),
-
-    postalCode:
-      document.getElementById("postalCode").value.trim(),
-
-    country:
-      document.getElementById("country").value.trim(),
-
-    documentType:
-      document.getElementById("documentType").value,
-
-    documentNumber:
-      document.getElementById("documentNumber").value.trim(),
-
-    documentExpiry:
-      document.getElementById("documentExpiry").value,
-
-    issuingCountry:
-      document.getElementById("issuingCountry").value.trim(),
-
-    occupation:
-      document.getElementById("occupation").value.trim(),
-
-    company:
-      document.getElementById("company").value.trim(),
-
-    jobTitle:
-      document.getElementById("jobTitle").value.trim(),
-
-    workEmail:
-      document.getElementById("workEmail").value.trim(),
-
-    workPhone:
-      document.getElementById("workPhone").value.trim(),
-
-    host:
-      document.getElementById("host").value,
-
-    department:
-      document.getElementById("department").value.trim(),
-
-    date:
-      document.getElementById("appointmentDate").value,
-
-    time:
-      document.getElementById("appointmentTime").value,
-
-    reason:
-      document.getElementById("reason").value.trim(),
-
-    purpose:
-      document.getElementById("purpose").value.trim(),
-
-    emergencyName:
-      document.getElementById("emergencyName").value.trim(),
-
-    emergencyRelationship:
-      document.getElementById("emergencyRelationship").value.trim(),
-
-    emergencyPhone:
-      document.getElementById("emergencyPhone").value.trim(),
-
-    emergencyEmail:
-      document.getElementById("emergencyEmail").value.trim(),
-
-    visitorCount:
-      document.getElementById("visitorCount").value,
-
-    accessArea:
-      document.getElementById("accessArea").value,
-
-    vehicle:
-      document.getElementById("vehicle").value,
-
-    vehicleRegistration:
-      document.getElementById("vehicleRegistration").value.trim(),
-
-    items:
-      document.getElementById("items").value.trim(),
-
-    specialRequirements:
-      document.getElementById("specialRequirements").value.trim(),
-
-    notes:
-      document.getElementById("additionalNotes").value.trim(),
-
-    status:"Registered",
-
-    registeredAt:
-      new Date().toISOString()
-
-  };
-
-  visitors.push(visitor);
-
-  appointment.status="Registered";
-
-  appointment.registeredAt=
-    new Date().toISOString();
-
-  save();
-
-  showToast(
-    "Visitor registration completed ✓"
-  );
-
-  setTimeout(()=>{
-    showPage("visitors");
-  },400);
-
-}
-
-/* =========================================================
-   VISITORS
-========================================================= */
-
-function renderVisitors(){
-
-  document.getElementById("content").innerHTML=`
-
-    <div class="panel">
-
-      <div class="panel-head">
-
-        <div>
-
-          <div class="panel-title">
-            Registered Visitors
-          </div>
-
-          <div class="panel-subtitle">
-            Visitors who have completed registration.
-          </div>
-
-        </div>
-
-        <button class="btn btn-primary"
-          onclick="openVisitorForm()">
-          + Visitor Form
-        </button>
-
-      </div>
-
-      <div class="table-wrap">
-
-        ${visitorTable(visitors)}
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-function visitorTable(list){
-
-  if(!list.length){
-
-    return `
-      <div class="empty">
-
-        <div class="empty-icon">👤</div>
-
-        <p>
-          No registered visitors yet.
-        </p>
-
-      </div>
-    `;
-
-  }
-
-  return `
-
-    <table>
-
-      <thead>
-
-        <tr>
-          <th>Visitor ID</th>
-          <th>Visitor</th>
-          <th>Appointment</th>
-          <th>Host</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        ${list.map(v=>`
-
-          <tr>
-
-            <td>
-              <strong>
-                ${escapeHTML(v.visitorId)}
-              </strong>
-
-              <br>
-
-              <span class="muted">
-                ${escapeHTML(v.appointmentId)}
-              </span>
-            </td>
-
-            <td>
-
-              <strong>
-                ${escapeHTML(v.name)}
-              </strong>
-
-              <br>
-
-              <span class="muted">
-                ${escapeHTML(v.phone)}
-              </span>
-
-            </td>
-
-            <td>
-
-              ${formatDate(v.date)}
-
-              <br>
-
-              <span class="muted">
-                ${escapeHTML(v.time)}
-              </span>
-
-            </td>
-
-            <td>
-              ${escapeHTML(v.host)}
-            </td>
-
-            <td>
-              ${statusBadge(v.status)}
-            </td>
-
-            <td>
-
-              <div class="actions">
-
-                ${
-                  v.status==="Registered"
-                  ?`
-
-                    <button
-                      class="btn btn-green btn-sm"
-                      onclick="checkIn('${v.visitorId}')">
-                      Check In
-                    </button>
-
-                  `
-                  :""
-                }
-
-                ${
-                  v.status==="Checked In"
-                  ?`
-
-                    <button
-                      class="btn btn-red btn-sm"
-                      onclick="checkOut('${v.visitorId}')">
-                      Check Out
-                    </button>
-
-                  `
-                  :""
-                }
-
-                <button
-                  class="btn btn-light btn-sm"
-                  onclick="viewVisitor('${v.visitorId}')">
-                  View
-                </button>
-
-              </div>
-
-            </td>
-
-          </tr>
-
-        `).join("")}
-
-      </tbody>
-
-    </table>
-
-  `;
-
-}
-
-/* =========================================================
-   CHECK IN / OUT
-========================================================= */
-
-function checkIn(id){
-
-  const visitor=visitors.find(
-    x=>x.visitorId===id
-  );
-
-  if(!visitor)return;
-
-  visitor.status="Checked In";
-
-  visitor.checkedInAt=
-    new Date().toISOString();
-
-  save();
-
-  showToast(
-    visitor.name+" checked in ✓"
-  );
-
-  renderVisitors();
-
-}
-
-function checkOut(id){
-
-  const visitor=visitors.find(
-    x=>x.visitorId===id
-  );
-
-  if(!visitor)return;
-
-  visitor.status="Checked Out";
-
-  visitor.checkedOutAt=
-    new Date().toISOString();
-
-  save();
-
-  showToast(
-    visitor.name+" checked out"
-  );
-
-  renderVisitors();
-
-}
-
-/* =========================================================
-   VIEW APPOINTMENT
-========================================================= */
-
-function viewAppointment(id){
-
-  const a=appointments.find(
-    x=>x.appointmentId===id
-  );
-
-  if(!a)return;
-
-  document.getElementById("modalTitle")
-    .textContent=a.appointmentId;
-
-  document.getElementById("modalBody").innerHTML=`
-
-    <h2>${escapeHTML(a.name)}</h2>
-
-    <br>
-
-    <p>
-      <b>Phone:</b>
-      ${escapeHTML(a.phone)}
-    </p>
-
-    <p>
-      <b>Email:</b>
-      ${escapeHTML(a.email || "-")}
-    </p>
-
-    <p>
-      <b>Occupation:</b>
-      ${escapeHTML(a.occupation || "-")}
-    </p>
-
-    <p>
-      <b>Company:</b>
-      ${escapeHTML(a.company || "-")}
-    </p>
-
-    <p>
-      <b>Person to Visit:</b>
-      ${escapeHTML(a.host)}
-    </p>
-
-    <p>
-      <b>Department:</b>
-      ${escapeHTML(a.department || "-")}
-    </p>
-
-    <p>
-      <b>Date:</b>
-      ${formatDate(a.date)}
-    </p>
-
-    <p>
-      <b>Time:</b>
-      ${escapeHTML(a.time)}
-    </p>
-
-    <p>
-      <b>Reason:</b>
-      ${escapeHTML(a.reason)}
-    </p>
-
-    <p>
-      <b>Purpose:</b>
-      ${escapeHTML(a.purpose || "-")}
-    </p>
-
-    <p>
-      <b>Notes:</b>
-      ${escapeHTML(a.notes || "-")}
-    </p>
-
-    <br>
-
-    ${statusBadge(a.status)}
-
-  `;
-
-  document.getElementById("modal")
-    .classList.add("show");
-
-}
-
-/* =========================================================
-   VIEW VISITOR
-========================================================= */
-
-function viewVisitor(id){
-
-  const v=visitors.find(
-    x=>x.visitorId===id
-  );
-
-  if(!v)return;
-
-  document.getElementById("modalTitle")
-    .textContent=v.visitorId;
-
-  document.getElementById("modalBody").innerHTML=`
-
-    <h2>${escapeHTML(v.name)}</h2>
-
-    <br>
-
-    <p>
-      <b>Age:</b>
-      ${escapeHTML(v.age)}
-    </p>
-
-    <p>
-      <b>Phone:</b>
-      ${escapeHTML(v.phone)}
-    </p>
-
-    <p>
-      <b>Email:</b>
-      ${escapeHTML(v.email || "-")}
-    </p>
-
-    <p>
-      <b>Address:</b>
-      ${escapeHTML(v.address || "-")}
-    </p>
-
-    <p>
-      <b>City:</b>
-      ${escapeHTML(v.city || "-")}
-    </p>
-
-    <hr style="margin:15px 0;border:0;border-top:1px solid #eee">
-
-    <p>
-      <b>Document:</b>
-      ${escapeHTML(v.documentType || "-")}
-      ${escapeHTML(v.documentNumber || "")}
-    </p>
-
-    <p>
-      <b>Company:</b>
-      ${escapeHTML(v.company || "-")}
-    </p>
-
-    <p>
-      <b>Occupation:</b>
-      ${escapeHTML(v.occupation || "-")}
-    </p>
-
-    <hr style="margin:15px 0;border:0;border-top:1px solid #eee">
-
-    <p>
-      <b>Host:</b>
-      ${escapeHTML(v.host)}
-    </p>
-
-    <p>
-      <b>Department:</b>
-      ${escapeHTML(v.department || "-")}
-    </p>
-
-    <p>
-      <b>Visit Date:</b>
-      ${formatDate(v.date)}
-    </p>
-
-    <p>
-      <b>Reason:</b>
-      ${escapeHTML(v.reason)}
-    </p>
-
-    <p>
-      <b>Purpose:</b>
-      ${escapeHTML(v.purpose || "-")}
-    </p>
-
-    <p>
-      <b>Access Area:</b>
-      ${escapeHTML(v.accessArea || "-")}
-    </p>
-
-    <p>
-      <b>Vehicle:</b>
-      ${escapeHTML(v.vehicle || "-")}
-    </p>
-
-    <br>
-
-    ${statusBadge(v.status)}
-
-  `;
-
-  document.getElementById("modal")
-    .classList.add("show");
-
-}
-
-/* =========================================================
-   EMPLOYEES
-========================================================= */
-
-function renderEmployees(){
-
-  document.getElementById("content").innerHTML=`
-
-    <div class="panel">
-
-      <div class="panel-head">
-
-        <div>
-
-          <div class="panel-title">
-            Employees
-          </div>
-
-          <div class="panel-subtitle">
-            People available for visitor appointments.
-          </div>
-
-        </div>
-
-        <button
-          class="btn btn-primary"
-          onclick="addEmployee()">
-          + Add Employee
-        </button>
-
-      </div>
-
-      <div class="table-wrap">
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>Name</th>
-              <th>Position</th>
-              <th>Department</th>
-              <th>Email</th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            ${employees.map(e=>`
-
-              <tr>
-
-                <td>
-                  <strong>
-                    ${escapeHTML(e.name)}
-                  </strong>
-                </td>
-
-                <td>
-                  ${escapeHTML(e.position)}
-                </td>
-
-                <td>
-                  ${escapeHTML(e.department)}
-                </td>
-
-                <td>
-                  ${escapeHTML(e.email || "-")}
-                </td>
-
-              </tr>
-
-            `).join("")}
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-function addEmployee(){
-
-  const name=prompt("Employee name:");
-
-  if(!name)return;
-
-  const position=prompt("Position:");
-
-  if(!position)return;
-
-  const department=prompt("Department:");
-
-  if(!department)return;
-
-  const email=prompt("Email:");
-
-  employees.push({
-
-    id:generateID("EMP",employees),
-
-    name:name,
-
-    position:position,
-
-    department:department,
-
-    email:email || ""
-
-  });
-
-  save();
-
-  showToast("Employee added ✓");
-
-  renderEmployees();
-
-}
-
-/* =========================================================
-   TASKS
-========================================================= */
-
-function renderTasks(){
-
-  if(!tasks.length){
-
-    tasks=[
-      {
-        id:1,
-        name:"Review visitor requests",
-        done:false
-      },
-      {
-        id:2,
-        name:"Check today's appointments",
-        done:false
-      },
-      {
-        id:3,
-        name:"Prepare meeting room",
-        done:true
-      }
-    ];
-
-    save();
-
-  }
-
-  document.getElementById("content").innerHTML=`
-
-    <div class="panel">
-
-      <div class="panel-head">
-
-        <div class="panel-title">
-          Office Tasks
-        </div>
-
-        <button
-          class="btn btn-primary"
-          onclick="addTask()">
-          + Add Task
-        </button>
-
-      </div>
-
-      <div class="panel-body">
-
-        ${tasks.map(task=>`
-
-          <div style="
-            display:flex;
-            align-items:center;
-            gap:12px;
-            padding:14px 0;
-            border-bottom:1px solid #eee;
-          ">
-
-            <input
-              type="checkbox"
-              style="width:auto"
-              ${task.done?"checked":""}
-              onchange="toggleTask(${task.id})">
-
-            <span style="
-              text-decoration:${task.done?"line-through":"none"};
-              color:${task.done?"#9ca3af":"#172033"};
-            ">
-              ${escapeHTML(task.name)}
-            </span>
-
-          </div>
-
-        `).join("")}
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-function addTask(){
-
-  const name=prompt("Task name:");
-
-  if(!name)return;
-
-  tasks.push({
-    id:Date.now(),
-    name:name,
-    done:false
-  });
-
-  save();
-
-  renderTasks();
-
-}
-
-function toggleTask(id){
-
-  const task=tasks.find(
-    x=>x.id===id
-  );
-
-  if(!task)return;
-
-  task.done=!task.done;
-
-  save();
-
-  renderTasks();
-
-}
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
-function renderSettings(){
-
-  document.getElementById("content").innerHTML=`
-
-    <div class="panel">
-
-      <div class="panel-head">
-
-        <div class="panel-title">
-          Settings
-        </div>
-
-      </div>
-
-      <div class="panel-body">
-
-        <h3>
-          OfficeFlow Visitor Management
-        </h3>
-
-        <p style="
-          margin-top:8px;
-          color:var(--muted);
-          line-height:1.6;
-        ">
-          This demo stores visitor and appointment
-          information in your browser.
-        </p>
-
-        <br>
-
-        <button
-          class="btn btn-red"
-          onclick="resetData()">
-          Reset Visitor Data
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-function resetData(){
-
-  if(!confirm(
-    "Delete all appointment and visitor data?"
-  ))return;
-
-  appointments=[];
-  visitors=[];
-
-  save();
-
-  showToast(
-    "Visitor data deleted"
-  );
-
-  renderDashboard();
-
-}
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-function closeModal(){
-
-  document.getElementById("modal")
-    .classList.remove("show");
-
-}
-
-document.getElementById("modal")
-.addEventListener("click",function(event){
-
-  if(event.target===this){
-    closeModal();
-  }
+if(d.date===todayDate) today++;
 
 });
 
-/* =========================================================
-   START
-========================================================= */
+document.getElementById("pendingCount").innerText=pending;
+document.getElementById("approvedCount").innerText=approved;
+document.getElementById("todayCount").innerText=today;
 
-renderDashboard();
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+
+/* =========================================================
+   APPOINTMENTS
+   ========================================================= */
+
+async function renderAppointments(){
+
+document.getElementById("content").innerHTML = `
+
+<div class="card">
+
+<div class="card-head">
+
+<h3>Appointment Requests</h3>
+
+<button class="btn btn-primary"
+onclick="showPage('newAppointment')">
++ New Appointment
+</button>
+
+</div>
+
+<div id="appointmentTable">
+Loading...
+</div>
+
+</div>
+`;
+
+try{
+
+const snap =
+await getDocs(collection(db,"appointments"));
+
+let html=`
+
+<table>
+
+<thead>
+
+<tr>
+<th>ID</th>
+<th>Visitor</th>
+<th>Meeting</th>
+<th>Date</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+
+</thead>
+
+<tbody>
+`;
+
+snap.forEach(item=>{
+
+const d=item.data();
+
+let badge=d.status.toLowerCase();
+
+if(badge==="checked in") badge="checked";
+
+html+=`
+
+<tr>
+
+<td>
+<strong>${d.appointmentId||item.id}</strong>
+</td>
+
+<td>
+<strong>${d.name||"—"}</strong><br>
+<small>${d.phone||""}</small>
+</td>
+
+<td>
+${d.personToVisit||"—"}<br>
+<small>${d.department||""}</small>
+</td>
+
+<td>
+${d.date||"—"}<br>
+<small>${d.time||""}</small>
+</td>
+
+<td>
+<span class="badge ${badge}">
+${d.status||"Pending"}
+</span>
+</td>
+
+<td>
+
+${d.status==="Pending"
+?
+`
+<button class="btn btn-green"
+onclick="approveAppointment('${item.id}')">
+Approve
+</button>
+
+<button class="btn btn-red"
+onclick="rejectAppointment('${item.id}')">
+Reject
+</button>
+`
+:
+`
+<button class="btn btn-light"
+onclick="viewAppointment('${item.id}')">
+View
+</button>
+`
+}
+
+</td>
+
+</tr>
+`;
+
+});
+
+html+=`</tbody></table>`;
+
+document.getElementById("appointmentTable")
+.innerHTML=html;
+
+}catch(error){
+
+document.getElementById("appointmentTable").innerHTML =
+`<p style="color:#dc2626">${error.message}</p>`;
+
+}
+
+}
+
+
+/* =========================================================
+   APPROVE / REJECT
+   ========================================================= */
+
+window.approveAppointment = async function(id){
+
+if(!confirm("Approve this appointment?")) return;
+
+await updateDoc(
+doc(db,"appointments",id),
+{
+status:"Approved",
+approvedAt:new Date().toISOString()
+}
+);
+
+renderAppointments();
+
+};
+
+
+window.rejectAppointment = async function(id){
+
+if(!confirm("Reject this appointment?")) return;
+
+await updateDoc(
+doc(db,"appointments",id),
+{
+status:"Rejected",
+rejectedAt:new Date().toISOString()
+}
+);
+
+renderAppointments();
+
+};
+
+
+/* =========================================================
+   VIEW APPOINTMENT
+   ========================================================= */
+
+window.viewAppointment = async function(id){
+
+const snap =
+await getDocs(collection(db,"appointments"));
+
+let d=null;
+
+snap.forEach(x=>{
+
+if(x.id===id)
+d=x.data();
+
+});
+
+if(!d)return;
+
+alert(
+"APPOINTMENT\n\n"+
+"ID: "+d.appointmentId+
+"\nName: "+d.name+
+"\nPhone: "+d.phone+
+"\nEmail: "+d.email+
+"\nMeeting: "+d.personToVisit+
+"\nDepartment: "+d.department+
+"\nDate: "+d.date+
+"\nTime: "+d.time+
+"\nReason: "+d.reason+
+"\nPurpose: "+d.purpose+
+"\nStatus: "+d.status
+);
+
+};
+
+
+/* =========================================================
+   VISITORS
+   ========================================================= */
+
+async function renderVisitors(){
+
+document.getElementById("content").innerHTML=`
+
+<div class="card">
+
+<div class="card-head">
+
+<h3>Visitors</h3>
+
+<input id="visitorSearch"
+placeholder="Search visitors..."
+style="padding:10px;border:1px solid #ddd;border-radius:9px">
+
+</div>
+
+<div id="visitorTable">
+No registered visitors yet.
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =========================================================
+   EMPLOYEES
+   ========================================================= */
+
+function renderEmployees(){
+
+const employees=[
+
+["Alex Johnson","Office Manager","Management","alex@office.com"],
+
+["Maria Garcia","HR Manager","Human Resources","maria@office.com"],
+
+["Daniel Smith","IT Specialist","IT","daniel@office.com"],
+
+["Sofia Martinez","Finance Manager","Finance","sofia@office.com"]
+
+];
+
+document.getElementById("content").innerHTML=`
+
+<div class="card">
+
+<div class="card-head">
+<h3>Employees</h3>
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Position</th>
+<th>Department</th>
+<th>Email</th>
+</tr>
+</thead>
+
+<tbody>
+
+${employees.map(e=>`
+
+<tr>
+<td><strong>${e[0]}</strong></td>
+<td>${e[1]}</td>
+<td>${e[2]}</td>
+<td>${e[3]}</td>
+</tr>
+
+`).join("")}
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+}
+
+
+/* =========================================================
+   REPORTS
+   ========================================================= */
+
+function renderReports(){
+
+document.getElementById("content").innerHTML=`
+
+<div class="card">
+
+<h3>Visitor Reports</h3>
+
+<p style="color:#7a8496;margin-top:8px">
+Reports and visitor statistics will appear here.
+</p>
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+margin-top:25px">
+
+<div class="stat">
+<small>Total Visits</small>
+<strong>—</strong>
+</div>
+
+<div class="stat">
+<small>Average Daily Visits</small>
+<strong>—</strong>
+</div>
+
+<div class="stat">
+<small>Approved Appointments</small>
+<strong>—</strong>
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =========================================================
+   SETTINGS
+   ========================================================= */
+
+function renderSettings(){
+
+document.getElementById("content").innerHTML=`
+
+<div class="card">
+
+<h3>System Settings</h3>
+
+<div class="section-title">
+Office Information
+</div>
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Company Name</label>
+<input value="OfficeFlow">
+</div>
+
+<div class="form-group">
+<label>Office Email</label>
+<input value="reception@office.com">
+</div>
+
+<div class="form-group">
+<label>Office Phone</label>
+<input value="+34 900 000 000">
+</div>
+
+<div class="form-group">
+<label>Timezone</label>
+<select>
+<option>Europe/Madrid</option>
+</select>
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+window.toggleSidebar=function(){
+
+document
+.getElementById("sidebar")
+.classList.toggle("open");
+
+};
+
+
+/* START */
+
+showPage("dashboard");
 
 </script>
 
