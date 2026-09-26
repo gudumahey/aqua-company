@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Office Visitor Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="logo">OFFICE<span>•</span></div>
+    <p class="logo-sub">Visitor Management</p>
+
+    <button class="nav active" onclick="showPage('dashboard')">🏠 Dashboard</button>
+    <button class="nav" onclick="showPage('register')">➕ New Visitor</button>
+    <button class="nav" onclick="showPage('visitors')">👥 Visitors</button>
+  </div>
+
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page active-page">
+      <div class="topbar">
+        <div>
+          <p class="small">OFFICE MANAGEMENT</p>
+          <h1>Good day 👋</h1>
+          <p class="muted">Manage your office visitors and appointments.</p>
+        </div>
+        <button class="primary" onclick="showPage('register')">+ Register Visitor</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span>👥</span>
+          <div>
+            <p>Total Visitors</p>
+            <h2 id="totalVisitors">0</h2>
+          </div>
+        </div>
+
+        <div class="stat">
+          <span>📅</span>
+          <div>
+            <p>Today's Visits</p>
+            <h2 id="todayVisitors">0</h2>
+          </div>
+        </div>
+
+        <div class="stat">
+          <span>🕐</span>
+          <div>
+            <p>Upcoming</p>
+            <h2 id="upcomingVisitors">0</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h2>Recent Visitors</h2>
+            <p class="muted">Latest registered visitors</p>
+          </div>
+          <button class="outline" onclick="showPage('visitors')">View all</button>
+        </div>
+
+        <div id="recentVisitors" class="visitor-list"></div>
+      </div>
+    </section>
+
+    <!-- REGISTER -->
+    <section id="register" class="page">
+      <div class="topbar">
+        <div>
+          <p class="small">VISITOR REGISTRATION</p>
+          <h1>New Visitor</h1>
+          <p class="muted">Enter the visitor's information below.</p>
+        </div>
+      </div>
+
+      <form id="visitorForm" class="card form-card">
+
+        <h2>Personal Information</h2>
+
+        <div class="form-grid">
+          <div class="field">
+            <label>Full Name *</label>
+            <input id="name" type="text" placeholder="Enter full name" required>
+          </div>
+
+          <div class="field">
+            <label>Age *</label>
+            <input id="age" type="number" min="1" max="120" placeholder="Age" required>
+          </div>
+
+          <div class="field">
+            <label>Phone Number</label>
+            <input id="phone" type="tel" placeholder="+34 600 000 000">
+          </div>
+
+          <div class="field">
+            <label>Email</label>
+            <input id="email" type="email" placeholder="visitor@email.com">
+          </div>
+
+          <div class="field">
+            <label>Occupation / Job *</label>
+            <input id="occupation" type="text" placeholder="e.g. Engineer" required>
+          </div>
+
+          <div class="field">
+            <label>Company / Organization</label>
+            <input id="company" type="text" placeholder="Company name">
+          </div>
+        </div>
+
+        <hr>
+
+        <h2>Visit Information</h2>
+
+        <div class="form-grid">
+          <div class="field">
+            <label>Person to Visit *</label>
+            <input id="host" type="text" placeholder="Employee / Manager name" required>
+          </div>
+
+          <div class="field">
+            <label>Department</label>
+            <select id="department">
+              <option>Administration</option>
+              <option>Management</option>
+              <option>Human Resources</option>
+              <option>Finance</option>
+              <option>IT</option>
+              <option>Sales</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Appointment Date *</label>
+            <input id="date" type="date" required>
+          </div>
+
+          <div class="field">
+            <label>Appointment Time *</label>
+            <input id="time" type="time" required>
+          </div>
+
+          <div class="field full">
+            <label>Reason for Visit *</label>
+            <select id="reason" required>
+              <option value="">Select reason</option>
+              <option>Business Meeting</option>
+              <option>Job Interview</option>
+              <option>Delivery</option>
+              <option>Maintenance</option>
+              <option>Client Appointment</option>
+              <option>Document Submission</option>
+              <option>Personal Appointment</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>Additional Information</label>
+            <textarea id="notes" rows="4" placeholder="Write any additional information..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="outline" onclick="showPage('dashboard')">Cancel</button>
+          <button type="submit" class="primary">✓ Register Visitor</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- VISITORS -->
+    <section id="visitors" class="page">
+      <div class="topbar">
+        <div>
+          <p class="small">VISITOR RECORDS</p>
+          <h1>All Visitors</h1>
+          <p class="muted">Search and manage registered visitors.</p>
+        </div>
+        <button class="primary" onclick="showPage('register')">+ New Visitor</button>
+      </div>
+
+      <div class="card">
+        <input class="search" id="search" type="search" placeholder="🔎 Search by name, company or host..." oninput="renderVisitors()">
+        <div id="allVisitors" class="visitor-list"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
