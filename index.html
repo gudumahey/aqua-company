@@ -1,195 +1,762 @@
-
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>GUDU TUBE</title>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0f0f0f;--panel:#181818;--text:#f5f5f5;--muted:#aaa;--accent:#ff3030}
-body{background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
-button,input{font:inherit}
-button{cursor:pointer;color:inherit;border:0}
-header{height:66px;display:flex;align-items:center;gap:22px;padding:0 22px;background:#101010;position:sticky;top:0;z-index:5;border-bottom:1px solid #252525}
-.logo{font-size:23px;font-weight:900;white-space:nowrap;letter-spacing:-1px}
-.logo span{background:var(--accent);padding:7px 9px;border-radius:10px;margin-right:5px}
-.search{display:flex;max-width:650px;flex:1;margin:auto}
-.search input{width:100%;background:#202020;border:1px solid #383838;color:white;padding:12px 18px;border-radius:25px 0 0 25px;outline:none}
-.search button{background:#303030;padding:0 22px;border-radius:0 25px 25px 0}
-.circle{background:#252525;border-radius:50%;width:42px;height:42px;flex-shrink:0}
+body{
+  background:#0b0b0f;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+}
+header{
+  height:70px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  gap:25px;
+  padding:0 25px;
+  background:#111116ee;
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid #292932;
+}
+.logo{
+  font-size:23px;
+  font-weight:900;
+  white-space:nowrap;
+}
+.logo b{color:#ff174f}
+.search{
+  flex:1;
+  max-width:650px;
+  margin:auto;
+  display:flex;
+}
+.search input{
+  width:100%;
+  padding:13px 18px;
+  background:#202027;
+  color:white;
+  border:1px solid #383842;
+  border-radius:25px 0 0 25px;
+  outline:none;
+  font-size:15px;
+}
+.search button{
+  width:60px;
+  border:0;
+  background:#292932;
+  color:white;
+  border-radius:0 25px 25px 0;
+  cursor:pointer;
+  font-size:20px;
+}
+.avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#ff174f,#793cff);
+  font-weight:bold;
+}
 .layout{display:flex}
-aside{width:225px;padding:16px 12px;position:fixed;top:66px;bottom:0;overflow:auto}
-.nav{display:flex;align-items:center;gap:20px;padding:13px 14px;border-radius:12px;color:#eee;text-decoration:none;cursor:pointer}
-.nav:hover,.nav.active{background:#303030}
-.nav .ico{font-size:21px;width:24px;text-align:center}
-main{margin-left:225px;width:calc(100% - 225px);padding:18px 25px 50px}
-.categories{display:flex;gap:10px;overflow:auto;padding:0 0 24px;scrollbar-width:none}
-.chip{background:#272727;padding:10px 16px;border-radius:9px;white-space:nowrap}
-.chip.active,.chip:hover{background:#f2f2f2;color:#111}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 18px}
-.video{min-width:0;cursor:pointer}
-.thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:13px;background:#222;transition:.2s}
-.video:hover .thumb{border-radius:7px;filter:brightness(1.1)}
-.details{display:flex;gap:12px;margin-top:12px}
-.avatar{width:39px;height:39px;border-radius:50%;background:linear-gradient(135deg,#ff3030,#773bff);display:grid;place-items:center;font-weight:bold;flex-shrink:0}
-.vtitle{font-weight:600;font-size:15px;line-height:1.45;margin-bottom:7px}
-.meta{color:var(--muted);font-size:13px;line-height:1.6}
-#playerPage{display:none}
-.back{background:#282828;padding:10px 15px;border-radius:8px;margin-bottom:15px}
-.player{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;background:#000}
-.playerTitle{font-size:23px;margin:15px 0}
-.playerMeta{color:var(--muted);margin-bottom:20px}
-.description{background:#202020;border-radius:12px;padding:18px;line-height:1.7}
-.empty{padding:50px;text-align:center;color:var(--muted);grid-column:1/-1}
-footer{color:#777;font-size:12px;padding:25px 10px}
-@media(max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}aside{width:190px}main{margin-left:190px;width:calc(100% - 190px)}}
-@media(max-width:650px){
- header{padding:0 10px;gap:10px;height:58px}.logo{font-size:18px}.logo span{padding:6px}
- .search input{min-width:0;padding:10px}.search button{padding:0 12px}
- aside{width:65px;padding:12px 5px}aside .label,aside hr{display:none}
- .nav{justify-content:center;padding:13px 0}.nav .ico{font-size:22px}
- main{margin-left:65px;width:calc(100% - 65px);padding:13px 10px}
- .grid{grid-template-columns:1fr;gap:25px}.categories{padding-bottom:18px}
- .circle{width:35px;height:35px}
+aside{
+  width:230px;
+  position:fixed;
+  top:70px;
+  bottom:0;
+  padding:18px 12px;
+  border-right:1px solid #292932;
+  background:#0b0b0f;
+}
+.nav{
+  width:100%;
+  padding:13px;
+  margin-bottom:5px;
+  border:0;
+  border-radius:12px;
+  background:transparent;
+  color:#ddd;
+  text-align:left;
+  cursor:pointer;
+  font-size:14px;
+}
+.nav:hover,.nav.active{
+  background:#292932;
+  color:white;
+}
+main{
+  margin-left:230px;
+  width:calc(100% - 230px);
+  padding:25px;
+}
+.categories{
+  display:flex;
+  gap:10px;
+  overflow:auto;
+  margin-bottom:25px;
+}
+.category{
+  white-space:nowrap;
+  padding:10px 17px;
+  border:0;
+  border-radius:9px;
+  background:#24242c;
+  color:white;
+  cursor:pointer;
+}
+.category:hover{
+  background:#fff;
+  color:#111;
+}
+.section-title{
+  margin:15px 0 20px;
+  font-size:22px;
+}
+.videos{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:25px 17px;
+}
+.card{
+  cursor:pointer;
+  min-width:0;
+}
+.thumbnail{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  border-radius:13px;
+  display:block;
+}
+.info{
+  display:flex;
+  gap:10px;
+  margin-top:11px;
+}
+.channel-img{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  object-fit:cover;
+}
+.info h3{
+  font-size:14px;
+  line-height:1.4;
+}
+.info p{
+  color:#999;
+  font-size:12px;
+  margin-top:5px;
+}
+.channel-card{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  background:#17171e;
+  border:1px solid #292932;
+  padding:18px;
+  border-radius:15px;
+  margin-bottom:15px;
+  cursor:pointer;
+}
+.channel-card img{
+  width:65px;
+  height:65px;
+  border-radius:50%;
+}
+.channel-card h3{margin-bottom:5px}
+.channel-card p{
+  color:#999;
+  font-size:13px;
+}
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:#000d;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.modal.show{display:flex}
+.player{
+  width:min(950px,100%);
+  max-height:95vh;
+  overflow:auto;
+  background:#15151c;
+  border-radius:16px;
+  border:1px solid #333;
+}
+.close{
+  float:right;
+  margin:12px;
+  border:0;
+  background:#292932;
+  color:white;
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  cursor:pointer;
+}
+iframe{
+  width:100%;
+  aspect-ratio:16/9;
+  border:0;
+}
+.player-info{
+  padding:20px;
+}
+.player-info h2{margin-bottom:10px}
+.player-info p{color:#aaa}
+.subscribe{
+  margin-top:15px;
+  padding:11px 20px;
+  border:0;
+  border-radius:22px;
+  background:#ff174f;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+.loading{
+  text-align:center;
+  padding:50px;
+  color:#aaa;
+}
+.error{
+  text-align:center;
+  padding:30px;
+  color:#ff6b88;
+}
+@media(max-width:1100px){
+  .videos{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:800px){
+  header{padding:0 12px;gap:10px}
+  .logo{font-size:18px}
+  aside{display:none}
+  main{
+    margin:0;
+    width:100%;
+    padding:16px 12px 40px;
+  }
+  .videos{grid-template-columns:repeat(2,1fr);gap:20px 10px}
+}
+@media(max-width:500px){
+  .videos{grid-template-columns:1fr}
+  .search input{font-size:13px}
 }
 </style>
+
 </head>
+
 <body>
+
 <header>
-  <button class="circle" onclick="toggleSidebar()" title="Toggle menu">☰</button>
-  <div class="logo"><span>▶</span> GUDU TUBE</div>
-  <form class="search" id="searchForm">
-    <input id="searchInput" placeholder="Search videos..." autocomplete="off">
-    <button type="submit">🔍</button>
-  </form>
-  <button class="circle" onclick="showHome()" title="Home">⌂</button>
+
+  <div class="logo">
+    ▶ GUDU<b>TUBE</b>
+  </div>
+
+  <div class="search">
+    <input
+      id="searchInput"
+      placeholder="Search YouTube..."
+      onkeydown="if(event.key==='Enter')searchYouTube()"
+    >
+    <button onclick="searchYouTube()">⌕</button>
+  </div>
+
+  <div class="avatar">G</div>
+
 </header>
 
 <div class="layout">
-<aside id="sidebar">
-  <a class="nav active" onclick="showHome()"><span class="ico">⌂</span><span class="label">Home</span></a>
-  <a class="nav" onclick="filterCategory('Shorts')"><span class="ico">⚡</span><span class="label">Shorts</span></a>
-  <a class="nav" onclick="filterCategory('Gaming')"><span class="ico">🎮</span><span class="label">Gaming</span></a>
-  <a class="nav" onclick="filterCategory('Music')"><span class="ico">♫</span><span class="label">Music</span></a>
-  <a class="nav" onclick="filterCategory('Education')"><span class="ico">📚</span><span class="label">Education</span></a>
-  <hr style="border-color:#333;margin:14px 8px">
-  <a class="nav" onclick="showHome()"><span class="ico">▶</span><span class="label">All videos</span></a>
-  <a class="nav" onclick="showHistory()"><span class="ico">◷</span><span class="label">Watch history</span></a>
-  <footer>GUDU TUBE<br>Independent demo website<br>© 2026</footer>
+
+<aside>
+
+<button class="nav active" onclick="home()">⌂ Home</button> <button class="nav" onclick="loadPopular()">🔥 Trending</button> <button class="nav" onclick="searchCategory('Gaming')">🎮 Gaming</button> <button class="nav" onclick="searchCategory('Music')">🎵 Music</button> <button class="nav" onclick="searchCategory('Technology')">💻 Technology</button> <button class="nav" onclick="searchCategory('Sports')">⚽ Sports</button> <button class="nav" onclick="searchCategory('News')">📰 News</button> <button class="nav" onclick="searchCategory('Education')">📚 Education</button>
+
 </aside>
 
 <main>
-  <section id="homePage">
-    <div class="categories" id="categories">
-      <button class="chip active" onclick="filterCategory('All',this)">All</button>
-      <button class="chip" onclick="filterCategory('Gaming',this)">🎮 Gaming</button>
-      <button class="chip" onclick="filterCategory('Music',this)">🎵 Music</button>
-      <button class="chip" onclick="filterCategory('Technology',this)">💻 Technology</button>
-      <button class="chip" onclick="filterCategory('Education',this)">📚 Education</button>
-      <button class="chip" onclick="filterCategory('Shorts',this)">⚡ Shorts</button>
-      <button class="chip" onclick="filterCategory('Entertainment',this)">🎬 Entertainment</button>
-    </div>
-    <div class="grid" id="videoGrid"></div>
-  </section>
 
-  <section id="playerPage">
-    <button class="back" onclick="showHome()">← Back to videos</button>
-    <div id="playerContent"></div>
-  </section>
+<div class="categories">
+  <button class="category" onclick="loadPopular()">🔥 Popular</button>
+  <button class="category" onclick="searchCategory('Gaming')">Gaming</button>
+  <button class="category" onclick="searchCategory('Music')">Music</button>
+  <button class="category" onclick="searchCategory('Live')">Live</button>
+  <button class="category" onclick="searchCategory('Coding')">Coding</button>
+  <button class="category" onclick="searchCategory('Minecraft')">Minecraft</button>
+  <button class="category" onclick="searchCategory('Football')">Football</button>
+</div>
+
+<h2 class="section-title" id="title">
+  YouTube Videos
+</h2>
+
+<div id="results" class="videos">
+  <div class="loading">Loading YouTube videos...</div>
+</div>
+
 </main>
 </div>
 
+<div class="modal" id="modal">
+
+<div class="player">
+
+<button class="close" onclick="closePlayer()">✕</button>
+
+<iframe
+id="youtubePlayer"
+allow="autoplay; encrypted-media; picture-in-picture"
+allowfullscreen>
+</iframe>
+
+<div class="player-info">
+
+<h2 id="playerTitle"></h2>
+
+<p id="playerChannel"></p>
+
+<button class="subscribe" onclick="subscribeChannel()">
+  Subscribe on YouTube
+</button>
+
+</div>
+
+</div>
+</div>
+
 <script>
-const videos = [
- {id:'aqz-KE-bpKQ',title:'Big Buck Bunny - Open Movie',channel:'Open Movie Project',views:'Demo video',category:'Entertainment',thumb:'https://img.youtube.com/vi/aqz-KE-bpKQ/hqdefault.jpg'},
- {id:'jNQXAC9IVRw',title:'Me at the zoo - Classic YouTube Video',channel:'jawed',views:'Classic video',category:'Entertainment',thumb:'https://img.youtube.com/vi/jNQXAC9IVRw/hqdefault.jpg'},
- {id:'ScMzIvxBSi4',title:'Relaxing Video and Chill Time',channel:'Video World',views:'Demo video',category:'Music',thumb:'https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg'},
- {id:'M7lc1UVf-VE',title:'YouTube Player Demo',channel:'YouTube Developers',views:'Demo video',category:'Technology',thumb:'https://img.youtube.com/vi/M7lc1UVf-VE/hqdefault.jpg'},
- {id:'ysz5S6PUM-U',title:'Sample Video - Creative Ideas',channel:'Creative Studio',views:'Demo video',category:'Education',thumb:'https://img.youtube.com/vi/ysz5S6PUM-U/hqdefault.jpg'},
- {id:'L_jWHffIx5E',title:'Music Video Sample',channel:'Music Zone',views:'Demo video',category:'Music',thumb:'https://img.youtube.com/vi/L_jWHffIx5E/hqdefault.jpg'},
- {id:'kJQP7kiw5Fk',title:'Popular Music Video Sample',channel:'Music Channel',views:'Demo video',category:'Music',thumb:'https://img.youtube.com/vi/kJQP7kiw5Fk/hqdefault.jpg'},
- {id:'dQw4w9WgXcQ',title:'Internet Video Classic',channel:'Video Classics',views:'Classic video',category:'Entertainment',thumb:'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg'},
- {id:'BaW_jenozKc',title:'Travel and Adventure Video',channel:'Travel World',views:'Demo video',category:'Education',thumb:'https://img.youtube.com/vi/BaW_jenozKc/hqdefault.jpg'},
- {id:'C0DPdy98e4c',title:'Gaming and Fun',channel:'Game Zone',views:'Demo video',category:'Gaming',thumb:'https://img.youtube.com/vi/C0DPdy98e4c/hqdefault.jpg'},
- {id:'tgbNymZ7vqY',title:'Funny Moments',channel:'Fun Videos',views:'Demo video',category:'Entertainment',thumb:'https://img.youtube.com/vi/tgbNymZ7vqY/hqdefault.jpg'},
- {id:'ScMzIvxBSi4',title:'Short Clip and Highlights',channel:'Short Clips',views:'Demo video',category:'Shorts',thumb:'https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg'}
-];
 
-const grid = document.getElementById('videoGrid');
-let currentVideos = [...videos];
+/*
+==================================================
+ GUDU TUBE
+ YouTube Data API v3
+==================================================
+*/
 
-function render(list){
- currentVideos=list;
- grid.innerHTML='';
- if(!list.length){grid.innerHTML='<div class="empty">😕 No videos found. Try another search.</div>';return}
- list.forEach((v)=>{
-  const card=document.createElement('article');
-  card.className='video';
-  card.innerHTML=`
-   <img class="thumb" src="${v.thumb}" alt="" loading="lazy">
-   <div class="details">
-    <div class="avatar">${v.channel.charAt(0)}</div>
-    <div><div class="vtitle"></div>
-    <div class="meta"></div></div>
-   </div>`;
-  card.querySelector('.vtitle').textContent=v.title;
-  card.querySelector('.meta').textContent=v.channel+' · '+v.views;
-  card.onclick=()=>openVideo(v);
-  grid.appendChild(card);
- });
+const API_KEY = "PASTE_YOUR_YOUTUBE_API_KEY_HERE";
+
+const API =
+"https://www.googleapis.com/youtube/v3";
+
+
+let currentChannel = "";
+
+
+/* =========================================
+   API CHECK
+========================================= */
+
+function apiReady(){
+
+  if(
+    !API_KEY ||
+    API_KEY === "PASTE_YOUR_YOUTUBE_API_KEY_HERE"
+  ){
+
+    document.getElementById("results").innerHTML = `
+      <div class="error">
+        <h2>⚠️ YouTube API Key Missing</h2>
+        <p style="margin-top:10px">
+        Open index.html and put your YouTube API key
+        inside API_KEY.
+        </p>
+      </div>
+    `;
+
+    return false;
+  }
+
+  return true;
 }
 
-function openVideo(v){
- document.getElementById('homePage').style.display='none';
- document.getElementById('playerPage').style.display='block';
- document.getElementById('playerContent').innerHTML=`
-  <iframe class="player" src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1" title="Video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-  <h2 class="playerTitle"></h2>
-  <div class="playerMeta"></div>
-  <div class="description"><b>About this video</b><br>Welcome to GUDU TUBE! Enjoy watching videos. This is a demo video page.</div>`;
- document.querySelector('.playerTitle').textContent=v.title;
- document.querySelector('.playerMeta').textContent=v.channel+' · '+v.category;
- window.scrollTo(0,0);
+
+/* =========================================
+   SEARCH VIDEOS
+========================================= */
+
+async function searchYouTube(){
+
+  if(!apiReady()) return;
+
+  const query =
+    document.getElementById("searchInput").value.trim();
+
+  if(!query) return;
+
+  document.getElementById("title").textContent =
+    "Results for: " + query;
+
+  document.getElementById("results").innerHTML =
+    `<div class="loading">Searching YouTube...</div>`;
+
+  try{
+
+    const url =
+      `${API}/search?part=snippet`+
+      `&q=${encodeURIComponent(query)}`+
+      `&type=video`+
+      `&maxResults=24`+
+      `&key=${API_KEY}`;
+
+    const response = await fetch(url);
+
+    const data = await response.json();
+
+    if(data.error){
+      throw new Error(data.error.message);
+    }
+
+    displayVideos(data.items);
+
+  }catch(error){
+
+    document.getElementById("results").innerHTML =
+      `<div class="error">❌ ${error.message}</div>`;
+
+  }
+
 }
 
-function showHome(){
- document.getElementById('homePage').style.display='block';
- document.getElementById('playerPage').style.display='none';
- document.getElementById('playerContent').innerHTML='';
- render(videos);
- window.scrollTo(0,0);
+
+/* =========================================
+   CATEGORY SEARCH
+========================================= */
+
+function searchCategory(category){
+
+  document.getElementById("searchInput").value =
+    category;
+
+  searchYouTube();
+
 }
 
-function filterCategory(category,button){
- document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
- if(button)button.classList.add('active');
- const list=category==='All'?videos:videos.filter(v=>v.category===category);
- render(list);
- document.getElementById('homePage').style.display='block';
- document.getElementById('playerPage').style.display='none';
+
+/* =========================================
+   POPULAR VIDEOS
+========================================= */
+
+async function loadPopular(){
+
+  if(!apiReady()) return;
+
+  document.getElementById("title").textContent =
+    "Popular YouTube Videos";
+
+  document.getElementById("results").innerHTML =
+    `<div class="loading">Loading popular videos...</div>`;
+
+  try{
+
+    const url =
+      `${API}/videos?part=snippet,statistics`+
+      `&chart=mostPopular`+
+      `&regionCode=ES`+
+      `&maxResults=24`+
+      `&key=${API_KEY}`;
+
+    const response = await fetch(url);
+
+    const data = await response.json();
+
+    if(data.error){
+      throw new Error(data.error.message);
+    }
+
+    displayPopular(data.items);
+
+  }catch(error){
+
+    document.getElementById("results").innerHTML =
+      `<div class="error">❌ ${error.message}</div>`;
+
+  }
+
 }
 
-document.getElementById('searchForm').addEventListener('submit',e=>{
- e.preventDefault();
- const q=document.getElementById('searchInput').value.trim().toLowerCase();
- render(videos.filter(v=>(v.title+' '+v.channel+' '+v.category).toLowerCase().includes(q)));
- document.getElementById('homePage').style.display='block';
- document.getElementById('playerPage').style.display='none';
-});
 
-function showHistory(){
- alert('Watch history is not saved in this demo yet.');
+/* =========================================
+   DISPLAY SEARCH RESULTS
+========================================= */
+
+function displayVideos(items){
+
+  const container =
+    document.getElementById("results");
+
+  if(!items || items.length === 0){
+
+    container.innerHTML =
+      `<div class="error">No videos found.</div>`;
+
+    return;
+  }
+
+  container.innerHTML =
+    items.map(item=>{
+
+      const video = item.id.videoId;
+
+      const snippet = item.snippet;
+
+      return `
+
+      <div
+        class="card"
+        onclick="openVideo(
+          '${video}',
+          '${escapeText(snippet.title)}',
+          '${escapeText(snippet.channelTitle)}',
+          '${snippet.channelId}'
+        )"
+      >
+
+        <img
+          class="thumbnail"
+          src="${snippet.thumbnails.high.url}"
+          loading="lazy"
+        >
+
+        <div class="info">
+
+          <img
+            class="channel-img"
+            src="${snippet.thumbnails.default.url}"
+          >
+
+          <div>
+
+            <h3>
+              ${escapeHTML(snippet.title)}
+            </h3>
+
+            <p>
+              ${escapeHTML(snippet.channelTitle)}
+            </p>
+
+            <p>
+              ${formatDate(snippet.publishedAt)}
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      `;
+
+    }).join("");
+
 }
 
-function toggleSidebar(){
- const s=document.getElementById('sidebar');
- if(s.style.display==='none'){s.style.display='';}
- else{s.style.display='none';}
- document.querySelector('main').style.marginLeft=s.style.display==='none'?'0':'';
- document.querySelector('main').style.width=s.style.display==='none'?'100%':'';
+
+/* =========================================
+   DISPLAY POPULAR
+========================================= */
+
+function displayPopular(items){
+
+  const container =
+    document.getElementById("results");
+
+  container.innerHTML =
+    items.map(item=>{
+
+      const snippet = item.snippet;
+
+      return `
+
+      <div
+        class="card"
+        onclick="openVideo(
+          '${item.id}',
+          '${escapeText(snippet.title)}',
+          '${escapeText(snippet.channelTitle)}',
+          '${snippet.channelId}'
+        )"
+      >
+
+        <img
+          class="thumbnail"
+          src="${snippet.thumbnails.high.url}"
+          loading="lazy"
+        >
+
+        <div class="info">
+
+          <img
+            class="channel-img"
+            src="${snippet.thumbnails.default.url}"
+          >
+
+          <div>
+
+            <h3>
+              ${escapeHTML(snippet.title)}
+            </h3>
+
+            <p>
+              ${escapeHTML(snippet.channelTitle)}
+            </p>
+
+            <p>
+              ${item.statistics?.viewCount
+                ? formatViews(item.statistics.viewCount)
+                : ""
+              }
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      `;
+
+    }).join("");
+
 }
-render(videos);
+
+
+/* =========================================
+   VIDEO PLAYER
+========================================= */
+
+function openVideo(
+  id,
+  title,
+  channel,
+  channelId
+){
+
+  currentChannel = channelId;
+
+  document.getElementById("modal")
+    .classList.add("show");
+
+  document.getElementById("youtubePlayer").src =
+    `https://www.youtube.com/embed/${id}?autoplay=1`;
+
+  document.getElementById("playerTitle")
+    .textContent = title;
+
+  document.getElementById("playerChannel")
+    .textContent = channel;
+
+}
+
+
+/* =========================================
+   CLOSE PLAYER
+========================================= */
+
+function closePlayer(){
+
+  document.getElementById("modal")
+    .classList.remove("show");
+
+  document.getElementById("youtubePlayer").src =
+    "";
+
+}
+
+
+/* =========================================
+   SUBSCRIBE
+========================================= */
+
+function subscribeChannel(){
+
+  if(!currentChannel) return;
+
+  window.open(
+    `https://www.youtube.com/channel/${currentChannel}`,
+    "_blank"
+  );
+
+}
+
+
+/* =========================================
+   HOME
+========================================= */
+
+function home(){
+
+  document.getElementById("searchInput").value = "";
+
+  document.getElementById("title").textContent =
+    "Popular YouTube Videos";
+
+  loadPopular();
+
+}
+
+
+/* =========================================
+   HELPERS
+========================================= */
+
+function formatDate(date){
+
+  return new Date(date).toLocaleDateString();
+
+}
+
+
+function formatViews(number){
+
+  return Number(number).toLocaleString() +
+    " views";
+
+}
+
+
+function escapeHTML(text){
+
+  return text
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function escapeText(text){
+
+  return text
+    .replaceAll("\\","\\\\")
+    .replaceAll("'","\\'")
+    .replaceAll("\n"," ");
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+loadPopular();
+
 </script>
+
 </body>
 </html>
