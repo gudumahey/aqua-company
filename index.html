@@ -2,2952 +2,2883 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ClassHub Classroom Manager</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ClassRoom Pro</title>
 
 <style>
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,Helvetica,sans-serif;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --bg:#07111f;
+  --panel:#0d1b2d;
+  --panel2:#12243a;
+  --border:#223957;
+  --text:#eef5ff;
+  --muted:#8fa5c1;
+  --accent:#5b8cff;
+  --accent2:#7c5cff;
+  --green:#28c98b;
+  --red:#ff5d6c;
+  --yellow:#ffc857;
 }
 
 body{
-    background:#eef2f7;
-    color:#172033;
+  font-family:Inter,Arial,sans-serif;
+  background:
+    radial-gradient(circle at 20% 10%,rgba(91,140,255,.15),transparent 30%),
+    radial-gradient(circle at 90% 80%,rgba(124,92,255,.12),transparent 30%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button,input,select,textarea{
+  font:inherit;
 }
 
 button{
-    border:0;
-    cursor:pointer;
+  cursor:pointer;
 }
 
 .app{
-    display:flex;
-    min-height:100vh;
+  display:flex;
+  min-height:100vh;
 }
 
 /* SIDEBAR */
 
 .sidebar{
-    width:245px;
-    background:linear-gradient(180deg,#111827,#1e293b);
-    color:white;
-    padding:20px 14px;
-    position:fixed;
-    top:0;
-    left:0;
-    bottom:0;
-    z-index:50;
+  width:255px;
+  background:rgba(8,19,34,.96);
+  border-right:1px solid var(--border);
+  padding:22px 15px;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  z-index:20;
 }
 
 .logo{
-    font-size:25px;
-    font-weight:800;
-    padding:10px 12px 25px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:8px;
+  margin-bottom:25px;
+}
+
+.logo-icon{
+  width:45px;
+  height:45px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  font-size:23px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:0 10px 30px rgba(91,140,255,.3);
+}
+
+.logo h1{
+  font-size:18px;
 }
 
 .logo span{
-    color:#60a5fa;
+  color:var(--muted);
+  font-size:11px;
 }
 
 .nav{
-    display:flex;
-    flex-direction:column;
-    gap:7px;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
 }
 
 .nav button{
-    background:transparent;
-    color:#cbd5e1;
-    text-align:left;
-    padding:14px;
-    border-radius:12px;
-    font-size:15px;
+  border:0;
+  background:transparent;
+  color:#a9bad0;
+  padding:13px 14px;
+  border-radius:12px;
+  text-align:left;
+  transition:.2s;
 }
 
 .nav button:hover,
 .nav button.active{
-    background:#2563eb;
-    color:white;
+  background:linear-gradient(90deg,rgba(91,140,255,.2),rgba(124,92,255,.12));
+  color:white;
+}
+
+.mobile-menu{
+  display:none;
 }
 
 /* MAIN */
 
 .main{
-    margin-left:245px;
-    width:calc(100% - 245px);
-    padding:25px;
+  margin-left:255px;
+  width:calc(100% - 255px);
+  padding:28px;
 }
 
 .topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:25px;
 }
 
-.topbar h1{
-    font-size:28px;
+.topbar h2{
+  font-size:27px;
 }
 
-.teacher{
-    background:white;
-    padding:11px 16px;
-    border-radius:14px;
-    box-shadow:0 5px 20px #0001;
+.topbar p{
+  color:var(--muted);
+  margin-top:5px;
 }
 
-/* PAGE */
+.profile{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:11px 15px;
+  color:#b9c9dd;
+}
+
+/* PAGES */
 
 .page{
-    display:none;
+  display:none;
 }
 
 .page.active{
-    display:block;
+  display:block;
 }
 
 /* CARDS */
 
-.card,
-.box{
-    background:white;
-    border-radius:20px;
-    padding:20px;
-    box-shadow:0 8px 25px #0000000d;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
 }
 
-.stats{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:16px;
-    margin-bottom:22px;
+.card{
+  background:linear-gradient(145deg,rgba(16,35,58,.95),rgba(9,24,42,.95));
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 15px 45px rgba(0,0,0,.15);
 }
 
-.number{
-    font-size:30px;
-    font-weight:bold;
-    margin-top:8px;
+.stat-number{
+  font-size:30px;
+  font-weight:800;
+  margin-top:8px;
 }
 
-.blue{color:#2563eb}
-.greenText{color:#16a34a}
-.redText{color:#dc2626}
-.orangeText{color:#ea580c}
-.purpleText{color:#7c3aed}
+.stat-label{
+  color:var(--muted);
+  font-size:13px;
+}
 
-/* BUTTON */
+.section-title{
+  margin:28px 0 14px;
+  font-size:20px;
+}
+
+/* BUTTONS */
 
 .btn{
-    background:#2563eb;
-    color:white;
-    padding:11px 15px;
-    border-radius:10px;
-    font-weight:bold;
+  border:0;
+  padding:10px 15px;
+  border-radius:10px;
+  color:white;
+  background:#1b3150;
+  margin:3px;
 }
 
 .btn:hover{
-    opacity:.88;
+  filter:brightness(1.2);
+}
+
+.btn.primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
 }
 
 .btn.green{
-    background:#16a34a;
+  background:#167a59;
 }
 
 .btn.red{
-    background:#dc2626;
+  background:#842d3b;
 }
 
-.btn.gray{
-    background:#64748b;
-}
-
-.btn.purple{
-    background:#7c3aed;
+.btn.yellow{
+  background:#85651c;
 }
 
 /* TABLE */
 
-.tablebox{
-    background:white;
-    border-radius:20px;
-    padding:20px;
-    overflow:auto;
-    box-shadow:0 8px 25px #0000000d;
+.table-wrap{
+  overflow:auto;
+  border:1px solid var(--border);
+  border-radius:15px;
 }
 
 table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:850px;
+  width:100%;
+  border-collapse:collapse;
+  min-width:750px;
 }
 
-th,
-td{
-    padding:12px;
-    border-bottom:1px solid #e5e7eb;
-    text-align:left;
+th,td{
+  padding:13px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
 }
 
 th{
-    background:#f8fafc;
-    position:sticky;
-    top:0;
-    z-index:2;
+  color:#a9c0dd;
+  background:#0b1a2d;
+  font-size:13px;
 }
 
-/* ATTENDANCE */
-
-.att{
-    display:flex;
-    align-items:center;
-    gap:5px;
+td{
+  color:#dce8f7;
 }
 
-.att button{
-    padding:7px 9px;
-    border-radius:8px;
-    font-weight:bold;
+tr:hover td{
+  background:rgba(255,255,255,.02);
 }
 
-.p{
-    background:#dcfce7;
-    color:#15803d;
+/* FORMS */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
 }
 
-.a{
-    background:#fee2e2;
-    color:#b91c1c;
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
 }
 
-.l{
-    background:#ffedd5;
-    color:#c2410c;
+.field label{
+  font-size:13px;
+  color:#9eb2cb;
 }
 
-.x{
-    background:#e5e7eb;
-    color:#475569;
-    padding:7px;
-    border-radius:8px;
-}
-
-/* INPUTS */
-
-input,
-textarea,
-select{
-    width:100%;
-    padding:11px;
-    border:1px solid #d1d5db;
-    border-radius:10px;
-    outline:none;
+input,select,textarea{
+  background:#08182a;
+  color:white;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px;
+  outline:none;
 }
 
 textarea{
-    min-height:350px;
-    resize:vertical;
+  min-height:170px;
+  resize:vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:var(--accent);
 }
 
 /* BOOKS */
 
-.books{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:20px;
+.book-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
 }
 
-.book{
-    background:white;
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 8px 25px #0001;
+.book-card{
+  min-height:240px;
+  border-radius:20px;
+  padding:20px;
+  border:1px solid var(--border);
+  background:
+    linear-gradient(145deg,rgba(31,62,105,.9),rgba(12,25,43,.98));
+  cursor:pointer;
+  transition:.25s;
+  position:relative;
+  overflow:hidden;
 }
 
-.cover{
-    height:190px;
-    color:white;
-    padding:25px;
-    display:flex;
-    flex-direction:column;
-    justify-content:end;
-    background:linear-gradient(135deg,#2563eb,#7c3aed);
+.book-card:hover{
+  transform:translateY(-6px);
+  border-color:#527ec1;
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
 }
 
-.book:nth-child(2) .cover{
-    background:linear-gradient(135deg,#059669,#0f766e);
+.book-icon{
+  font-size:55px;
+  margin-bottom:25px;
 }
 
-.book:nth-child(3) .cover{
-    background:linear-gradient(135deg,#ea580c,#dc2626);
+.book-card h3{
+  font-size:20px;
+  margin-bottom:8px;
 }
 
-.book:nth-child(4) .cover{
-    background:linear-gradient(135deg,#0891b2,#1d4ed8);
+.book-card p{
+  color:#a4b8d0;
+  font-size:13px;
+  line-height:1.6;
 }
 
-.bookbody{
-    padding:20px;
+.chapter-list{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
 }
-
-/* BOOK READER */
 
 .chapter-card{
-    background:white;
-    border-radius:18px;
-    padding:20px;
-    margin-top:12px;
-    box-shadow:0 5px 18px #0000000d;
-    cursor:pointer;
-    transition:.2s;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:18px;
+  cursor:pointer;
+  transition:.2s;
 }
 
 .chapter-card:hover{
-    transform:translateY(-2px);
-    background:#f8fbff;
+  border-color:var(--accent);
+  transform:translateY(-2px);
+}
+
+.chapter-card h3{
+  margin-bottom:7px;
 }
 
 .chapter-card p{
-    margin-top:7px;
-    color:#64748b;
+  color:var(--muted);
+  font-size:13px;
 }
 
-.book-page{
-    background:white;
-    border-radius:18px;
-    padding:25px;
-    margin-top:15px;
-    box-shadow:0 5px 18px #0000000d;
+/* READER */
+
+.reader{
+  max-width:1050px;
+  margin:auto;
 }
 
-.book-page h2{
-    margin-bottom:15px;
+.reader-top{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:center;
+  margin-bottom:18px;
 }
 
-.book-page p{
-    font-size:16px;
-    line-height:1.8;
-    white-space:pre-line;
+.reader-page{
+  background:#f7f8fb;
+  color:#182334;
+  min-height:650px;
+  border-radius:18px;
+  padding:55px;
+  box-shadow:0 25px 80px rgba(0,0,0,.35);
 }
 
-.book-diagram{
-    margin-top:20px;
-    background:#f8fafc;
-    border-radius:15px;
-    padding:25px;
-    text-align:center;
-    font-size:32px;
+.reader-page h1{
+  color:#16253a;
+  font-size:30px;
+  margin-bottom:10px;
+}
+
+.reader-page h2{
+  color:#294d7b;
+  margin:22px 0 10px;
+}
+
+.reader-page h3{
+  color:#3d638e;
+  margin:18px 0 8px;
+}
+
+.reader-page p{
+  font-size:16px;
+  line-height:1.85;
+  margin:12px 0;
+}
+
+.page-number{
+  color:#6d7b8d;
+  font-size:13px;
+}
+
+.diagram{
+  margin:25px 0;
+  border:2px dashed #aebbd0;
+  border-radius:15px;
+  padding:25px;
+  text-align:center;
+  background:#edf2f8;
+}
+
+.diagram-box{
+  display:inline-block;
+  padding:15px 22px;
+  border-radius:12px;
+  background:white;
+  border:2px solid #7394bb;
+  margin:6px;
+}
+
+.reader-controls{
+  display:flex;
+  justify-content:space-between;
+  margin-top:18px;
+  gap:10px;
 }
 
 /* DOCUMENTS */
 
-.documents{
-    display:grid;
-    grid-template-columns:280px 1fr;
-    gap:18px;
+.documents-grid{
+  display:grid;
+  grid-template-columns:320px 1fr;
+  gap:18px;
 }
 
-.docitem{
-    padding:12px;
-    background:#f1f5f9;
-    border-radius:10px;
-    margin-top:8px;
-    cursor:pointer;
+.doc-list{
+  max-height:650px;
+  overflow:auto;
 }
 
-.docitem:hover{
-    background:#dbeafe;
+.doc-item{
+  padding:14px;
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:12px;
+  margin-bottom:8px;
+  cursor:pointer;
+}
+
+.doc-item.active{
+  border-color:var(--accent);
+  background:#102744;
 }
 
 /* WHITEBOARD */
 
-.board-tools{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    align-items:center;
-    background:white;
-    padding:15px;
-    border-radius:16px;
-    margin-bottom:15px;
-}
-
-.board-tools input[type="color"]{
-    width:45px;
-    height:40px;
-    padding:2px;
-}
-
-.board-tools input[type="range"]{
-    width:130px;
-}
-
-.canvas-box{
-    background:white;
-    padding:12px;
-    border-radius:20px;
-    box-shadow:0 8px 25px #0000000d;
+.whiteboard-tools{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
 }
 
 #whiteboardCanvas{
-    width:100%;
-    height:600px;
-    display:block;
-    background:white;
-    border:2px solid #dbe3ed;
-    border-radius:15px;
-    cursor:crosshair;
-    touch-action:none;
+  width:100%;
+  height:600px;
+  display:block;
+  background:white;
+  border-radius:15px;
+  border:2px solid var(--border);
+  touch-action:none;
 }
 
-/* NOTICE */
+/* ATTENDANCE */
 
-.notice{
-    padding:12px;
-    background:#fff7ed;
-    border-radius:12px;
-    color:#9a3412;
-    margin-bottom:15px;
+.attendance-toolbar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
+}
+
+/* BADGES */
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:999px;
+  font-size:11px;
+}
+
+.present{
+  background:#123e31;
+  color:#57e0ad;
+}
+
+.absent{
+  background:#4a2027;
+  color:#ff7f8b;
+}
+
+.late{
+  background:#4b3a16;
+  color:#ffd96b;
+}
+
+.expelled{
+  background:#4a2027;
+  color:#ff7f8b;
 }
 
 /* MOBILE */
 
-@media(max-width:950px){
+@media(max-width:1000px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
 
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .books{
-        grid-template-columns:1fr;
-    }
+  .book-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
 }
 
 @media(max-width:700px){
 
-    .sidebar{
-        width:70px;
-    }
+  .sidebar{
+    width:0;
+    padding:0;
+    overflow:hidden;
+  }
 
-    .logo{
-        font-size:0;
-        text-align:center;
-    }
+  .sidebar.open{
+    width:250px;
+    padding:20px 15px;
+  }
 
-    .logo span{
-        font-size:20px;
-    }
+  .main{
+    margin-left:0;
+    width:100%;
+    padding:18px;
+  }
 
-    .nav button{
-        font-size:0;
-        text-align:center;
-    }
+  .mobile-menu{
+    display:block;
+    position:fixed;
+    right:15px;
+    top:15px;
+    z-index:30;
+    background:#173252;
+    color:white;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 13px;
+  }
 
-    .main{
-        margin-left:70px;
-        width:calc(100% - 70px);
-        padding:14px;
-    }
+  .topbar{
+    padding-right:55px;
+  }
 
-    .teacher{
-        display:none;
-    }
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
 
-    .documents{
-        grid-template-columns:1fr;
-    }
+  .book-grid{
+    grid-template-columns:1fr;
+  }
 
-    #whiteboardCanvas{
-        height:500px;
-    }
+  .chapter-list{
+    grid-template-columns:1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .documents-grid{
+    grid-template-columns:1fr;
+  }
+
+  .reader-page{
+    padding:25px;
+  }
+
+  .reader-page h1{
+    font-size:24px;
+  }
+
+  .reader-page p{
+    font-size:15px;
+  }
+
+  #whiteboardCanvas{
+    height:450px;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+
 <div class="app">
 
-<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
 
-<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icon">📚</div>
+    <div>
+      <h1>ClassRoom Pro</h1>
+      <span>Teacher Management</span>
+    </div>
+  </div>
 
-<div class="logo">
-📚 Class<span>Hub</span>
-</div>
+  <div class="nav">
 
-<div class="nav">
+    <button class="active" onclick="showPage('dashboard',this)">
+      🏠 Dashboard
+    </button>
 
-<button class="active" onclick="showPage('dashboard',this)">
-🏠 Dashboard
-</button>
+    <button onclick="showPage('students',this)">
+      👨‍🎓 Students
+    </button>
 
-<button onclick="showPage('students',this)">
-👨‍🎓 Students
-</button>
+    <button onclick="showPage('attendance',this)">
+      📅 Attendance
+    </button>
 
-<button onclick="showPage('attendance',this)">
-✅ Attendance
-</button>
+    <button onclick="showPage('books',this)">
+      📚 Books
+    </button>
 
-<button onclick="showPage('books',this)">
-📚 Books
-</button>
+    <button onclick="showPage('documents',this)">
+      📄 Documents
+    </button>
 
-<button onclick="showPage('documents',this)">
-📄 Documents
-</button>
+    <button onclick="showPage('whiteboard',this)">
+      🖊️ Whiteboard
+    </button>
 
-<button onclick="showPage('whiteboard',this)">
-🖊️ Whiteboard
-</button>
+  </div>
 
-</div>
 </aside>
-
-
-<!-- MAIN -->
 
 <main class="main">
 
-<div class="topbar">
+<header class="topbar">
 
-<h1 id="pageTitle">
-Class Dashboard
-</h1>
+  <div>
+    <h2 id="pageTitle">Dashboard</h2>
+    <p>Manage your classroom from one place.</p>
+  </div>
 
-<div class="teacher">
-👨‍🏫 Teacher • Class 10A
-</div>
+  <div class="profile">
+    👨‍🏫 Teacher
+  </div>
 
-</div>
+</header>
 
 
-<!-- ======================================
-     DASHBOARD
-====================================== -->
+<!-- DASHBOARD -->
 
 <section id="dashboard" class="page active">
 
-<div class="stats">
+  <div class="grid">
 
-<div class="card">
-👨‍🎓 Students
-<div class="number blue" id="totalStudents">
-40
-</div>
-</div>
+    <div class="card">
+      <div class="stat-label">Active Students</div>
+      <div class="stat-number" id="statStudents">40</div>
+    </div>
 
-<div class="card">
-🟢 Present
-<div class="number greenText" id="presentCount">
-40
-</div>
-</div>
+    <div class="card">
+      <div class="stat-label">Expelled</div>
+      <div class="stat-number" id="statExpelled">0</div>
+    </div>
 
-<div class="card">
-🔴 Absent
-<div class="number redText" id="absentCount">
-0
-</div>
-</div>
+    <div class="card">
+      <div class="stat-label">Books</div>
+      <div class="stat-number">4</div>
+    </div>
 
-<div class="card">
-🟠 Late
-<div class="number orangeText" id="lateCount">
-0
-</div>
-</div>
+    <div class="card">
+      <div class="stat-label">Total Pages</div>
+      <div class="stat-number">320+</div>
+    </div>
 
-<div class="card">
-🚫 Expelled
-<div class="number purpleText" id="expelledCount">
-0
-</div>
-</div>
+  </div>
 
-</div>
+  <h3 class="section-title">Class Overview</h3>
 
+  <div class="grid">
 
-<div class="box">
+    <div class="card">
+      <h3>📚 Library</h3>
+      <p style="color:var(--muted);margin-top:8px">
+        Four educational books with sixteen chapters and twenty pages
+        inside every chapter.
+      </p>
+      <button class="btn primary" onclick="showPage('books')">
+        Open Library
+      </button>
+    </div>
 
-<h2>📊 Class Overview</h2>
+    <div class="card">
+      <h3>📅 Attendance</h3>
+      <p style="color:var(--muted);margin-top:8px">
+        Create attendance records for many different dates.
+      </p>
+      <button class="btn primary" onclick="showPage('attendance')">
+        Attendance
+      </button>
+    </div>
 
-<br>
+    <div class="card">
+      <h3>📄 Documents</h3>
+      <p style="color:var(--muted);margin-top:8px">
+        Create tasks and documents and assign them to students.
+      </p>
+      <button class="btn primary" onclick="showPage('documents')">
+        Documents
+      </button>
+    </div>
 
-<p>
-Welcome to ClassHub. Manage your students, attendance,
-books, assignments and classroom whiteboard here.
-</p>
+    <div class="card">
+      <h3>🖊️ Whiteboard</h3>
+      <p style="color:var(--muted);margin-top:8px">
+        Draw explanations, diagrams and classroom notes.
+      </p>
+      <button class="btn primary" onclick="showPage('whiteboard')">
+        Open Board
+      </button>
+    </div>
 
-<br>
-
-<button class="btn"
-onclick="showPage('attendance')">
-Take Attendance
-</button>
-
-<button class="btn green"
-onclick="showPage('whiteboard')">
-Open Whiteboard
-</button>
-
-</div>
+  </div>
 
 </section>
 
 
-<!-- ======================================
-     STUDENTS
-====================================== -->
+<!-- STUDENTS -->
 
 <section id="students" class="page">
 
-<div class="tablebox">
+  <div class="card">
 
-<div style="
-display:flex;
-justify-content:space-between;
-gap:10px;
-flex-wrap:wrap;
-">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:15px">
 
-<h2>👨‍🎓 Student Management</h2>
+      <h3>👨‍🎓 Students</h3>
 
-<button class="btn green"
-onclick="restoreAllStudents()">
-↩️ Restore All
-</button>
+      <div>
+        <button class="btn green" onclick="restoreAll()">
+          Restore All
+        </button>
+      </div>
 
-</div>
+    </div>
 
-<br>
+    <div class="table-wrap">
 
-<table>
+      <table>
 
-<thead>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
 
-<tr>
-<th>#</th>
-<th>Name</th>
-<th>Roll Number</th>
-<th>Age</th>
-<th>Status</th>
-<th>Action</th>
-</tr>
+        <tbody id="studentsTable"></tbody>
 
-</thead>
+      </table>
 
-<tbody id="studentsTable">
-</tbody>
+    </div>
 
-</table>
-
-</div>
+  </div>
 
 </section>
 
 
-<!-- ======================================
-     ATTENDANCE
-====================================== -->
+<!-- ATTENDANCE -->
 
 <section id="attendance" class="page">
 
-<div class="tablebox">
+  <div class="card">
 
-<div style="
-display:flex;
-gap:10px;
-align-items:center;
-flex-wrap:wrap;
-">
+    <h3>📅 Attendance Manager</h3>
 
-<h2>✅ Multi-Day Attendance</h2>
+    <p style="color:var(--muted);margin:7px 0 18px">
+      Select a date and mark each student as Present, Absent or Late.
+      You can keep adding as many days as you want.
+    </p>
 
-<input
-type="date"
-id="attendanceDate"
-style="width:180px;"
->
+    <div class="attendance-toolbar">
 
-<button class="btn green"
-onclick="addAttendanceDay()">
-＋ Add Day
-</button>
+      <input type="date" id="attendanceDate">
 
-<button class="btn gray"
-onclick="markSelectedDayPresent()">
-🟢 All Present
-</button>
+      <button class="btn primary" onclick="addAttendanceDay()">
+        + Add Day
+      </button>
 
-</div>
+      <button class="btn green" onclick="markAll('Present')">
+        All Present
+      </button>
 
-<br>
+      <button class="btn red" onclick="markAll('Absent')">
+        All Absent
+      </button>
 
-<div class="notice">
+      <button class="btn yellow" onclick="markAll('Late')">
+        All Late
+      </button>
 
-<b>P</b> = Present &nbsp;&nbsp;
-<b>A</b> = Absent &nbsp;&nbsp;
-<b>L</b> = Late
+    </div>
 
-<br><br>
+    <div class="table-wrap">
 
-Choose a date and mark attendance.
-Every date is saved separately in your browser.
+      <table>
 
-</div>
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Age</th>
+            <th>Present</th>
+            <th>Absent</th>
+            <th>Late</th>
+          </tr>
+        </thead>
 
-<table>
+        <tbody id="attendanceTable"></tbody>
 
-<thead id="attendanceHead">
-</thead>
+      </table>
 
-<tbody id="attendanceBody">
-</tbody>
+    </div>
 
-</table>
-
-</div>
+  </div>
 
 </section>
 
 
-<!-- ======================================
-     BOOKS LIBRARY
-====================================== -->
+<!-- BOOKS -->
 
 <section id="books" class="page">
 
-<div id="libraryView">
-
-<h2>📚 Class Library</h2>
-
-<p style="margin:8px 0 20px;">
-Click a book to open it and read its chapters.
-</p>
-
-
-<div class="books">
-
-
-<!-- SCIENCE -->
-
-<div class="book">
-
-<div class="cover">
-
-<h2>🔬 Science Explorer</h2>
-
-<p>Class 10 • 120 Pages</p>
-
-</div>
-
-<div class="bookbody">
-
-<p>
-Life processes, chemical reactions,
-electricity and light.
-</p>
-
-<br>
-
-<button class="btn"
-onclick="openBook('science')">
-📖 Open Book
-</button>
-
-</div>
-
-</div>
-
-
-<!-- MATH -->
-
-<div class="book">
-
-<div class="cover">
-
-<h2>📐 Mathematics</h2>
-
-<p>Class 10 • 180 Pages</p>
-
-</div>
-
-<div class="bookbody">
-
-<p>
-Real numbers, polynomials,
-geometry and statistics.
-</p>
-
-<br>
-
-<button class="btn purple"
-onclick="openBook('math')">
-📖 Open Book
-</button>
-
-</div>
-
-</div>
-
-
-<!-- COMPUTER -->
-
-<div class="book">
-
-<div class="cover">
-
-<h2>💻 Computer Science</h2>
-
-<p>Class 10 • 150 Pages</p>
-
-</div>
-
-<div class="bookbody">
-
-<p>
-Computer fundamentals,
-programming, networks and safety.
-</p>
-
-<br>
-
-<button class="btn red"
-onclick="openBook('computer')">
-📖 Open Book
-</button>
-
-</div>
-
-</div>
-
-
-<!-- GEOGRAPHY -->
-
-<div class="book">
-
-<div class="cover">
-
-<h2>🌍 World Geography</h2>
-
-<p>Class 10 • 96 Pages</p>
-
-</div>
-
-<div class="bookbody">
-
-<p>
-Earth, climate, natural resources
-and population.
-</p>
-
-<br>
-
-<button class="btn green"
-onclick="openBook('geography')">
-📖 Open Book
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- BOOK OPEN -->
-
-<div id="bookReader" style="display:none;">
-
-<div class="box">
-
-<button class="btn gray"
-onclick="closeBook()">
-← Back to Library
-</button>
-
-<br><br>
-
-<h1 id="readerBookTitle"></h1>
-
-<p id="readerBookDescription"
-style="margin-top:8px;color:#64748b;">
-</p>
-
-<br>
-
-<h2>📑 Chapters</h2>
-
-<div id="chapterList">
-</div>
-
-</div>
-
-</div>
-
-
-<!-- CHAPTER OPEN -->
-
-<div id="chapterReader" style="display:none;">
-
-<div class="box">
-
-<button class="btn gray"
-onclick="backToChapters()">
-← Back to Chapters
-</button>
-
-<br><br>
-
-<h1 id="readerChapterTitle"></h1>
-
-<p id="readerChapterInfo"
-style="margin-top:8px;color:#64748b;">
-</p>
-
-<div id="chapterPages">
-</div>
-
-</div>
-
-</div>
+  <div id="bookLibrary">
+
+    <h3 class="section-title">📚 School Library</h3>
+
+    <div class="book-grid">
+
+      <div class="book-card" onclick="openBook(0)">
+        <div class="book-icon">🔬</div>
+        <h3>Science Explorer</h3>
+        <p>
+          Life processes, chemical reactions, electricity and light.
+          Four chapters with twenty detailed pages each.
+        </p>
+      </div>
+
+      <div class="book-card" onclick="openBook(1)">
+        <div class="book-icon">📐</div>
+        <h3>Mathematics</h3>
+        <p>
+          Real numbers, polynomials, geometry and statistics.
+        </p>
+      </div>
+
+      <div class="book-card" onclick="openBook(2)">
+        <div class="book-icon">💻</div>
+        <h3>Computer Science</h3>
+        <p>
+          Computers, programming, networks and cyber safety.
+        </p>
+      </div>
+
+      <div class="book-card" onclick="openBook(3)">
+        <div class="book-icon">🌍</div>
+        <h3>World Geography</h3>
+        <p>
+          Earth, climate, natural resources and population.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="bookChapters" style="display:none"></div>
+
+  <div id="bookReader" style="display:none"></div>
 
 </section>
 
 
-<!-- ======================================
-     DOCUMENTS
-====================================== -->
+<!-- DOCUMENTS -->
 
 <section id="documents" class="page">
 
-<div class="documents">
+  <div class="documents-grid">
 
+    <div class="card">
 
-<div class="box">
+      <h3 style="margin-bottom:14px">📄 Documents</h3>
 
-<h2>📄 Documents</h2>
+      <button class="btn primary" onclick="newDocument()">
+        + New Document
+      </button>
 
-<button class="btn"
-style="width:100%;margin-top:15px;"
-onclick="newDocument()">
-＋ New Document
-</button>
+      <div class="doc-list" id="documentList" style="margin-top:15px"></div>
 
-<div id="documentList">
-</div>
+    </div>
 
-</div>
+    <div class="card">
 
+      <div class="form-grid">
 
-<div class="box">
+        <div class="field">
+          <label>Document title</label>
+          <input id="docTitle" placeholder="Homework / Assignment">
+        </div>
 
-<div style="
-display:flex;
-gap:10px;
-align-items:center;
-">
+        <div class="field">
+          <label>Assign student</label>
+          <select id="docStudent"></select>
+        </div>
 
-<input
-id="documentTitle"
-placeholder="Document title"
->
+      </div>
 
-<button class="btn green"
-onclick="saveDocument()">
-💾 Save
-</button>
+      <div class="field" style="margin-top:15px">
+        <label>Document content</label>
+        <textarea id="docContent"
+        placeholder="Write the task, lesson, instructions or notes here..."></textarea>
+      </div>
 
-</div>
+      <div style="margin-top:12px">
 
-<br>
+        <button class="btn primary" onclick="saveDocument()">
+          💾 Save
+        </button>
 
-<select id="documentStudent">
+        <button class="btn" onclick="downloadDocument()">
+          ⬇️ Download TXT
+        </button>
 
-<option value="">
-General Class Document
-</option>
+        <button class="btn red" onclick="deleteDocument()">
+          Delete
+        </button>
 
-</select>
+      </div>
 
-<br><br>
+    </div>
 
-<textarea
-id="documentContent"
-placeholder="Write homework, assignment, notes or work for a student here..."
-></textarea>
-
-<br><br>
-
-<button class="btn gray"
-onclick="downloadDocument()">
-⬇️ Download TXT
-</button>
-
-</div>
-
-</div>
+  </div>
 
 </section>
 
 
-<!-- ======================================
-     WHITEBOARD
-====================================== -->
+<!-- WHITEBOARD -->
 
 <section id="whiteboard" class="page">
 
-<h2>🖊️ Classroom Whiteboard</h2>
+  <div class="card">
 
-<br>
+    <h3>🖊️ Classroom Whiteboard</h3>
 
-<div class="board-tools">
+    <p style="color:var(--muted);margin:7px 0 15px">
+      Draw with your mouse, trackpad or finger. Use the eraser to remove
+      parts of the drawing.
+    </p>
 
-<label>
-🎨 Color
-<input
-type="color"
-id="penColor"
-value="#111827"
->
-</label>
+    <div class="whiteboard-tools">
 
-<label>
-Thickness
-<input
-type="range"
-id="penSize"
-min="1"
-max="40"
-value="5"
->
-</label>
+      <button class="btn primary" onclick="setTool('pen')">
+        ✏️ Pen
+      </button>
 
-<button class="btn"
-onclick="usePen()">
-✏️ Pen
-</button>
+      <button class="btn" onclick="setTool('eraser')">
+        🧽 Eraser
+      </button>
 
-<button class="btn gray"
-onclick="useEraser()">
-🧽 Eraser
-</button>
+      <input type="color" id="penColor" value="#111111">
 
-<button class="btn red"
-onclick="clearWhiteboard()">
-🗑️ Clear
-</button>
+      <select id="penSize">
+        <option value="2">2 px</option>
+        <option value="4" selected>4 px</option>
+        <option value="7">7 px</option>
+        <option value="12">12 px</option>
+        <option value="20">20 px</option>
+      </select>
 
-<button class="btn green"
-onclick="saveWhiteboard()">
-💾 Save PNG
-</button>
+      <button class="btn red" onclick="clearBoard()">
+        🗑️ Clear
+      </button>
 
-</div>
+      <button class="btn green" onclick="downloadBoard()">
+        💾 Save PNG
+      </button>
 
+    </div>
 
-<div class="canvas-box">
+    <canvas id="whiteboardCanvas"></canvas>
 
-<canvas id="whiteboardCanvas"></canvas>
-
-</div>
+  </div>
 
 </section>
 
 </main>
-
 </div>
 
 
 <script>
 
-/* =========================================
-   PAGE NAVIGATION
-========================================= */
-
-const pageTitles = {
-
-dashboard:"Class Dashboard",
-students:"Students",
-attendance:"Attendance",
-books:"Class Books",
-documents:"Documents",
-whiteboard:"Whiteboard"
-
-};
-
-
-function showPage(page,button){
-
-document.querySelectorAll(".page").forEach(
-element => element.classList.remove("active")
-);
-
-document.getElementById(page).classList.add("active");
-
-document.querySelectorAll(".nav button").forEach(
-element => element.classList.remove("active")
-);
-
-if(button){
-button.classList.add("active");
-}
-
-document.getElementById("pageTitle").textContent =
-pageTitles[page];
-
-if(page === "whiteboard"){
-
-setTimeout(() => {
-
-setupCanvas();
-
-},100);
-
-}
-
-}
-
-
-/* =========================================
+/* =========================================================
    STUDENTS
-========================================= */
+========================================================= */
 
 const studentNames = [
+"Alex","Daniel","Lucas","Leo","Hugo",
+"Marc","Pablo","Adrian","Eric","Noah",
+"Adam","Mario","David","Enzo","Bruno",
+"Ivan","Nil","Jan","Pol","Joel",
+"Arjun","Aarav","Rohan","Kabir","Dev",
+"Ryan","Sam","Ethan","Liam","Oliver",
+"Sofia","Emma","Mia","Anna","Sara",
+"Laura","Julia","Clara","Nora","Aisha"
+];
 
-"Alex",
-"Daniel",
-"Lucas",
-"Leo",
-"Hugo",
-"Marc",
-"Pablo",
-"Adrian",
-"Eric",
-"Noah",
-"Adam",
-"Mario",
-"David",
-"Enzo",
-"Bruno",
-"Ivan",
-"Nil",
-"Jan",
-"Pol",
-"Joel",
-"Arjun",
-"Aarav",
-"Rohan",
-"Kabir",
-"Dev",
-"Ryan",
-"Sam",
-"Ethan",
-"Liam",
-"Oliver",
-"Sofia",
-"Emma",
-"Mia",
-"Anna",
-"Sara",
-"Laura",
-"Julia",
-"Clara",
-"Nora",
-"Aisha"
+let students = JSON.parse(localStorage.getItem("class_students")) || [];
+
+if(students.length !== 40){
+
+  students = studentNames.map((name,i)=>({
+    id:i+1,
+    name:name,
+    age:[15,16,17][i%3],
+    expelled:false
+  }));
+
+  localStorage.setItem(
+    "class_students",
+    JSON.stringify(students)
+  );
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const titles = {
+  dashboard:"Dashboard",
+  students:"Students",
+  attendance:"Attendance",
+  books:"Books",
+  documents:"Documents",
+  whiteboard:"Whiteboard"
+};
+
+function showPage(id,button){
+
+  document.querySelectorAll(".page").forEach(p=>{
+    p.classList.remove("active");
+  });
+
+  const page=document.getElementById(id);
+
+  if(page){
+    page.classList.add("active");
+  }
+
+  document.getElementById("pageTitle").textContent=titles[id] || "ClassRoom Pro";
+
+  if(button){
+
+    document.querySelectorAll(".nav button").forEach(b=>{
+      b.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+  }
+
+  if(id==="students") renderStudents();
+  if(id==="attendance") renderAttendance();
+  if(id==="documents"){
+    renderDocuments();
+    populateStudentSelect();
+  }
+
+  if(id==="whiteboard"){
+    setTimeout(setupCanvas,100);
+  }
+
+  if(window.innerWidth<=700){
+    document.getElementById("sidebar").classList.remove("open");
+  }
+}
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+
+/* =========================================================
+   STUDENT SYSTEM
+========================================================= */
+
+function renderStudents(){
+
+  const tbody=document.getElementById("studentsTable");
+
+  tbody.innerHTML="";
+
+  students.forEach((s,index)=>{
+
+    const tr=document.createElement("tr");
+
+    tr.innerHTML=`
+
+      <td>${index+1}</td>
+
+      <td>
+        <strong>${s.name}</strong>
+      </td>
+
+      <td>${s.age}</td>
+
+      <td>
+        ${
+          s.expelled
+          ? `<span class="badge expelled">Expelled</span>`
+          : `<span class="badge present">Active</span>`
+        }
+      </td>
+
+      <td>
+
+        ${
+          s.expelled
+          ?
+          `<button class="btn green"
+             onclick="restoreStudent(${s.id})">
+             Restore
+           </button>`
+          :
+          `<button class="btn red"
+             onclick="expelStudent(${s.id})">
+             Expel
+           </button>`
+        }
+
+      </td>
+
+    `;
+
+    tbody.appendChild(tr);
+
+  });
+
+  updateStats();
+}
+
+function expelStudent(id){
+
+  const student=students.find(s=>s.id===id);
+
+  if(!student)return;
+
+  if(confirm("Expel "+student.name+" from the active class list?")){
+
+    student.expelled=true;
+
+    saveStudents();
+    renderStudents();
+
+  }
+}
+
+function restoreStudent(id){
+
+  const student=students.find(s=>s.id===id);
+
+  if(!student)return;
+
+  student.expelled=false;
+
+  saveStudents();
+  renderStudents();
+}
+
+function restoreAll(){
+
+  students.forEach(s=>s.expelled=false);
+
+  saveStudents();
+  renderStudents();
+}
+
+function saveStudents(){
+
+  localStorage.setItem(
+    "class_students",
+    JSON.stringify(students)
+  );
+
+  updateStats();
+}
+
+function updateStats(){
+
+  const active=students.filter(s=>!s.expelled).length;
+  const expelled=students.filter(s=>s.expelled).length;
+
+  document.getElementById("statStudents").textContent=active;
+  document.getElementById("statExpelled").textContent=expelled;
+}
+
+
+/* =========================================================
+   ATTENDANCE
+========================================================= */
+
+let attendance =
+JSON.parse(localStorage.getItem("class_attendance")) || {};
+
+let attendanceDates =
+JSON.parse(localStorage.getItem("attendance_dates")) || [];
+
+const dateInput=document.getElementById("attendanceDate");
+
+dateInput.value =
+new Date().toISOString().split("T")[0];
+
+function addAttendanceDay(){
+
+  const date=dateInput.value;
+
+  if(!date)return;
+
+  if(!attendanceDates.includes(date)){
+    attendanceDates.push(date);
+  }
+
+  if(!attendance[date]){
+    attendance[date]={};
+  }
+
+  localStorage.setItem(
+    "attendance_dates",
+    JSON.stringify(attendanceDates)
+  );
+
+  localStorage.setItem(
+    "class_attendance",
+    JSON.stringify(attendance)
+  );
+
+  renderAttendance();
+}
+
+function setAttendance(studentId,status){
+
+  const date=dateInput.value;
+
+  if(!date)return;
+
+  if(!attendance[date]){
+    attendance[date]={};
+  }
+
+  attendance[date][studentId]=status;
+
+  if(!attendanceDates.includes(date)){
+    attendanceDates.push(date);
+  }
+
+  localStorage.setItem(
+    "attendance_dates",
+    JSON.stringify(attendanceDates)
+  );
+
+  localStorage.setItem(
+    "class_attendance",
+    JSON.stringify(attendance)
+  );
+
+  renderAttendance();
+}
+
+function markAll(status){
+
+  const date=dateInput.value;
+
+  if(!date)return;
+
+  if(!attendance[date]){
+    attendance[date]={};
+  }
+
+  students
+  .filter(s=>!s.expelled)
+  .forEach(s=>{
+    attendance[date][s.id]=status;
+  });
+
+  if(!attendanceDates.includes(date)){
+    attendanceDates.push(date);
+  }
+
+  localStorage.setItem(
+    "attendance_dates",
+    JSON.stringify(attendanceDates)
+  );
+
+  localStorage.setItem(
+    "class_attendance",
+    JSON.stringify(attendance)
+  );
+
+  renderAttendance();
+}
+
+function renderAttendance(){
+
+  const tbody=document.getElementById("attendanceTable");
+
+  tbody.innerHTML="";
+
+  students
+  .filter(s=>!s.expelled)
+  .forEach(s=>{
+
+    const status =
+      attendance[dateInput.value]?.[s.id] || "";
+
+    const tr=document.createElement("tr");
+
+    tr.innerHTML=`
+
+      <td>
+        <strong>${s.name}</strong>
+      </td>
+
+      <td>${s.age}</td>
+
+      <td>
+        <button
+          class="btn green"
+          onclick="setAttendance(${s.id},'Present')">
+          ${status==="Present"?"✓ ":""}Present
+        </button>
+      </td>
+
+      <td>
+        <button
+          class="btn red"
+          onclick="setAttendance(${s.id},'Absent')">
+          ${status==="Absent"?"✓ ":""}Absent
+        </button>
+      </td>
+
+      <td>
+        <button
+          class="btn yellow"
+          onclick="setAttendance(${s.id},'Late')">
+          ${status==="Late"?"✓ ":""}Late
+        </button>
+      </td>
+
+    `;
+
+    tbody.appendChild(tr);
+
+  });
+}
+
+
+/* =========================================================
+   BOOK CONTENT
+=========================================================
+
+   Each chapter automatically receives 20 pages.
+   The content is original educational material.
+========================================================= */
+
+const books = [
+
+{
+  title:"Science Explorer",
+  icon:"🔬",
+  chapters:[
+
+    {
+      title:"Life Processes",
+      description:"How living organisms obtain energy, grow, respond and reproduce.",
+      topics:[
+        "Introduction to life processes",
+        "Nutrition in living organisms",
+        "Autotrophic nutrition",
+        "Heterotrophic nutrition",
+        "Human digestion",
+        "Respiration",
+        "Aerobic respiration",
+        "Anaerobic respiration",
+        "Transportation in humans",
+        "Blood and circulation",
+        "Heart and blood vessels",
+        "Transportation in plants",
+        "Excretion",
+        "Kidneys and urine formation",
+        "Nervous coordination",
+        "Reflex actions",
+        "Hormonal coordination",
+        "Reproduction",
+        "Growth and development",
+        "Revision and applications"
+      ]
+    },
+
+    {
+      title:"Chemical Reactions",
+      description:"Understanding chemical changes, equations and common reactions.",
+      topics:[
+        "What is a chemical reaction",
+        "Signs of chemical change",
+        "Chemical equations",
+        "Balancing equations",
+        "Combination reactions",
+        "Decomposition reactions",
+        "Displacement reactions",
+        "Double displacement",
+        "Oxidation",
+        "Reduction",
+        "Redox reactions",
+        "Acids",
+        "Bases",
+        "Indicators",
+        "Salts",
+        "Neutralisation",
+        "Corrosion",
+        "Rancidity",
+        "Chemical reactions in daily life",
+        "Revision and applications"
+      ]
+    },
+
+    {
+      title:"Electricity",
+      description:"Electric current, circuits, resistance, power and electrical safety.",
+      topics:[
+        "Introduction to electricity",
+        "Electric charge",
+        "Electric current",
+        "Potential difference",
+        "Electric circuits",
+        "Conductors and insulators",
+        "Resistance",
+        "Ohm's law",
+        "Factors affecting resistance",
+        "Series circuits",
+        "Parallel circuits",
+        "Electrical power",
+        "Electrical energy",
+        "Heating effect",
+        "Household electricity",
+        "Fuses and circuit breakers",
+        "Safe use of electricity",
+        "Magnets and current",
+        "Electricity in technology",
+        "Revision and applications"
+      ]
+    },
+
+    {
+      title:"Light",
+      description:"Reflection, refraction, lenses, mirrors and applications of light.",
+      topics:[
+        "Nature of light",
+        "Sources of light",
+        "Rectilinear propagation",
+        "Reflection",
+        "Laws of reflection",
+        "Plane mirrors",
+        "Spherical mirrors",
+        "Concave mirrors",
+        "Convex mirrors",
+        "Mirror images",
+        "Refraction",
+        "Refractive index",
+        "Lenses",
+        "Convex lenses",
+        "Concave lenses",
+        "Lens images",
+        "Human eye",
+        "Vision and common defects",
+        "Optical instruments",
+        "Revision and applications"
+      ]
+    }
+
+  ]
+},
+
+{
+  title:"Mathematics",
+  icon:"📐",
+  chapters:[
+
+    {
+      title:"Real Numbers",
+      description:"Number systems, factors, decimals, irrational numbers and applications.",
+      topics:[
+        "Number systems",
+        "Natural and whole numbers",
+        "Integers",
+        "Rational numbers",
+        "Irrational numbers",
+        "Real numbers",
+        "Euclid's division idea",
+        "Fundamental theorem of arithmetic",
+        "Prime factorisation",
+        "Highest common factor",
+        "Lowest common multiple",
+        "Decimal expansions",
+        "Terminating decimals",
+        "Non-terminating decimals",
+        "Properties of real numbers",
+        "Operations with real numbers",
+        "Surds and roots",
+        "Number line representation",
+        "Real numbers in daily life",
+        "Revision and applications"
+      ]
+    },
+
+    {
+      title:"Polynomials",
+      description:"Expressions, degrees, zeros, identities and polynomial equations.",
+      topics:[
+        "Introduction to polynomials",
+        "Terms and coefficients",
+        "Degree of a polynomial",
+        "Constant polynomials",
+        "Linear polynomials",
+        "Quadratic polynomials",
+        "Cubic polynomials",
+        "Zeros of polynomials",
+        "Graphical meaning of zeros",
+        "Remainder idea",
+        "Factor theorem",
+        "Factorisation",
+        "Algebraic identities",
+        "Square identities",
+        "Cube identities",
+        "Polynomial division",
+        "Polynomial equations",
+        "Applications",
+        "Common mistakes",
+        "Revision and practice"
+      ]
+    },
+
+    {
+      title:"Geometry",
+      description:"Lines, angles, triangles, circles, coordinates and geometric reasoning.",
+      topics:[
+        "Basic geometric ideas",
+        "Points and lines",
+        "Angles",
+        "Pairs of angles",
+        "Parallel lines",
+        "Transversals",
+        "Triangles",
+        "Congruence",
+        "Similarity",
+        "Pythagorean theorem",
+        "Quadrilaterals",
+        "Parallelograms",
+        "Rectangles and squares",
+        "Circles",
+        "Circle terminology",
+        "Coordinate geometry",
+        "Distance",
+        "Area",
+        "Geometry in real life",
+        "Revision and applications"
+      ]
+    },
+
+    {
+      title:"Statistics",
+      description:"Collecting data, tables, graphs, averages and interpreting information.",
+      topics:[
+        "Introduction to data",
+        "Population and sample",
+        "Collecting data",
+        "Organising data",
+        "Frequency tables",
+        "Bar graphs",
+        "Histograms",
+        "Pie charts",
+        "Line graphs",
+        "Mean",
+        "Median",
+        "Mode",
+        "Range",
+        "Grouped data",
+        "Comparing data",
+        "Reading graphs",
+        "Misleading graphs",
+        "Statistics in science",
+        "Statistics in society",
+        "Revision and applications"
+      ]
+    }
+
+  ]
+},
+
+{
+  title:"Computer Science",
+  icon:"💻",
+  chapters:[
+
+    {
+      title:"Computer Fundamentals",
+      description:"Hardware, software, memory, operating systems and digital information.",
+      topics:[
+        "What is a computer",
+        "History of computers",
+        "Computer generations",
+        "Input devices",
+        "Output devices",
+        "CPU",
+        "Arithmetic logic unit",
+        "Control unit",
+        "RAM",
+        "ROM",
+        "Storage devices",
+        "Operating systems",
+        "Applications",
+        "Files and folders",
+        "Binary numbers",
+        "Digital information",
+        "Computer performance",
+        "Cloud computing",
+        "Modern computers",
+        "Revision and applications"
+      ]
+    },
+
+    {
+      title:"Programming",
+      description:"Algorithms, variables, conditions, loops, functions and problem solving.",
+      topics:[
+        "What is programming",
+        "Programming languages",
+        "Algorithms",
+        "Flowcharts",
+        "Variables",
+        "Data types",
+        "Operators",
+        "Input and output",
+        "Conditions",
+        "If statements",
+        "Loops",
+        "For loops",
+        "While loops",
+        "Functions",
+        "Parameters",
+        "Lists",
+        "Debugging",
+        "Testing",
+        "Good programming habits",
+        "Revision and applications"
+      ]
+    },
+
+    {
+      title:"Computer Networks",
+      description:"How computers communicate using local and global networks.",
+      topics:[
+        "What is a network",
+        "Network advantages",
+        "LAN",
+        "WAN",
+        "Network devices",
+        "Routers",
+        "Switches",
+        "Modems",
+        "IP addresses",
+        "MAC addresses",
+        "DNS",
+        "Internet",
+        "Web servers",
+        "HTTP and HTTPS",
+        "Data packets",
+        "Wireless networks",
+        "Network security",
+        "Cloud networks",
+        "Modern communication",
+        "Revision and applications"
+      ]
+    },
+
+    {
+      title:"Cyber Safety",
+      description:"Passwords, privacy, scams, malware, safe browsing and digital responsibility.",
+      topics:[
+        "Introduction to cyber safety",
+        "Personal information",
+        "Strong passwords",
+        "Password managers",
+        "Two factor authentication",
+        "Phishing",
+        "Scams",
+        "Malware",
+        "Viruses",
+        "Safe downloads",
+        "Browser security",
+        "Privacy settings",
+        "Social engineering",
+        "Account security",
+        "Public WiFi",
+        "Backups",
+        "Digital footprints",
+        "Responsible communication",
+        "Cyber safety habits",
+        "Revision and applications"
+      ]
+    }
+
+  ]
+},
+
+{
+  title:"World Geography",
+  icon:"🌍",
+  chapters:[
+
+    {
+      title:"Earth and Continents",
+      description:"The structure of Earth, continents, oceans and physical geography.",
+      topics:[
+        "Our planet Earth",
+        "Shape of Earth",
+        "Rotation",
+        "Revolution",
+        "Day and night",
+        "Seasons",
+        "Latitude",
+        "Longitude",
+        "Time zones",
+        "Continents",
+        "Oceans",
+        "Mountains",
+        "Plateaus",
+        "Plains",
+        "Rivers",
+        "Deserts",
+        "Coasts",
+        "Maps",
+        "Human interaction with land",
+        "Revision and applications"
+      ]
+    },
+
+    {
+      title:"Climate",
+      description:"Weather, climate zones, atmospheric conditions and climate change.",
+      topics:[
+        "Weather and climate",
+        "Atmosphere",
+        "Temperature",
+        "Air pressure",
+        "Wind",
+        "Humidity",
+        "Clouds",
+        "Rainfall",
+        "Climate zones",
+        "Tropical climates",
+        "Dry climates",
+        "Temperate climates",
+        "Polar climates",
+        "Mediterranean climate",
+        "Monsoons",
+        "Extreme weather",
+        "Climate change",
+        "Human activities",
+        "Adaptation",
+        "Revision and applications"
+      ]
+    },
+
+    {
+      title:"Natural Resources",
+      description:"Water, minerals, forests, energy resources and sustainable use.",
+      topics:[
+        "What are resources",
+        "Renewable resources",
+        "Non-renewable resources",
+        "Water resources",
+        "Freshwater",
+        "Groundwater",
+        "Forests",
+        "Soil",
+        "Minerals",
+        "Coal",
+        "Oil",
+        "Natural gas",
+        "Solar energy",
+        "Wind energy",
+        "Hydroelectricity",
+        "Geothermal energy",
+        "Resource conservation",
+        "Sustainable development",
+        "Human responsibility",
+        "Revision and applications"
+      ]
+    },
+
+    {
+      title:"Population",
+      description:"Population distribution, migration, settlements and demographic change.",
+      topics:[
+        "What is population",
+        "Population distribution",
+        "Population density",
+        "Birth rate",
+        "Death rate",
+        "Population growth",
+        "Age structure",
+        "Urbanisation",
+        "Rural settlements",
+        "Urban settlements",
+        "Migration",
+        "Push factors",
+        "Pull factors",
+        "Population resources",
+        "Population pressure",
+        "Megacities",
+        "Population policies",
+        "Demographic transition",
+        "Future population",
+        "Revision and applications"
+      ]
+    }
+
+  ]
+}
 
 ];
 
 
-let students =
-JSON.parse(localStorage.getItem("classStudents") || "null");
+/* =========================================================
+   CREATE 20 DETAILED PAGES FOR EVERY CHAPTER
+========================================================= */
 
+function generatePages(book,chapter){
 
-if(!students || students.length !== 40){
+  return chapter.topics.map((topic,index)=>{
 
-students = studentNames.map((name,index) => {
+    const n=index+1;
 
-return {
+    const previous =
+      index>0
+      ? chapter.topics[index-1]
+      : "the basic ideas introduced at the beginning of this chapter";
 
-id:index+1,
+    const next =
+      index<chapter.topics.length-1
+      ? chapter.topics[index+1]
+      : "the revision section at the end of the chapter";
 
-name:name,
+    let explanation="";
 
-age:15 + (index % 3),
+    if(book.title==="Science Explorer"){
 
-status:"Present",
+      explanation=`
+        <p>
+        Science helps us understand the world by asking questions,
+        collecting evidence and building explanations from observations.
+        The topic of <strong>${topic}</strong> is important because it
+        connects an everyday observation with a scientific idea that can
+        be tested and discussed.
+        </p>
 
-active:true
+        <p>
+        When students study ${topic}, they should not only memorise
+        definitions. They should understand what happens, why it happens,
+        what conditions affect it, and how the idea can be recognised in a
+        real situation. Scientific knowledge becomes more useful when it
+        can be applied to examples outside the classroom.
+        </p>
 
-};
+        <p>
+        A useful way to learn this topic is to start with a simple
+        observation and then connect that observation to a scientific
+        model. Scientists often use diagrams, measurements and carefully
+        controlled experiments to separate important factors from factors
+        that do not have a major effect.
+        </p>
 
-});
+        <p>
+        This topic is also connected with the previous idea,
+        <strong>${previous}</strong>. Understanding that earlier concept
+        gives us a foundation for understanding the present one. Later,
+        the chapter moves toward <strong>${next}</strong>, where these
+        ideas are developed further.
+        </p>
 
-localStorage.setItem(
-"classStudents",
-JSON.stringify(students)
-);
+        <p>
+        In practical situations, scientific thinking means being careful
+        about evidence. A single observation may be interesting, but a
+        repeated observation or a controlled experiment usually provides
+        stronger evidence. Measurements should be recorded clearly so that
+        another person can understand how the conclusion was reached.
+        </p>
+
+        <p>
+        An important classroom habit is to explain cause and effect.
+        Instead of simply saying that something changes, a strong
+        explanation describes what caused the change and what evidence
+        supports that explanation. This makes scientific answers clearer,
+        more precise and easier to evaluate.
+        </p>
+
+        <p>
+        The ideas in this page can also be connected to technology,
+        health, engineering and environmental studies. Many technologies
+        used today were developed after people learned how natural
+        processes work. This is why basic scientific knowledge is useful
+        even when someone does not plan to become a scientist.
+        </p>
+      `;
+    }
+
+    else if(book.title==="Mathematics"){
+
+      explanation=`
+        <p>
+        Mathematics is a language for describing patterns, quantities,
+        relationships and logical structures. The topic of
+        <strong>${topic}</strong> gives us another way to represent a
+        problem and reach a conclusion using clear mathematical rules.
+        </p>
+
+        <p>
+        A mathematical method is more than a final answer. The steps
+        matter because each step should follow from information already
+        known. Writing the working clearly makes it possible to check an
+        answer and find the exact point where an error may have happened.
+        </p>
+
+        <p>
+        When learning ${topic}, begin with simple examples. Once the
+        basic pattern becomes familiar, more complicated examples can be
+        solved by applying the same idea in a different form. This is one
+        of the main reasons mathematics rewards regular practice.
+        </p>
+
+        <p>
+        The topic connects naturally with <strong>${previous}</strong>.
+        Mathematical ideas are rarely isolated. Numbers, algebra,
+        geometry, graphs and statistics often use the same fundamental
+        ideas of relationships, operations and logical reasoning.
+        </p>
+
+        <p>
+        A good mathematical solution should identify what is known,
+        identify what must be found, choose an appropriate method, perform
+        the calculations carefully and finally check whether the result
+        makes sense. Estimation can also be useful because it provides a
+        quick way to notice an unreasonable result.
+        </p>
+
+        <p>
+        Mathematics is used outside school in engineering, architecture,
+        finance, computing, science, design and many everyday decisions.
+        Measurements, percentages, distances, schedules and data all
+        require mathematical thinking.
+        </p>
+
+        <p>
+        The next idea, <strong>${next}</strong>, builds on the general
+        reasoning developed here. By understanding the reason behind a
+        method rather than memorising only a formula, students can adapt
+        the method to unfamiliar problems.
+        </p>
+      `;
+    }
+
+    else if(book.title==="Computer Science"){
+
+      explanation=`
+        <p>
+        Computer science studies how information can be represented,
+        processed, stored and communicated using computing systems.
+        <strong>${topic}</strong> is an important part of this subject
+        because modern digital systems depend on the same basic principles.
+        </p>
+
+        <p>
+        Computers work with precise instructions. A person may understand
+        an instruction from context, but a computer needs the instruction
+        to be represented in a form its system can process. This is why
+        logical thinking is one of the most important skills in computing.
+        </p>
+
+        <p>
+        Learning ${topic} becomes easier when the student connects the
+        concept with something familiar. Phones, websites, games, school
+        systems and online services all contain examples of computer
+        systems working with information.
+        </p>
+
+        <p>
+        The previous topic, <strong>${previous}</strong>, provides useful
+        background. Computing topics are strongly connected: hardware
+        needs software, programs process data, networks move information,
+        and security helps protect that information.
+        </p>
+
+        <p>
+        Another important idea is problem solving. Before creating a
+        technical solution, a problem should be divided into smaller
+        parts. Each part can then be described, tested and improved.
+        This approach is used by programmers, engineers and technology
+        teams around the world.
+        </p>
+
+        <p>
+        Digital systems also require responsible use. Understanding how
+        technology works helps people recognise risks, protect accounts,
+        manage information and make better decisions when using online
+        services.
+        </p>
+
+        <p>
+        The following topic, <strong>${next}</strong>, continues the
+        learning process. By connecting concepts instead of treating each
+        lesson as a separate fact, students can build a stronger
+        understanding of computer science.
+        </p>
+      `;
+    }
+
+    else{
+
+      explanation=`
+        <p>
+        Geography studies places, environments, people and the
+        relationships between them. The topic of <strong>${topic}</strong>
+        helps us understand how physical and human processes shape the
+        world around us.
+        </p>
+
+        <p>
+        A geographical explanation often combines maps, measurements,
+        observations and written descriptions. Maps are especially useful
+        because they allow large areas to be represented in a form that
+        can be studied and compared.
+        </p>
+
+        <p>
+        When studying ${topic}, it is useful to think about location,
+        causes, effects and connections. Asking where something happens
+        is only the beginning. Geography also asks why it happens there
+        and how it affects people and the environment.
+        </p>
+
+        <p>
+        This topic is connected to <strong>${previous}</strong>.
+        Geographical processes influence one another, so understanding
+        one process can make it easier to understand another. Physical
+        geography and human geography often overlap.
+        </p>
+
+        <p>
+        Human activities can change landscapes, resources, settlements
+        and environments. At the same time, physical conditions such as
+        climate, terrain and water availability can influence where
+        communities develop.
+        </p>
+
+        <p>
+        Geography is useful in planning cities, managing resources,
+        protecting environments, studying climate and understanding
+        population movement. It therefore connects school learning with
+        real decisions made by communities and governments.
+        </p>
+
+        <p>
+        The next topic, <strong>${next}</strong>, continues the chapter
+        by adding another part of this geographical system. Looking for
+        connections between topics is one of the best ways to understand
+        geography rather than simply memorising place names.
+        </p>
+      `;
+    }
+
+    return {
+
+      title:topic,
+
+      html:`
+
+        <h1>${topic}</h1>
+
+        <div class="page-number">
+          ${book.title} · ${chapter.title} · Page ${n} of 20
+        </div>
+
+        <h2>Introduction</h2>
+
+        ${explanation}
+
+        <h2>Key idea</h2>
+
+        <p>
+        The central idea of this page is that <strong>${topic}</strong>
+        should be understood as part of a larger system. Learning becomes
+        easier when individual facts are connected to examples,
+        observations and previously learned concepts.
+        </p>
+
+        <p>
+        Students should try to explain this topic in their own words.
+        If the explanation can be given clearly without simply copying a
+        definition, it usually shows that the underlying idea has been
+        understood. Diagrams and examples can make the explanation even
+        clearer.
+        </p>
+
+        <div class="diagram">
+
+          <div class="diagram-box">📘 Basic concept</div>
+          <div>↓</div>
+          <div class="diagram-box">🧠 Understanding</div>
+          <div>↓</div>
+          <div class="diagram-box">🔎 Example</div>
+          <div>↓</div>
+          <div class="diagram-box">✅ Application</div>
+
+        </div>
+
+        <h2>Example</h2>
+
+        <p>
+        Imagine a classroom activity in which students observe a simple
+        example related to ${topic}. First, they record what they can
+        directly observe. Next, they identify the important information
+        and separate it from details that do not affect the result.
+        Finally, they use the concept studied in this lesson to explain
+        what they observed.
+        </p>
+
+        <p>
+        This type of example shows why learning a concept is more useful
+        than memorising one sentence. The same principle can often be
+        applied to several different situations. When a new situation
+        appears, the student can identify the underlying pattern and
+        select the appropriate idea.
+        </p>
+
+        <h2>Things to remember</h2>
+
+        <p>
+        Remember the definition, the main process, the important terms
+        and the relationship between the different parts of the topic.
+        Also remember that mistakes are useful during learning because
+        they show which part of the process needs another explanation or
+        another example.
+        </p>
+
+        <p>
+        Before moving forward, review the main idea and explain it once
+        without looking at the page. Then compare your explanation with
+        the lesson. This simple method can help identify missing details
+        and strengthen long-term understanding.
+        </p>
+
+        <h2>Summary</h2>
+
+        <p>
+        In this page we explored <strong>${topic}</strong>, connected it
+        with earlier learning and considered how the idea can be applied.
+        The main goal is not just to remember information but to understand
+        the relationships that make the information meaningful.
+        </p>
+
+        <p>
+        The chapter continues from this foundation. Keep the main terms
+        from this page in mind because they may appear again in later
+        examples, exercises and revision questions.
+        </p>
+
+      `
+    };
+
+  });
 
 }
 
 
-function saveStudents(){
+/* =========================================================
+   BOOK NAVIGATION
+========================================================= */
 
-localStorage.setItem(
-"classStudents",
-JSON.stringify(students)
-);
+let currentBook=0;
+let currentChapter=0;
+let currentPage=0;
+
+function openBook(index){
+
+  currentBook=index;
+
+  document.getElementById("bookLibrary").style.display="none";
+  document.getElementById("bookReader").style.display="none";
+  document.getElementById("bookChapters").style.display="block";
+
+  renderChapters();
+}
+
+function renderChapters(){
+
+  const book=books[currentBook];
+
+  const container=document.getElementById("bookChapters");
+
+  container.innerHTML=`
+
+    <button class="btn" onclick="backToLibrary()">
+      ← Library
+    </button>
+
+    <h2 style="margin:20px 0 5px">
+      ${book.icon} ${book.title}
+    </h2>
+
+    <p style="color:var(--muted);margin-bottom:18px">
+      Select a chapter. Every chapter contains 20 detailed pages.
+    </p>
+
+    <div class="chapter-list">
+
+      ${book.chapters.map((chapter,index)=>`
+
+        <div
+          class="chapter-card"
+          onclick="openChapter(${index})">
+
+          <h3>
+            Chapter ${index+1}: ${chapter.title}
+          </h3>
+
+          <p>
+            ${chapter.description}
+          </p>
+
+          <div style="margin-top:12px;color:#79a8f5;font-size:12px">
+            📄 20 pages
+          </div>
+
+        </div>
+
+      `).join("")}
+
+    </div>
+
+  `;
+}
+
+function backToLibrary(){
+
+  document.getElementById("bookLibrary").style.display="block";
+  document.getElementById("bookChapters").style.display="none";
+  document.getElementById("bookReader").style.display="none";
 
 }
 
+function openChapter(index){
 
-function renderStudents(){
+  currentChapter=index;
+  currentPage=0;
 
-let html = "";
+  document.getElementById("bookChapters").style.display="none";
+  document.getElementById("bookReader").style.display="block";
 
-students.forEach(student => {
-
-const expelled = student.active === false;
-
-html += `
-
-<tr>
-
-<td>${student.id}</td>
-
-<td><b>${student.name}</b></td>
-
-<td>10A-${String(student.id).padStart(2,"0")}</td>
-
-<td>${student.age}</td>
-
-<td>
-${expelled ? "🚫 Expelled" : "🟢 Active"}
-</td>
-
-<td>
-
-${
-expelled
-
-?
-
-`<button
-class="btn green"
-onclick="restoreStudent(${student.id})">
-↩️ Restore
-</button>`
-
-:
-
-`<button
-class="btn red"
-onclick="expelStudent(${student.id})">
-🚫 Expel
-</button>`
-
+  renderReader();
 }
 
-</td>
+function renderReader(){
 
-</tr>
+  const book=books[currentBook];
+  const chapter=book.chapters[currentChapter];
 
-`;
+  const pages=generatePages(book,chapter);
+  const page=pages[currentPage];
 
-});
+  const container=document.getElementById("bookReader");
 
-document.getElementById("studentsTable").innerHTML = html;
+  container.innerHTML=`
 
-updateDashboard();
+    <div class="reader">
 
+      <div class="reader-top">
+
+        <div>
+
+          <button class="btn"
+            onclick="backToChapters()">
+            ← Chapters
+          </button>
+
+          <button class="btn"
+            onclick="backToLibrary()">
+            📚 Library
+          </button>
+
+        </div>
+
+        <div class="page-number">
+          Page ${currentPage+1} / 20
+        </div>
+
+      </div>
+
+      <article class="reader-page">
+
+        ${page.html}
+
+      </article>
+
+      <div class="reader-controls">
+
+        <button
+          class="btn"
+          onclick="previousPage()"
+          ${currentPage===0?"disabled":""}>
+          ← Previous
+        </button>
+
+        <button
+          class="btn primary"
+          onclick="nextPage()"
+          ${currentPage===19?"disabled":""}>
+          Next →
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
 }
-
-
-function expelStudent(id){
-
-const student =
-students.find(s => s.id === id);
-
-if(!student)return;
-
-if(confirm(
-"Expel " + student.name + " from this class?"
-)){
-
-student.active = false;
-student.status = "Expelled";
-
-saveStudents();
-
-renderStudents();
-renderAttendance();
-
-}
-
-}
-
-
-function restoreStudent(id){
-
-const student =
-students.find(s => s.id === id);
-
-if(!student)return;
-
-student.active = true;
-student.status = "Present";
-
-saveStudents();
-
-renderStudents();
-renderAttendance();
-
-}
-
-
-function restoreAllStudents(){
-
-students.forEach(student => {
-
-student.active = true;
-
-if(student.status === "Expelled"){
-student.status = "Present";
-}
-
-});
-
-saveStudents();
-
-renderStudents();
-renderAttendance();
-
-}
-
-
-function updateDashboard(){
-
-const active =
-students.filter(s => s.active !== false);
-
-document.getElementById("totalStudents").textContent =
-active.length;
-
-document.getElementById("presentCount").textContent =
-active.filter(s => s.status === "Present").length;
-
-document.getElementById("absentCount").textContent =
-active.filter(s => s.status === "Absent").length;
-
-document.getElementById("lateCount").textContent =
-active.filter(s => s.status === "Late").length;
-
-document.getElementById("expelledCount").textContent =
-students.filter(s => s.active === false).length;
-
-}
-
-
-/* =========================================
-   ATTENDANCE
-========================================= */
-
-let attendanceData =
-JSON.parse(localStorage.getItem("attendanceData") || "{}");
-
-
-const today =
-new Date().toISOString().slice(0,10);
-
-
-let selectedAttendanceDate = today;
-
-
-document.getElementById("attendanceDate").value =
-today;
-
-
-document.getElementById("attendanceDate")
-.addEventListener("change",function(){
-
-selectedAttendanceDate = this.value;
-
-renderAttendance();
-
-});
-
-
-function addAttendanceDay(){
-
-const date =
-document.getElementById("attendanceDate").value;
-
-if(!date)return;
-
-if(!attendanceData[date]){
-
-attendanceData[date] = {};
-
-students.forEach(student => {
-
-attendanceData[date][student.id] =
-student.active === false
-? "Expelled"
-: "Present";
-
-});
-
-localStorage.setItem(
-"attendanceData",
-JSON.stringify(attendanceData)
-);
-
-}
-
-selectedAttendanceDate = date;
-
-renderAttendance();
-
-}
-
-
-function setAttendance(studentId,status){
-
-if(!attendanceData[selectedAttendanceDate]){
-
-attendanceData[selectedAttendanceDate] = {};
-
-students.forEach(student => {
-
-attendanceData[selectedAttendanceDate][student.id] =
-student.active === false
-? "Expelled"
-: "Present";
-
-});
-
-}
-
-attendanceData[selectedAttendanceDate][studentId] =
-status;
-
-localStorage.setItem(
-"attendanceData",
-JSON.stringify(attendanceData)
-);
-
-renderAttendance();
-
-}
-
-
-function markSelectedDayPresent(){
-
-if(!attendanceData[selectedAttendanceDate]){
-
-attendanceData[selectedAttendanceDate] = {};
-
-}
-
-students.forEach(student => {
-
-if(student.active !== false){
-
-attendanceData[selectedAttendanceDate][student.id] =
-"Present";
-
-}
-
-});
-
-localStorage.setItem(
-"attendanceData",
-JSON.stringify(attendanceData)
-);
-
-renderAttendance();
-
-}
-
-
-function renderAttendance(){
-
-let dates =
-Object.keys(attendanceData);
-
-
-if(!dates.includes(selectedAttendanceDate)){
-
-dates.push(selectedAttendanceDate);
-
-}
-
-dates.sort();
-
-
-let head = `
-
-<tr>
-
-<th>Roll</th>
-<th>Student</th>
-
-${dates.map(date => `
-<th>${date}</th>
-`).join("")}
-
-</tr>
-
-`;
-
-document.getElementById("attendanceHead").innerHTML =
-head;
-
-
-let body = "";
-
-
-students.forEach(student => {
-
-body += `
-
-<tr>
-
-<td>${student.id}</td>
-
-<td>
-<b>${student.name}</b>
-</td>
-
-`;
-
-
-dates.forEach(date => {
-
-let status =
-attendanceData[date]?.[student.id];
-
-
-if(!status){
-
-status =
-student.active === false
-? "Expelled"
-: "—";
-
-}
-
-
-if(status === "Expelled"){
-
-body += `
-
-<td>
-
-<span class="x">
-🚫 Expelled
-</span>
-
-</td>
-
-`;
-
-}else{
-
-body += `
-
-<td>
-
-<div class="att">
-
-<button
-class="p"
-onclick="setAttendance(${student.id},'Present')">
-P
-</button>
-
-<button
-class="a"
-onclick="setAttendance(${student.id},'Absent')">
-A
-</button>
-
-<button
-class="l"
-onclick="setAttendance(${student.id},'Late')">
-L
-</button>
-
-<span>
-
-${
-status === "Present"
-? "🟢"
-: status === "Absent"
-? "🔴"
-: status === "Late"
-? "🟠"
-: "—"
-}
-
-</span>
-
-</div>
-
-</td>
-
-`;
-
-}
-
-});
-
-body += "</tr>";
-
-});
-
-
-document.getElementById("attendanceBody").innerHTML =
-body;
-
-}
-
-
-/* =========================================
-   REAL BOOK DATA
-========================================= */
-
-const books = {
-
-science:{
-
-title:"🔬 Science Explorer",
-
-description:
-"Class 10 Science — Life Processes, Chemical Reactions, Electricity and Light.",
-
-chapters:[
-
-{
-
-title:"Chapter 1 — Life Processes",
-
-pages:[
-
-[
-"Page 1 — Introduction",
-
-"Living organisms perform several processes that help them survive. Important life processes include nutrition, respiration, transportation and excretion."
-
-],
-
-[
-"Page 2 — Nutrition",
-
-"Nutrition is the process of obtaining and using food. Green plants make food through photosynthesis using sunlight, carbon dioxide and water."
-],
-
-[
-"Page 3 — Respiration",
-
-"Respiration releases energy from food. Aerobic respiration uses oxygen, while anaerobic respiration occurs without oxygen."
-],
-
-[
-"Page 4 — Transportation",
-
-"In humans, blood transports oxygen, nutrients and other substances. Plants use xylem to transport water and phloem to transport food."
-],
-
-[
-"Page 5 — Excretion",
-
-"Excretion removes waste products from an organism. Human kidneys filter blood and help remove waste through urine."
-]
-
-]
-
-},
-
-{
-
-title:"Chapter 2 — Chemical Reactions",
-
-pages:[
-
-[
-"Page 1 — Chemical Change",
-
-"A chemical reaction occurs when substances change and new substances are formed."
-],
-
-[
-"Page 2 — Signs of Reaction",
-
-"Colour change, gas formation, temperature change and formation of a solid can indicate a chemical reaction."
-],
-
-[
-"Page 3 — Combination Reaction",
-
-"When two or more substances combine to form one product, the reaction is called a combination reaction."
-],
-
-[
-"Page 4 — Decomposition",
-
-"A decomposition reaction breaks one compound into two or more simpler substances."
-],
-
-[
-"Page 5 — Everyday Reactions",
-
-"Rusting, burning and digestion involve chemical changes."
-]
-
-]
-
-},
-
-{
-
-title:"Chapter 3 — Electricity",
-
-pages:[
-
-[
-"Page 1 — Electric Current",
-
-"Electric current is the flow of electric charge through a conducting path."
-],
-
-[
-"Page 2 — Electric Circuit",
-
-"A circuit contains a source of electrical energy, conducting wires and electrical components."
-],
-
-[
-"Page 3 — Voltage",
-
-"Voltage is the electrical potential difference between two points. Batteries provide voltage in simple circuits."
-],
-
-[
-"Page 4 — Resistance",
-
-"Resistance opposes the flow of electric current. Different materials have different electrical properties."
-],
-
-[
-"Page 5 — Simple Circuit",
-
-"🔋 Battery → Wire → 💡 Bulb → Wire → 🔋 Battery\n\nA closed circuit allows electric current to flow."
-]
-
-]
-
-},
-
-{
-
-title:"Chapter 4 — Light",
-
-pages:[
-
-[
-"Page 1 — Reflection",
-
-"Reflection occurs when light strikes a surface and returns into the same medium."
-],
-
-[
-"Page 2 — Mirrors",
-
-"A plane mirror forms an image that appears behind the mirror and is the same size as the object."
-],
-
-[
-"Page 3 — Lenses",
-
-"Lenses bend light and are used in glasses, cameras, microscopes and other optical devices."
-],
-
-[
-"Page 4 — Human Eye",
-
-"Light enters the eye and is focused onto the retina. Signals are then sent to the brain."
-]
-
-]
-
-}
-
-]
-
-},
-
-
-math:{
-
-title:"📐 Mathematics",
-
-description:
-"Class 10 Mathematics — numbers, algebra, geometry, statistics and probability.",
-
-chapters:[
-
-{
-
-title:"Chapter 1 — Real Numbers",
-
-pages:[
-
-[
-"Page 1 — Number System",
-
-"Real numbers include rational and irrational numbers. They can be represented on a number line."
-],
-
-[
-"Page 2 — Rational Numbers",
-
-"A rational number can be written as p/q, where p and q are integers and q is not zero."
-],
-
-[
-"Page 3 — Irrational Numbers",
-
-"Irrational numbers cannot be expressed as a fraction of two integers. Examples include √2 and π."
-],
-
-[
-"Page 4 — Number Line",
-
-"Every real number corresponds to a unique point on the number line."
-]
-
-]
-
-},
-
-{
-
-title:"Chapter 2 — Polynomials",
-
-pages:[
-
-[
-"Page 1 — Introduction",
-
-"A polynomial is an algebraic expression containing variables, coefficients and powers."
-],
-
-[
-"Page 2 — Degree",
-
-"The highest power of the variable gives the degree of a polynomial."
-],
-
-[
-"Page 3 — Zeros",
-
-"A zero of a polynomial is a value of the variable that makes the polynomial equal to zero."
-],
-
-[
-"Page 4 — Quadratic Polynomial",
-
-"A quadratic polynomial has degree two and can be written as ax² + bx + c."
-]
-
-]
-
-},
-
-{
-
-title:"Chapter 3 — Geometry",
-
-pages:[
-
-[
-"Page 1 — Lines and Angles",
-
-"Angles are formed when two lines or rays meet. Relationships between angles help us solve geometric problems."
-],
-
-[
-"Page 2 — Triangles",
-
-"A triangle has three sides and three interior angles. The sum of its interior angles is 180°."
-],
-
-[
-"Page 3 — Similar Triangles",
-
-"Similar triangles have the same shape, although their sizes may be different."
-],
-
-[
-"Page 4 — Circles",
-
-"A circle is the set of all points that are the same distance from a fixed centre."
-]
-
-]
-
-},
-
-{
-
-title:"Chapter 4 — Statistics",
-
-pages:[
-
-[
-"Page 1 — Data",
-
-"Data is a collection of information. It can be organised in tables and represented using graphs."
-],
-
-[
-"Page 2 — Mean",
-
-"The mean is calculated by adding all observations and dividing the total by the number of observations."
-],
-
-[
-"Page 3 — Median",
-
-"The median is the middle value after the data has been arranged in order."
-],
-
-[
-"Page 4 — Mode",
-
-"The mode is the value that occurs most frequently in a dataset."
-]
-
-]
-
-}
-
-]
-
-},
-
-
-computer:{
-
-title:"💻 Computer Science",
-
-description:
-"Class 10 Computer Science — hardware, software, programming, networks and cybersecurity.",
-
-chapters:[
-
-{
-
-title:"Chapter 1 — Computer Fundamentals",
-
-pages:[
-
-[
-"Page 1 — Hardware",
-
-"Hardware means the physical parts of a computer, such as the processor, keyboard, monitor and storage."
-],
-
-[
-"Page 2 — Software",
-
-"Software consists of programs and instructions that tell a computer what to do."
-],
-
-[
-"Page 3 — Input and Output",
-
-"Input devices send information to a computer. Output devices show the results to the user."
-],
-
-[
-"Page 4 — Storage",
-
-"Storage devices such as SSDs and hard drives store information for later use."
-]
-
-]
-
-},
-
-{
-
-title:"Chapter 2 — Programming",
-
-pages:[
-
-[
-"Page 1 — Programming",
-
-"Programming is the process of writing instructions that a computer can execute."
-],
-
-[
-"Page 2 — Variables",
-
-"A variable is a named location used to store a value in a program."
-],
-
-[
-"Page 3 — Conditions",
-
-"Conditional statements allow programs to make decisions depending on whether a condition is true or false."
-],
-
-[
-"Page 4 — Loops",
-
-"Loops repeat instructions. They are useful when a task needs to be performed multiple times."
-]
-
-]
-
-},
-
-{
-
-title:"Chapter 3 — Computer Networks",
-
-pages:[
-
-[
-"Page 1 — Networks",
-
-"A computer network connects devices so that they can communicate and share resources."
-],
-
-[
-"Page 2 — Local Networks",
-
-"A local area network connects devices within a limited area such as a home, school or office."
-],
-
-[
-"Page 3 — Internet",
-
-"The internet is a worldwide system of interconnected networks."
-],
-
-[
-"Page 4 — Servers",
-
-"A server provides services or resources to other computers called clients."
-]
-
-]
-
-},
-
-{
-
-title:"Chapter 4 — Cyber Safety",
-
-pages:[
-
-[
-"Page 1 — Passwords",
-
-"Strong passwords should be difficult to guess and should not be shared with other people."
-],
-
-[
-"Page 2 — Phishing",
-
-"Phishing is an attempt to trick someone into giving away information by pretending to be a trusted person or service."
-],
-
-[
-"Page 3 — Privacy",
-
-"Personal information should be shared carefully and only with trusted people or services."
-],
-
-[
-"Page 4 — Safe Browsing",
-
-"Check website addresses, avoid suspicious downloads and keep software updated."
-]
-
-]
-
-}
-
-]
-
-},
-
-
-geography:{
-
-title:"🌍 World Geography",
-
-description:
-"Class 10 Geography — Earth, climate, natural resources and population.",
-
-chapters:[
-
-{
-
-title:"Chapter 1 — Earth and Continents",
-
-pages:[
-
-[
-"Page 1 — Our Planet",
-
-"Earth is the third planet from the Sun and contains land, water and an atmosphere."
-],
-
-[
-"Page 2 — Continents",
-
-"The seven major continents are Asia, Africa, Europe, North America, South America, Antarctica and Australia."
-],
-
-[
-"Page 3 — Oceans",
-
-"Oceans are large bodies of salt water. They influence climate, weather and ecosystems."
-],
-
-[
-"Page 4 — Maps",
-
-"Maps represent places and geographical features using symbols, directions and scale."
-]
-
-]
-
-},
-
-{
-
-title:"Chapter 2 — Climate",
-
-pages:[
-
-[
-"Page 1 — Weather and Climate",
-
-"Weather describes short-term atmospheric conditions, while climate describes long-term patterns."
-],
-
-[
-"Page 2 — Temperature",
-
-"Temperature is influenced by latitude, altitude, seasons and distance from large bodies of water."
-],
-
-[
-"Page 3 — Rainfall",
-
-"Rainfall is part of the water cycle and depends on atmospheric and geographical conditions."
-],
-
-[
-"Page 4 — Climate Zones",
-
-"Earth has different climate zones, including tropical, temperate and polar regions."
-]
-
-]
-
-},
-
-{
-
-title:"Chapter 3 — Natural Resources",
-
-pages:[
-
-[
-"Page 1 — Resources",
-
-"Natural resources come from nature and include water, forests, soil, minerals and energy sources."
-],
-
-[
-"Page 2 — Water",
-
-"Fresh water is essential for people, agriculture, ecosystems and industry."
-],
-
-[
-"Page 3 — Forests",
-
-"Forests provide habitats, materials and help support environmental systems."
-],
-
-[
-"Page 4 — Conservation",
-
-"Conservation means using natural resources responsibly so they remain available in the future."
-]
-
-]
-
-},
-
-{
-
-title:"Chapter 4 — Population",
-
-pages:[
-
-[
-"Page 1 — Population",
-
-"Population means the number of people living in a particular area."
-],
-
-[
-"Page 2 — Distribution",
-
-"People are not distributed equally around Earth. Some areas have much higher population density than others."
-],
-
-[
-"Page 3 — Migration",
-
-"Migration is the movement of people from one place to another."
-],
-
-[
-"Page 4 — Urbanisation",
-
-"Urbanisation is the growth of towns and cities as more people live in urban areas."
-]
-
-]
-
-}
-
-]
-
-}
-
-};
-
-
-/* =========================================
-   BOOK OPEN
-========================================= */
-
-let currentBook = null;
-
-
-function openBook(bookId){
-
-const book = books[bookId];
-
-if(!book)return;
-
-currentBook = bookId;
-
-document.getElementById("libraryView").style.display =
-"none";
-
-document.getElementById("bookReader").style.display =
-"block";
-
-document.getElementById("chapterReader").style.display =
-"none";
-
-document.getElementById("readerBookTitle").textContent =
-book.title;
-
-document.getElementById("readerBookDescription").textContent =
-book.description;
-
-
-let html = "";
-
-book.chapters.forEach((chapter,index) => {
-
-html += `
-
-<div
-class="chapter-card"
-onclick="openChapter('${bookId}',${index})"
->
-
-<h2>${chapter.title}</h2>
-
-<p>
-📄 ${chapter.pages.length} pages
-&nbsp; • &nbsp;
-Click to read
-</p>
-
-</div>
-
-`;
-
-});
-
-document.getElementById("chapterList").innerHTML =
-html;
-
-}
-
-
-function openChapter(bookId,index){
-
-const book = books[bookId];
-
-const chapter = book.chapters[index];
-
-
-document.getElementById("bookReader").style.display =
-"none";
-
-document.getElementById("chapterReader").style.display =
-"block";
-
-
-document.getElementById("readerChapterTitle").textContent =
-chapter.title;
-
-document.getElementById("readerChapterInfo").textContent =
-chapter.pages.length + " pages";
-
-
-let html = "";
-
-
-chapter.pages.forEach((page,index) => {
-
-let diagram = "";
-
-if(bookId === "science"){
-
-diagram =
-index === 0
-? "🧬 → 🌱 → 🫀"
-: index === 1
-? "🧪 + ⚗️ → 🔬"
-: index === 2
-? "🔋 → ⚡ → 💡"
-: "💡 → 🪞 → 👁️";
-
-}
-
-else if(bookId === "math"){
-
-diagram =
-index === 0
-? "−∞ ─── 0 ─── +∞"
-: index === 1
-? "x² + bx + c"
-: index === 2
-? "△ + 📐 + ⭕"
-: "📊 〽️ 📈";
-
-}
-
-else if(bookId === "computer"){
-
-diagram =
-index === 0
-? "⌨️ → 💻 → 🖥️"
-: index === 1
-? "CODE → ⚙️ → RESULT"
-: index === 2
-? "💻 ↔ 🌐 ↔ 💻"
-: "🔐 → 🛡️ → 🔒";
-
-}
-
-else{
-
-diagram =
-index === 0
-? "🌍 🌎 🌏"
-: index === 1
-? "☀️ → ☁️ → 🌧️"
-: index === 2
-? "🌳 💧 ⛏️"
-: "👨‍👩‍👧‍👦 🏙️";
-
-}
-
-
-html += `
-
-<div class="book-page">
-
-<h2>${page[0]}</h2>
-
-<p>${page[1]}</p>
-
-<div class="book-diagram">
-
-${diagram}
-
-</div>
-
-</div>
-
-`;
-
-});
-
-
-document.getElementById("chapterPages").innerHTML =
-html;
-
-}
-
 
 function backToChapters(){
 
-document.getElementById("chapterReader").style.display =
-"none";
+  document.getElementById("bookReader").style.display="none";
+  document.getElementById("bookChapters").style.display="block";
 
-document.getElementById("bookReader").style.display =
-"block";
+  renderChapters();
+}
 
+function nextPage(){
+
+  if(currentPage<19){
+    currentPage++;
+    renderReader();
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+}
+
+function previousPage(){
+
+  if(currentPage>0){
+    currentPage--;
+    renderReader();
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
 }
 
 
-function closeBook(){
-
-document.getElementById("bookReader").style.display =
-"none";
-
-document.getElementById("chapterReader").style.display =
-"none";
-
-document.getElementById("libraryView").style.display =
-"block";
-
-}
-
-
-/* =========================================
-   DOCUMENTS
-========================================= */
+/* =========================================================
+   DOCUMENT SYSTEM
+========================================================= */
 
 let documents =
-JSON.parse(localStorage.getItem("classDocuments") || "[]");
+JSON.parse(localStorage.getItem("class_documents")) || [];
 
-let currentDocument = -1;
+let currentDocument=null;
 
+function populateStudentSelect(){
 
-function fillStudentDocuments(){
+  const select=document.getElementById("docStudent");
 
-const select =
-document.getElementById("documentStudent");
+  select.innerHTML=`
 
-students.forEach(student => {
+    <option value="">Select student</option>
 
-const option =
-document.createElement("option");
+    ${
+      students
+      .filter(s=>!s.expelled)
+      .map(s=>`
+        <option value="${s.id}">
+          ${s.name} — Age ${s.age}
+        </option>
+      `)
+      .join("")
+    }
 
-option.value = student.id;
-
-option.textContent =
-student.name;
-
-select.appendChild(option);
-
-});
-
+  `;
 }
-
 
 function renderDocuments(){
 
-let html = "";
+  const list=document.getElementById("documentList");
 
-documents.forEach((doc,index) => {
+  list.innerHTML="";
 
-html += `
+  if(documents.length===0){
 
-<div
-class="docitem"
-onclick="openDocument(${index})"
->
-📄 ${doc.title}
-</div>
+    list.innerHTML=`
+      <p style="color:var(--muted);padding:10px">
+        No documents yet.
+      </p>
+    `;
 
-`;
+    return;
+  }
 
-});
+  documents.forEach((doc,index)=>{
 
-document.getElementById("documentList").innerHTML =
-html;
+    const div=document.createElement("div");
 
+    div.className=
+      "doc-item"+
+      (currentDocument===index?" active":"");
+
+    div.innerHTML=`
+
+      <strong>
+        ${escapeHTML(doc.title || "Untitled")}
+      </strong>
+
+      <div style="font-size:12px;color:#8298b4;margin-top:5px">
+        ${getStudentName(doc.studentId)}
+      </div>
+
+    `;
+
+    div.onclick=()=>loadDocument(index);
+
+    list.appendChild(div);
+
+  });
 }
-
 
 function newDocument(){
 
-documents.push({
+  currentDocument=null;
 
-title:"New Assignment",
+  document.getElementById("docTitle").value="";
+  document.getElementById("docContent").value="";
+  document.getElementById("docStudent").value="";
 
-student:"",
-
-content:""
-
-});
-
-currentDocument =
-documents.length - 1;
-
-saveDocuments();
-
-openDocument(currentDocument);
-
+  renderDocuments();
 }
-
-
-function openDocument(index){
-
-currentDocument = index;
-
-document.getElementById("documentTitle").value =
-documents[index].title;
-
-document.getElementById("documentContent").value =
-documents[index].content;
-
-document.getElementById("documentStudent").value =
-documents[index].student || "";
-
-}
-
 
 function saveDocument(){
 
-if(currentDocument < 0){
+  const title=
+    document.getElementById("docTitle").value.trim();
 
-newDocument();
+  const content=
+    document.getElementById("docContent").value;
 
-return;
+  const studentId=
+    document.getElementById("docStudent").value;
 
+  if(!title){
+
+    alert("Please enter a document title.");
+    return;
+
+  }
+
+  const doc={
+    title:title,
+    content:content,
+    studentId:studentId,
+    updated:new Date().toLocaleString()
+  };
+
+  if(currentDocument===null){
+
+    documents.push(doc);
+    currentDocument=documents.length-1;
+
+  }else{
+
+    documents[currentDocument]=doc;
+
+  }
+
+  localStorage.setItem(
+    "class_documents",
+    JSON.stringify(documents)
+  );
+
+  renderDocuments();
+
+  alert("Document saved.");
 }
 
-documents[currentDocument] = {
+function loadDocument(index){
 
-title:
-document.getElementById("documentTitle").value ||
-"Untitled",
+  currentDocument=index;
 
-student:
-document.getElementById("documentStudent").value,
+  const doc=documents[index];
 
-content:
-document.getElementById("documentContent").value
+  document.getElementById("docTitle").value=doc.title || "";
+  document.getElementById("docContent").value=doc.content || "";
+  document.getElementById("docStudent").value=doc.studentId || "";
 
-};
-
-saveDocuments();
-
-renderDocuments();
-
-alert("Document saved ✅");
-
+  renderDocuments();
 }
 
+function deleteDocument(){
 
-function saveDocuments(){
+  if(currentDocument===null){
+    return;
+  }
 
-localStorage.setItem(
-"classDocuments",
-JSON.stringify(documents)
-);
+  if(confirm("Delete this document?")){
 
+    documents.splice(currentDocument,1);
+
+    currentDocument=null;
+
+    localStorage.setItem(
+      "class_documents",
+      JSON.stringify(documents)
+    );
+
+    newDocument();
+    renderDocuments();
+  }
 }
-
 
 function downloadDocument(){
 
-const title =
-document.getElementById("documentTitle").value ||
-"class-document";
+  const title=
+    document.getElementById("docTitle").value || "document";
 
-const content =
-document.getElementById("documentContent").value;
+  const content=
+    document.getElementById("docContent").value || "";
 
+  const student=
+    getStudentName(
+      document.getElementById("docStudent").value
+    );
 
-const blob =
-new Blob(
-[content],
-{type:"text/plain"}
-);
+  const text=
+`CLASSROOM DOCUMENT
 
+Title: ${title}
+Student: ${student}
 
-const link =
-document.createElement("a");
+--------------------------------
 
-link.href =
-URL.createObjectURL(blob);
+${content}
+`;
 
-link.download =
-title + ".txt";
+  const blob=
+    new Blob([text],{type:"text/plain"});
 
-link.click();
+  const url=
+    URL.createObjectURL(blob);
 
+  const a=document.createElement("a");
+
+  a.href=url;
+  a.download=title.replace(/[^a-z0-9]/gi,"_")+".txt";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+function getStudentName(id){
+
+  if(!id)return "No student assigned";
+
+  const student=
+    students.find(s=>String(s.id)===String(id));
+
+  return student ? student.name : "Unknown student";
+}
+
+function escapeHTML(text){
+
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
 
-/* =========================================
+/* =========================================================
    WHITEBOARD
-========================================= */
+========================================================= */
 
-const canvas =
+const canvas=
 document.getElementById("whiteboardCanvas");
 
-const ctx =
-canvas.getContext("2d");
+const ctx=canvas.getContext("2d");
 
-
-let drawing = false;
-
-let erasing = false;
-
-let canvasInitialized = false;
-
+let drawing=false;
+let tool="pen";
+let canvasReady=false;
 
 function setupCanvas(){
 
-const rect =
-canvas.getBoundingClientRect();
+  const rect=canvas.getBoundingClientRect();
 
-if(rect.width <= 0)return;
+  if(rect.width<=0)return;
 
+  const old=
+    document.createElement("canvas");
 
-const oldCanvas =
-document.createElement("canvas");
+  old.width=canvas.width;
+  old.height=canvas.height;
 
-let oldImage = null;
+  if(canvas.width && canvas.height){
 
+    const oldCtx=old.getContext("2d");
 
-if(canvas.width > 0 && canvas.height > 0){
+    oldCtx.drawImage(canvas,0,0);
 
-oldCanvas.width = canvas.width;
+  }
 
-oldCanvas.height = canvas.height;
+  const ratio=
+    Math.max(window.devicePixelRatio || 1,1);
 
-oldCanvas
-.getContext("2d")
-.drawImage(
-canvas,
-0,
-0
-);
+  canvas.width=
+    Math.floor(rect.width*ratio);
 
-oldImage = oldCanvas;
+  canvas.height=
+    Math.floor(rect.height*ratio);
 
+  ctx.setTransform(
+    ratio,0,0,ratio,0,0
+  );
+
+  ctx.lineCap="round";
+  ctx.lineJoin="round";
+
+  ctx.fillStyle="white";
+
+  ctx.fillRect(
+    0,
+    0,
+    rect.width,
+    rect.height
+  );
+
+  if(old.width && old.height){
+
+    try{
+
+      ctx.drawImage(
+        old,
+        0,
+        0,
+        old.width/Math.max(window.devicePixelRatio||1,1),
+        old.height/Math.max(window.devicePixelRatio||1,1)
+      );
+
+    }catch(e){}
+
+  }
+
+  canvasReady=true;
 }
 
+function getCanvasPosition(e){
 
-const ratio =
-window.devicePixelRatio || 1;
+  const rect=canvas.getBoundingClientRect();
 
+  return {
 
-canvas.width =
-Math.floor(rect.width * ratio);
+    x:e.clientX-rect.left,
+    y:e.clientY-rect.top
 
-canvas.height =
-Math.floor(rect.height * ratio);
-
-
-canvas.style.width =
-rect.width + "px";
-
-canvas.style.height =
-rect.height + "px";
-
-
-ctx.setTransform(
-ratio,
-0,
-0,
-ratio,
-0,
-0
-);
-
-
-if(oldImage){
-
-ctx.drawImage(
-oldImage,
-0,
-0,
-oldImage.width,
-oldImage.height,
-0,
-0,
-rect.width,
-rect.height
-);
-
+  };
 }
 
+function startDrawing(e){
 
-canvasInitialized = true;
+  if(!canvasReady){
+    setupCanvas();
+  }
 
+  drawing=true;
+
+  const p=getCanvasPosition(e);
+
+  ctx.beginPath();
+  ctx.moveTo(p.x,p.y);
+
+  e.preventDefault();
 }
 
+function draw(e){
 
-/* POINTER POSITION */
+  if(!drawing)return;
 
-function getCanvasPosition(event){
+  const p=getCanvasPosition(e);
 
-const rect =
-canvas.getBoundingClientRect();
+  ctx.lineWidth=
+    Number(document.getElementById("penSize").value);
 
-return {
+  if(tool==="eraser"){
 
-x:event.clientX - rect.left,
+    ctx.globalCompositeOperation=
+      "destination-out";
 
-y:event.clientY - rect.top
+  }else{
 
-};
+    ctx.globalCompositeOperation=
+      "source-over";
 
+    ctx.strokeStyle=
+      document.getElementById("penColor").value;
+
+  }
+
+  ctx.lineTo(p.x,p.y);
+  ctx.stroke();
+
+  e.preventDefault();
 }
-
-
-/* START DRAW */
-
-canvas.addEventListener(
-"pointerdown",
-function(event){
-
-if(!canvasInitialized){
-
-setupCanvas();
-
-}
-
-drawing = true;
-
-canvas.setPointerCapture(
-event.pointerId
-);
-
-
-const point =
-getCanvasPosition(event);
-
-
-ctx.beginPath();
-
-ctx.moveTo(
-point.x,
-point.y
-);
-
-}
-);
-
-
-/* DRAW */
-
-canvas.addEventListener(
-"pointermove",
-function(event){
-
-if(!drawing)return;
-
-
-const point =
-getCanvasPosition(event);
-
-
-ctx.lineWidth =
-Number(
-document.getElementById("penSize").value
-);
-
-
-ctx.lineCap = "round";
-
-ctx.lineJoin = "round";
-
-
-if(erasing){
-
-ctx.globalCompositeOperation =
-"destination-out";
-
-}else{
-
-ctx.globalCompositeOperation =
-"source-over";
-
-ctx.strokeStyle =
-document.getElementById("penColor").value;
-
-}
-
-
-ctx.lineTo(
-point.x,
-point.y
-);
-
-ctx.stroke();
-
-
-ctx.beginPath();
-
-ctx.moveTo(
-point.x,
-point.y
-);
-
-}
-);
-
-
-/* STOP */
 
 function stopDrawing(){
 
-drawing = false;
+  drawing=false;
 
-ctx.beginPath();
+  ctx.beginPath();
 
-ctx.globalCompositeOperation =
-"source-over";
-
+  ctx.globalCompositeOperation=
+    "source-over";
 }
 
-
 canvas.addEventListener(
-"pointerup",
-stopDrawing
+  "pointerdown",
+  startDrawing
 );
 
 canvas.addEventListener(
-"pointercancel",
-stopDrawing
+  "pointermove",
+  draw
 );
 
 canvas.addEventListener(
-"pointerleave",
-stopDrawing
+  "pointerup",
+  stopDrawing
 );
 
-
-/* PEN */
-
-function usePen(){
-
-erasing = false;
-
-ctx.globalCompositeOperation =
-"source-over";
-
-}
-
-
-/* ERASER */
-
-function useEraser(){
-
-erasing = true;
-
-}
-
-
-/* CLEAR */
-
-function clearWhiteboard(){
-
-if(confirm(
-"Clear the entire whiteboard?"
-)){
-
-ctx.clearRect(
-0,
-0,
-canvas.clientWidth,
-canvas.clientHeight
+canvas.addEventListener(
+  "pointercancel",
+  stopDrawing
 );
 
-}
+canvas.addEventListener(
+  "pointerleave",
+  stopDrawing
+);
+
+function setTool(newTool){
+
+  tool=newTool;
+
+  if(tool==="pen"){
+
+    ctx.globalCompositeOperation=
+      "source-over";
+
+  }
 
 }
 
+function clearBoard(){
 
-/* SAVE PNG */
+  if(!confirm("Clear the whole whiteboard?")){
+    return;
+  }
 
-function saveWhiteboard(){
+  const rect=canvas.getBoundingClientRect();
 
-const link =
-document.createElement("a");
+  ctx.save();
 
-link.download =
-"class-whiteboard.png";
+  ctx.setTransform(1,0,0,1,0,0);
 
-link.href =
-canvas.toDataURL("image/png");
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
 
-link.click();
+  ctx.restore();
+
+  ctx.fillStyle="white";
+
+  ctx.fillRect(
+    0,
+    0,
+    rect.width,
+    rect.height
+  );
 
 }
 
+function downloadBoard(){
 
-/* =========================================
-   START APPLICATION
-========================================= */
+  const link=
+    document.createElement("a");
 
-fillStudentDocuments();
+  link.download=
+    "classroom-whiteboard.png";
 
-renderStudents();
+  link.href=
+    canvas.toDataURL("image/png");
 
-renderAttendance();
-
-renderDocuments();
-
-
-setTimeout(() => {
-
-setupCanvas();
-
-},300);
-
+  link.click();
+}
 
 window.addEventListener(
-"resize",
-function(){
-
-if(
-document
-.getElementById("whiteboard")
-.classList
-.contains("active")
-){
-
-setupCanvas();
-
-}
-
-}
+  "resize",
+  ()=>{
+    if(
+      document.getElementById("whiteboard")
+      .classList.contains("active")
+    ){
+      setupCanvas();
+    }
+  }
 );
+
+
+/* =========================================================
+   INITIALISE
+========================================================= */
+
+renderStudents();
+populateStudentSelect();
+renderDocuments();
+updateStats();
 
 </script>
 
