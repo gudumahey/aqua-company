@@ -2,414 +2,152 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ClassHub • Classroom Manager</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ClassHub - Classroom Manager</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
-body{
-    background:#eef2f7;
-    color:#172033;
-}
-
-.app{
-    display:flex;
-    min-height:100vh;
-}
-
-/* SIDEBAR */
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#eef2f7;color:#172033}
+button{cursor:pointer;border:0}
+.app{display:flex;min-height:100vh}
 
 .sidebar{
-    width:250px;
-    background:linear-gradient(180deg,#111827,#1e293b);
-    color:white;
-    padding:22px 15px;
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    z-index:10;
+ width:245px;background:linear-gradient(180deg,#111827,#1e293b);
+ color:white;padding:20px 14px;position:fixed;inset:0 auto 0 0;z-index:20
 }
-
-.logo{
-    font-size:25px;
-    font-weight:800;
-    padding:10px 12px 25px;
-}
-
-.logo span{
-    color:#60a5fa;
-}
-
-.nav{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-}
-
+.logo{font-size:25px;font-weight:800;padding:10px 12px 25px}
+.logo span{color:#60a5fa}
+.nav{display:flex;flex-direction:column;gap:7px}
 .nav button{
-    border:0;
-    background:transparent;
-    color:#cbd5e1;
-    text-align:left;
-    padding:14px;
-    border-radius:12px;
-    cursor:pointer;
-    font-size:15px;
-    transition:.2s;
+ background:transparent;color:#cbd5e1;text-align:left;padding:14px;
+ border-radius:12px;font-size:15px
 }
+.nav button:hover,.nav button.active{background:#2563eb;color:white}
 
-.nav button:hover,
-.nav button.active{
-    background:#2563eb;
-    color:white;
-    transform:translateX(3px);
+.main{margin-left:245px;width:calc(100% - 245px);padding:25px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.topbar h1{font-size:28px}
+.teacher{background:white;padding:11px 16px;border-radius:14px;box-shadow:0 5px 20px #0001}
+
+.page{display:none}
+.page.active{display:block}
+
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:22px}
+.card,.box{
+ background:white;border-radius:20px;padding:20px;
+ box-shadow:0 8px 25px #0000000d
 }
+.number{font-size:30px;font-weight:bold;margin-top:8px}
+.blue{color:#2563eb}.green{color:#16a34a}.red{color:#dc2626}
+.orange{color:#ea580c}.purple{color:#7c3aed}
 
-/* MAIN */
-
-.main{
-    margin-left:250px;
-    width:calc(100% - 250px);
-    padding:25px;
+.tablebox{
+ background:white;border-radius:20px;padding:20px;
+ overflow:auto;box-shadow:0 8px 25px #0000000d
 }
-
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
+table{width:100%;border-collapse:collapse;min-width:900px}
+th,td{padding:12px;border-bottom:1px solid #e5e7eb;text-align:left}
+th{background:#f8fafc;position:sticky;top:0}
+.att{display:flex;gap:5px}
+.att button{
+ padding:7px 9px;border-radius:8px;font-size:12px;font-weight:bold
 }
-
-.topbar h1{
-    font-size:28px;
-}
-
-.teacher{
-    background:white;
-    padding:10px 16px;
-    border-radius:15px;
-    box-shadow:0 5px 20px #00000010;
-}
-
-/* PAGES */
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-/* CARDS */
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-    margin-bottom:25px;
-}
-
-.card{
-    background:white;
-    padding:22px;
-    border-radius:20px;
-    box-shadow:0 8px 25px #0000000d;
-}
-
-.stat-number{
-    font-size:32px;
-    font-weight:800;
-    margin-top:8px;
-}
-
-.blue{color:#2563eb}
-.green{color:#16a34a}
-.red{color:#dc2626}
-.orange{color:#ea580c}
-
-/* TABLE */
-
-.table-box{
-    background:white;
-    border-radius:20px;
-    padding:20px;
-    overflow:auto;
-    box-shadow:0 8px 25px #0000000d;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:650px;
-}
-
-th,td{
-    padding:14px;
-    border-bottom:1px solid #e5e7eb;
-    text-align:left;
-}
-
-th{
-    background:#f8fafc;
-}
-
-.status{
-    border:0;
-    padding:8px 12px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.present{
-    background:#dcfce7;
-    color:#15803d;
-}
-
-.absent{
-    background:#fee2e2;
-    color:#b91c1c;
-}
-
-.late{
-    background:#ffedd5;
-    color:#c2410c;
-}
-
-/* BUTTONS */
+.p{background:#dcfce7;color:#15803d}
+.a{background:#fee2e2;color:#b91c1c}
+.l{background:#ffedd5;color:#c2410c}
+.x{background:#e5e7eb;color:#475569}
 
 .btn{
-    border:0;
-    padding:11px 17px;
-    border-radius:11px;
-    cursor:pointer;
-    background:#2563eb;
-    color:white;
-    font-weight:bold;
+ background:#2563eb;color:white;padding:11px 15px;
+ border-radius:10px;font-weight:bold
 }
-
-.btn:hover{
-    opacity:.9;
-}
-
-.btn.gray{
-    background:#64748b;
-}
-
-.btn.red{
-    background:#dc2626;
-}
-
-.btn.green{
-    background:#16a34a;
-}
-
-/* BOOKS */
-
-.books{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:22px;
-}
-
-.book{
-    background:white;
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 8px 25px #00000010;
-}
-
-.book-cover{
-    height:190px;
-    background:linear-gradient(135deg,#2563eb,#7c3aed);
-    color:white;
-    padding:25px;
-    display:flex;
-    flex-direction:column;
-    justify-content:end;
-}
-
-.book:nth-child(2) .book-cover{
-    background:linear-gradient(135deg,#059669,#0f766e);
-}
-
-.book-body{
-    padding:20px;
-}
-
-.chapter{
-    padding:11px 0;
-    border-bottom:1px solid #e5e7eb;
-}
-
-.diagram{
-    margin-top:15px;
-    padding:15px;
-    background:#f8fafc;
-    border-radius:15px;
-    text-align:center;
-    font-size:30px;
-}
-
-/* DOCUMENTS */
-
-.document-layout{
-    display:grid;
-    grid-template-columns:280px 1fr;
-    gap:20px;
-}
-
-.documents-list,
-.editor{
-    background:white;
-    border-radius:20px;
-    padding:20px;
-    box-shadow:0 8px 25px #0000000d;
-}
-
-.doc-item{
-    padding:13px;
-    margin-top:8px;
-    border-radius:10px;
-    background:#f1f5f9;
-    cursor:pointer;
-}
-
-.doc-item:hover{
-    background:#dbeafe;
-}
+.btn.green{background:#16a34a}
+.btn.red{background:#dc2626}
+.btn.gray{background:#64748b}
+.btn.purple{background:#7c3aed}
 
 input,textarea,select{
-    width:100%;
-    border:1px solid #d1d5db;
-    padding:12px;
-    border-radius:10px;
-    margin:8px 0;
-    outline:none;
+ width:100%;padding:11px;border:1px solid #d1d5db;
+ border-radius:10px;outline:none
+}
+textarea{resize:vertical}
+
+.toolbar{
+ display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+ background:white;padding:15px;border-radius:16px;margin-bottom:15px
+}
+.toolbar input[type=color]{width:45px;height:40px;padding:2px}
+.toolbar input[type=range]{width:130px}
+
+.books{
+ display:grid;grid-template-columns:repeat(2,1fr);gap:20px
+}
+.book{
+ background:white;border-radius:20px;overflow:hidden;
+ box-shadow:0 8px 25px #0001
+}
+.cover{
+ height:180px;color:white;padding:25px;
+ display:flex;flex-direction:column;justify-content:end;
+ background:linear-gradient(135deg,#2563eb,#7c3aed)
+}
+.book:nth-child(2) .cover{
+ background:linear-gradient(135deg,#059669,#0f766e)
+}
+.book:nth-child(3) .cover{
+ background:linear-gradient(135deg,#ea580c,#dc2626)
+}
+.book:nth-child(4) .cover{
+ background:linear-gradient(135deg,#0891b2,#1d4ed8)
+}
+.bookbody{padding:20px}
+.bookpage{
+ border-bottom:1px solid #e5e7eb;padding:13px 0
+}
+.diagram{
+ margin-top:15px;background:#f8fafc;padding:18px;
+ border-radius:15px;text-align:center;font-size:28px
+}
+.pagebuttons{display:flex;gap:8px;margin-top:15px;flex-wrap:wrap}
+
+.documents{
+ display:grid;grid-template-columns:280px 1fr;gap:18px
+}
+.docitem{
+ padding:12px;background:#f1f5f9;border-radius:10px;
+ margin-top:8px;cursor:pointer
+}
+.docitem:hover{background:#dbeafe}
+
+#board{
+ width:100%;
+ height:620px;
+ background:white;
+ border:2px solid #dbe3ed;
+ border-radius:16px;
+ display:block;
+ touch-action:none;
+ cursor:crosshair
 }
 
-textarea{
-    min-height:300px;
-    resize:vertical;
+.notice{
+ padding:12px;background:#fff7ed;border-radius:12px;
+ margin-bottom:15px;color:#9a3412
 }
 
-.editor-header{
-    display:flex;
-    gap:10px;
-    margin-bottom:15px;
+@media(max-width:950px){
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .books{grid-template-columns:1fr}
 }
-
-/* WHITEBOARD */
-
-.board-tools{
-    background:white;
-    padding:15px;
-    border-radius:15px;
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    align-items:center;
-    margin-bottom:15px;
-}
-
-.board-tools input[type=color]{
-    width:45px;
-    height:40px;
-    padding:2px;
-    margin:0;
-}
-
-.board-tools input[type=range]{
-    width:120px;
-    margin:0;
-}
-
-.canvas-box{
-    background:white;
-    border-radius:20px;
-    padding:12px;
-    box-shadow:0 8px 25px #0000000d;
-}
-
-canvas{
-    width:100%;
-    height:600px;
-    border:2px solid #e2e8f0;
-    border-radius:15px;
-    display:block;
-    cursor:crosshair;
-    background:white;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:900px){
-
-    .sidebar{
-        width:75px;
-    }
-
-    .logo{
-        font-size:0;
-        text-align:center;
-    }
-
-    .logo span{
-        font-size:22px;
-    }
-
-    .nav button{
-        font-size:0;
-        text-align:center;
-    }
-
-    .nav button:first-letter{
-        font-size:20px;
-    }
-
-    .main{
-        margin-left:75px;
-        width:calc(100% - 75px);
-    }
-
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .books{
-        grid-template-columns:1fr;
-    }
-
-    .document-layout{
-        grid-template-columns:1fr;
-    }
-}
-
-@media(max-width:600px){
-
-    .main{
-        padding:15px;
-    }
-
-    .stats{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .topbar h1{
-        font-size:21px;
-    }
-
-    canvas{
-        height:450px;
-    }
+@media(max-width:700px){
+ .sidebar{width:70px}
+ .logo{font-size:0;text-align:center}
+ .logo span{font-size:20px}
+ .nav button{font-size:0;text-align:center}
+ .main{margin-left:70px;width:calc(100% - 70px);padding:14px}
+ .teacher{display:none}
+ .documents{grid-template-columns:1fr}
+ #board{height:500px}
 }
 </style>
 </head>
@@ -418,42 +156,24 @@ canvas{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
-
-<div class="logo">
-📚 Class<span>Hub</span>
-</div>
+<div class="logo">📚 Class<span>Hub</span></div>
 
 <div class="nav">
-
-<button onclick="showPage('dashboard')" class="active">🏠 Dashboard</button>
-
-<button onclick="showPage('students')">👨‍🎓 Students</button>
-
-<button onclick="showPage('attendance')">✅ Attendance</button>
-
-<button onclick="showPage('books')">📚 Books</button>
-
-<button onclick="showPage('documents')">📄 Documents</button>
-
-<button onclick="showPage('board')">🖊️ Whiteboard</button>
-
+<button class="active" onclick="showPage('dashboard',this)">🏠 Dashboard</button>
+<button onclick="showPage('students',this)">👨‍🎓 Students</button>
+<button onclick="showPage('attendance',this)">✅ Attendance</button>
+<button onclick="showPage('books',this)">📚 Books</button>
+<button onclick="showPage('documents',this)">📄 Documents</button>
+<button onclick="showPage('whiteboard',this)">🖊️ Whiteboard</button>
 </div>
-
 </aside>
-
-<!-- MAIN -->
 
 <main class="main">
 
 <div class="topbar">
-<h1 id="pageTitle">Class Dashboard</h1>
-
-<div class="teacher">
-👨‍🏫 Teacher • Class 10A
-</div>
+<h1 id="title">Class Dashboard</h1>
+<div class="teacher">👨‍🏫 Teacher • Class 10A</div>
 </div>
 
 
@@ -463,46 +183,30 @@ canvas{
 
 <div class="stats">
 
-<div class="card">
-<div>👨‍🎓 Students</div>
-<div class="stat-number blue">40</div>
-</div>
+<div class="card">👨‍🎓 Students
+<div class="number blue" id="total">40</div></div>
 
-<div class="card">
-<div>🟢 Present</div>
-<div class="stat-number green" id="presentCount">40</div>
-</div>
+<div class="card">🟢 Present
+<div class="number green" id="present">40</div></div>
 
-<div class="card">
-<div>🔴 Absent</div>
-<div class="stat-number red" id="absentCount">0</div>
-</div>
+<div class="card">🔴 Absent
+<div class="number red" id="absent">0</div></div>
 
-<div class="card">
-<div>🟠 Late</div>
-<div class="stat-number orange" id="lateCount">0</div>
-</div>
+<div class="card">🟠 Late
+<div class="number orange" id="late">0</div></div>
+
+<div class="card">🚫 Expelled
+<div class="number purple" id="expelled">0</div></div>
 
 </div>
 
-<div class="card">
-
-<h2>📊 Today's Class</h2>
-
+<div class="box">
+<h2>📊 Class Overview</h2>
 <br>
-
-<p>Welcome to your classroom management dashboard.</p>
-
+<p>Manage students, daily attendance, books, assignments and your classroom whiteboard from one place.</p>
 <br>
-
-<button class="btn" onclick="showPage('attendance')">
-Take Attendance
-</button>
-
-<button class="btn green" onclick="showPage('board')">
-Open Whiteboard
-</button>
-
+<button class="btn" onclick="showPage('attendance')">Take Attendance</button>
+<button class="btn green" onclick="showPage('whiteboard')">Open Whiteboard</button>
 </div>
 
 </section>
@@ -512,30 +216,30 @@ Open Whiteboard
 
 <section id="students" class="page">
 
-<div class="table-box">
+<div class="tablebox">
 
-<h2>👨‍🎓 Students — Class 10A</h2>
+<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+<h2>👨‍🎓 Student Management</h2>
+<button class="btn green" onclick="restoreAll()">Restore All</button>
+</div>
 
 <br>
 
 <table>
-
 <thead>
 <tr>
 <th>#</th>
 <th>Name</th>
-<th>Roll No.</th>
+<th>Roll</th>
 <th>Age</th>
-<th>Attendance</th>
+<th>Status</th>
+<th>Action</th>
 </tr>
 </thead>
-
 <tbody id="studentTable"></tbody>
-
 </table>
 
 </div>
-
 </section>
 
 
@@ -543,34 +247,30 @@ Open Whiteboard
 
 <section id="attendance" class="page">
 
-<div class="table-box">
+<div class="tablebox">
 
-<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
 
-<h2>✅ Daily Attendance</h2>
+<h2>✅ Multi-Day Attendance</h2>
 
-<button class="btn green" onclick="markAllPresent()">
-Mark All Present
-</button>
+<input type="date" id="attendanceDate" style="width:170px">
+
+<button class="btn green" onclick="addAttendanceDay()">＋ Add Day</button>
+
+<button class="btn gray" onclick="allPresent()">All Present</button>
 
 </div>
 
 <br>
 
+<div class="notice">
+Select a date and mark each student as <b>Present</b>, <b>Absent</b> or <b>Late</b>.
+Different dates are saved separately.
+</div>
+
 <table>
-
-<thead>
-
-<tr>
-<th>Roll</th>
-<th>Student</th>
-<th>Status</th>
-</tr>
-
-</thead>
-
-<tbody id="attendanceTable"></tbody>
-
+<thead id="attendanceHead"></thead>
+<tbody id="attendanceBody"></tbody>
 </table>
 
 </div>
@@ -582,56 +282,54 @@ Mark All Present
 
 <section id="books" class="page">
 
-<h2>📚 Class Books</h2>
-
-<br>
+<h2>📚 Class Library</h2>
+<p style="margin:8px 0 20px">4 complete sample books with multiple pages and diagrams.</p>
 
 <div class="books">
+
 
 <!-- BOOK 1 -->
 
 <div class="book">
 
-<div class="book-cover">
-
+<div class="cover">
 <h2>🔬 Science Explorer</h2>
-
-<p>Class 10 • Science</p>
-
+<p>Class 10 • 120 Pages</p>
 </div>
 
-<div class="book-body">
+<div class="bookbody">
 
-<div class="chapter">
-<b>Chapter 1</b><br>
-Life Processes
+<div class="bookpage">
+<b>Page 1 — Life Processes</b><br>
+Living organisms need nutrition, respiration, transport and excretion.
 </div>
 
-<div class="chapter">
-<b>Chapter 2</b><br>
-Chemical Reactions
+<div class="bookpage">
+<b>Page 2 — Cells</b><br>
+Cells are the basic structural and functional units of life.
 </div>
 
-<div class="chapter">
-<b>Chapter 3</b><br>
-Electricity
+<div class="bookpage">
+<b>Page 3 — Electricity</b><br>
+Electric current flows through a closed conducting path.
 </div>
 
-<div class="chapter">
-<b>Chapter 4</b><br>
-Light & Reflection
+<div class="bookpage">
+<b>Page 4 — Light</b><br>
+Light can reflect and change direction when it meets a surface.
 </div>
 
 <div class="diagram">
+🔋 ───── 💡 ───── 🔋
+<br>
+⚡ Simple Circuit
+</div>
 
-⚡<br>
-Battery → Wire → 💡<br>
-<b>Simple Electric Circuit</b>
-
+<div class="pagebuttons">
+<button class="btn" onclick="bookAlert('Science Explorer','120')">📖 Open Book</button>
 </div>
 
 </div>
-
 </div>
 
 
@@ -639,46 +337,149 @@ Battery → Wire → 💡<br>
 
 <div class="book">
 
-<div class="book-cover">
-
-<h2>🌍 World Studies</h2>
-
-<p>Class 10 • Geography</p>
-
+<div class="cover">
+<h2>🌍 World Geography</h2>
+<p>Class 10 • 96 Pages</p>
 </div>
 
-<div class="book-body">
+<div class="bookbody">
 
-<div class="chapter">
-<b>Chapter 1</b><br>
-Earth & Environment
+<div class="bookpage">
+<b>Page 1 — Earth</b><br>
+Earth is divided into continents and oceans.
 </div>
 
-<div class="chapter">
-<b>Chapter 2</b><br>
-Climate
+<div class="bookpage">
+<b>Page 2 — Climate</b><br>
+Climate describes long-term weather patterns.
 </div>
 
-<div class="chapter">
-<b>Chapter 3</b><br>
-Natural Resources
+<div class="bookpage">
+<b>Page 3 — Resources</b><br>
+Water, forests, minerals and energy are important resources.
 </div>
 
-<div class="chapter">
-<b>Chapter 4</b><br>
-Population
+<div class="bookpage">
+<b>Page 4 — Population</b><br>
+Population distribution differs from region to region.
 </div>
 
 <div class="diagram">
+☀️
+↓
+☁️
+↓
+🌧️
+↓
+🌊
+<br>
+💧 Water Cycle
+</div>
 
-☀️ → ☁️ → 🌧️<br>
-🌊 → ☁️<br>
-<b>Water Cycle</b>
-
+<div class="pagebuttons">
+<button class="btn green" onclick="bookAlert('World Geography','96')">📖 Open Book</button>
 </div>
 
 </div>
+</div>
 
+
+<!-- BOOK 3 -->
+
+<div class="book">
+
+<div class="cover">
+<h2>💻 Computer Science</h2>
+<p>Class 10 • 150 Pages</p>
+</div>
+
+<div class="bookbody">
+
+<div class="bookpage">
+<b>Page 1 — Computer Basics</b><br>
+Hardware and software work together to operate a computer.
+</div>
+
+<div class="bookpage">
+<b>Page 2 — Programming</b><br>
+Programs are instructions written for a computer.
+</div>
+
+<div class="bookpage">
+<b>Page 3 — Internet</b><br>
+The internet connects computers and networks around the world.
+</div>
+
+<div class="bookpage">
+<b>Page 4 — Cyber Safety</b><br>
+Strong passwords and safe browsing help protect accounts.
+</div>
+
+<div class="diagram">
+🧑‍💻
+↓
+💻
+↓
+🌐
+↓
+☁️
+<br>
+Computer Network
+</div>
+
+<div class="pagebuttons">
+<button class="btn red" onclick="bookAlert('Computer Science','150')">📖 Open Book</button>
+</div>
+
+</div>
+</div>
+
+
+<!-- BOOK 4 -->
+
+<div class="book">
+
+<div class="cover">
+<h2>📐 Mathematics</h2>
+<p>Class 10 • 180 Pages</p>
+</div>
+
+<div class="bookbody">
+
+<div class="bookpage">
+<b>Page 1 — Algebra</b><br>
+Algebra uses symbols and variables to represent numbers.
+</div>
+
+<div class="bookpage">
+<b>Page 2 — Geometry</b><br>
+Geometry studies shapes, sizes, angles and space.
+</div>
+
+<div class="bookpage">
+<b>Page 3 — Statistics</b><br>
+Data can be represented using tables and graphs.
+</div>
+
+<div class="bookpage">
+<b>Page 4 — Probability</b><br>
+Probability describes how likely an event is.
+</div>
+
+<div class="diagram">
+      /\
+     /  \
+    /____\
+    ▲  △
+<br>
+📐 Triangle
+</div>
+
+<div class="pagebuttons">
+<button class="btn purple" onclick="bookAlert('Mathematics','180')">📖 Open Book</button>
+</div>
+
+</div>
 </div>
 
 </div>
@@ -690,43 +491,40 @@ Population
 
 <section id="documents" class="page">
 
-<div class="document-layout">
+<div class="documents">
 
-<div class="documents-list">
+<div class="box">
 
 <h2>📄 Documents</h2>
 
 <button class="btn" style="width:100%;margin-top:15px"
-onclick="newDocument()">
-＋ New Document
-</button>
+onclick="newDoc()">＋ New Document</button>
 
-<div id="documentList"></div>
+<div id="docList"></div>
 
 </div>
 
+<div class="box">
 
-<div class="editor">
-
-<div class="editor-header">
-
-<input id="docTitle"
-placeholder="Document title">
-
-<button class="btn" onclick="saveDocument()">
-💾 Save
-</button>
-
+<div style="display:flex;gap:10px">
+<input id="docTitle" placeholder="Document title">
+<button class="btn green" onclick="saveDoc()">💾 Save</button>
 </div>
-
-<textarea id="docContent"
-placeholder="Write assignment, homework, notes or work for students here..."></textarea>
 
 <br>
 
-<button class="btn green" onclick="downloadDocument()">
-⬇️ Download
-</button>
+<select id="studentSelect">
+<option value="">General class document</option>
+</select>
+
+<br>
+
+<textarea id="docContent"
+placeholder="Write homework, assignment, instructions or student work here..."></textarea>
+
+<br><br>
+
+<button class="btn gray" onclick="downloadDoc()">⬇️ Download</button>
 
 </div>
 
@@ -737,100 +535,85 @@ placeholder="Write assignment, homework, notes or work for students here..."></t
 
 <!-- WHITEBOARD -->
 
-<section id="board" class="page">
+<section id="whiteboard" class="page">
 
 <h2>🖊️ Classroom Whiteboard</h2>
 
 <br>
 
-<div class="board-tools">
+<div class="toolbar">
 
 <label>
-Color
-<input type="color" id="colorPicker" value="#111827">
+🎨
+<input type="color" id="color" value="#111827">
 </label>
 
 <label>
-Thickness
-<input type="range" id="sizePicker" min="1" max="30" value="5">
+Size
+<input type="range" id="size" min="1" max="40" value="5">
 </label>
 
-<button class="btn" onclick="setPen()">
-✏️ Pen
-</button>
+<button class="btn" onclick="pen()">✏️ Pen</button>
 
-<button class="btn gray" onclick="setEraser()">
-🧽 Eraser
-</button>
+<button class="btn gray" onclick="eraser()">🧽 Eraser</button>
 
-<button class="btn red" onclick="clearBoard()">
-🗑️ Clear
-</button>
+<button class="btn red" onclick="clearBoard()">🗑️ Clear</button>
 
-<button class="btn green" onclick="saveBoard()">
-💾 Save Board
-</button>
+<button class="btn green" onclick="downloadBoard()">💾 Save PNG</button>
 
 </div>
 
-<div class="canvas-box">
-
-<canvas id="canvas"></canvas>
-
-</div>
+<canvas id="board"></canvas>
 
 </section>
 
 </main>
-
 </div>
 
 
 <script>
 
-/* =========================
-   PAGE SYSTEM
-========================= */
+/* ================================
+   PAGE NAVIGATION
+================================ */
 
-const titles = {
+const pageNames={
 dashboard:"Class Dashboard",
 students:"Students",
 attendance:"Attendance",
 books:"Class Books",
 documents:"Documents",
-board:"Whiteboard"
+whiteboard:"Whiteboard"
 };
 
-function showPage(page){
+function showPage(page,button){
 
-document.querySelectorAll(".page").forEach(p=>{
-p.classList.remove("active");
+document.querySelectorAll(".page").forEach(x=>{
+x.classList.remove("active");
 });
 
 document.getElementById(page).classList.add("active");
 
-document.querySelectorAll(".nav button").forEach(b=>{
-b.classList.remove("active");
+document.querySelectorAll(".nav button").forEach(x=>{
+x.classList.remove("active");
 });
 
-event.target.classList.add("active");
+if(button) button.classList.add("active");
 
-document.getElementById("pageTitle").innerText=titles[page];
+document.getElementById("title").textContent=pageNames[page];
 
-if(page==="board"){
-setTimeout(resizeCanvas,100);
+if(page==="whiteboard"){
+setTimeout(initCanvas,50);
 }
 
 }
 
 
-/* =========================
+/* ================================
    STUDENTS
-========================= */
+================================ */
 
-const students=[];
-
-const firstNames=[
+const names=[
 "Alex","Daniel","Lucas","Leo","Hugo",
 "Marc","Pablo","Adrian","Eric","Noah",
 "Adam","Mario","David","Enzo","Bruno",
@@ -841,286 +624,507 @@ const firstNames=[
 "Laura","Julia","Clara","Nora","Aisha"
 ];
 
-for(let i=0;i<40;i++){
+let students=JSON.parse(localStorage.getItem("students"));
 
-students.push({
-id:i+1,
-name:firstNames[i],
-age:15 + (i%3),
-status:"Present"
-});
+if(!students || students.length!==40){
 
+students=names.map((name,i)=>({
+ id:i+1,
+ name:name,
+ age:15+(i%3),
+ status:"Present",
+ active:true
+}));
+
+}
+
+function saveStudents(){
+localStorage.setItem("students",JSON.stringify(students));
 }
 
 
 function renderStudents(){
 
-const table=document.getElementById("studentTable");
-
-table.innerHTML="";
+let html="";
 
 students.forEach(s=>{
 
-table.innerHTML+=`
+let status=s.active===false?"Expelled":s.status;
 
+html+=`
 <tr>
-
 <td>${s.id}</td>
-
 <td><b>${s.name}</b></td>
-
 <td>10A-${String(s.id).padStart(2,"0")}</td>
-
 <td>${s.age}</td>
-
+<td>${status}</td>
 <td>
-<span class="status ${s.status.toLowerCase()}">
-${s.status}
-</span>
+${
+s.active!==false
+?
+`<button class="btn red" onclick="expel(${s.id})">🚫 Expel</button>`
+:
+`<button class="btn green" onclick="restore(${s.id})">↩️ Restore</button>`
+}
 </td>
-
 </tr>
-
 `;
 
 });
 
+document.getElementById("studentTable").innerHTML=html;
+
+updateStats();
+
 }
 
 
-function renderAttendance(){
+function expel(id){
 
-const table=document.getElementById("attendanceTable");
+let s=students.find(x=>x.id===id);
 
-table.innerHTML="";
+if(!s)return;
+
+if(confirm("Expel "+s.name+" from this class?")){
+
+s.active=false;
+s.status="Expelled";
+
+saveStudents();
+renderStudents();
+renderAttendance();
+
+}
+
+}
+
+
+function restore(id){
+
+let s=students.find(x=>x.id===id);
+
+if(!s)return;
+
+s.active=true;
+s.status="Present";
+
+saveStudents();
+renderStudents();
+renderAttendance();
+
+}
+
+
+function restoreAll(){
 
 students.forEach(s=>{
-
-table.innerHTML+=`
-
-<tr>
-
-<td>${s.id}</td>
-
-<td><b>${s.name}</b></td>
-
-<td>
-
-<button class="status present"
-onclick="changeStatus(${s.id},'Present')">
-Present
-</button>
-
-<button class="status absent"
-onclick="changeStatus(${s.id},'Absent')">
-Absent
-</button>
-
-<button class="status late"
-onclick="changeStatus(${s.id},'Late')">
-Late
-</button>
-
-</td>
-
-</tr>
-
-`;
-
+s.active=true;
+if(s.status==="Expelled")s.status="Present";
 });
 
-}
-
-
-function changeStatus(id,status){
-
-const student=students.find(s=>s.id===id);
-
-student.status=status;
-
+saveStudents();
 renderStudents();
 renderAttendance();
-updateStats();
-
-localStorage.setItem("students",JSON.stringify(students));
-
-}
-
-
-function markAllPresent(){
-
-students.forEach(s=>s.status="Present");
-
-renderStudents();
-renderAttendance();
-updateStats();
 
 }
 
 
 function updateStats(){
 
-let present=students.filter(s=>s.status==="Present").length;
-let absent=students.filter(s=>s.status==="Absent").length;
-let late=students.filter(s=>s.status==="Late").length;
+let active=students.filter(s=>s.active!==false);
 
-document.getElementById("presentCount").innerText=present;
-document.getElementById("absentCount").innerText=absent;
-document.getElementById("lateCount").innerText=late;
+document.getElementById("total").textContent=active.length;
+
+document.getElementById("present").textContent=
+active.filter(s=>s.status==="Present").length;
+
+document.getElementById("absent").textContent=
+active.filter(s=>s.status==="Absent").length;
+
+document.getElementById("late").textContent=
+active.filter(s=>s.status==="Late").length;
+
+document.getElementById("expelled").textContent=
+students.filter(s=>s.active===false).length;
 
 }
 
 
-/* =========================
-   DOCUMENTS
-========================= */
+/* ================================
+   MULTI-DAY ATTENDANCE
+================================ */
 
-let documents=JSON.parse(
-localStorage.getItem("classDocuments") || "[]"
+let attendance=JSON.parse(
+localStorage.getItem("attendanceData")||"{}"
 );
 
-let currentDocument=-1;
+let selectedDate=new Date().toISOString().slice(0,10);
+
+document.getElementById("attendanceDate").value=selectedDate;
+
+document.getElementById("attendanceDate").addEventListener(
+"change",e=>{
+selectedDate=e.target.value;
+renderAttendance();
+}
+);
 
 
-function renderDocuments(){
+function dateExists(date){
+return Object.prototype.hasOwnProperty.call(attendance,date);
+}
 
-const list=document.getElementById("documentList");
 
-list.innerHTML="";
+function addAttendanceDay(){
 
-documents.forEach((doc,index)=>{
+let date=document.getElementById("attendanceDate").value;
 
-list.innerHTML+=`
+if(!date)return;
 
-<div class="doc-item"
-onclick="openDocument(${index})">
+if(!attendance[date]){
 
-📄 ${doc.title}
+attendance[date]={};
+
+students.forEach(s=>{
+attendance[date][s.id]=s.active===false?"Expelled":"Present";
+});
+
+localStorage.setItem(
+"attendanceData",
+JSON.stringify(attendance)
+);
+
+}
+
+selectedDate=date;
+renderAttendance();
+
+}
+
+
+function setAttendance(id,status){
+
+if(!attendance[selectedDate]){
+
+attendance[selectedDate]={};
+
+students.forEach(s=>{
+attendance[selectedDate][s.id]="Present";
+});
+
+}
+
+attendance[selectedDate][id]=status;
+
+localStorage.setItem(
+"attendanceData",
+JSON.stringify(attendance)
+);
+
+renderAttendance();
+
+}
+
+
+function allPresent(){
+
+if(!attendance[selectedDate]){
+
+attendance[selectedDate]={};
+
+}
+
+students.forEach(s=>{
+
+if(s.active!==false){
+attendance[selectedDate][s.id]="Present";
+}
+
+});
+
+localStorage.setItem(
+"attendanceData",
+JSON.stringify(attendance)
+);
+
+renderAttendance();
+
+}
+
+
+function renderAttendance(){
+
+let dates=Object.keys(attendance);
+
+if(!dates.includes(selectedDate)){
+dates.push(selectedDate);
+}
+
+dates.sort();
+
+let head=`
+<tr>
+<th>Roll</th>
+<th>Student</th>
+${dates.map(d=>`<th>${d}</th>`).join("")}
+</tr>
+`;
+
+document.getElementById("attendanceHead").innerHTML=head;
+
+let body="";
+
+students.forEach(s=>{
+
+body+=`
+<tr>
+<td>${s.id}</td>
+<td><b>${s.name}</b></td>
+`;
+
+dates.forEach(date=>{
+
+let status=attendance[date]?.[s.id];
+
+if(!status){
+status=s.active===false?"Expelled":"—";
+}
+
+if(status==="Expelled"){
+
+body+=`<td><span class="x">🚫 Expelled</span></td>`;
+
+}else{
+
+body+=`
+<td>
+<div class="att">
+
+<button class="p"
+onclick="setAttendance(${s.id},'Present')">
+P
+</button>
+
+<button class="a"
+onclick="setAttendance(${s.id},'Absent')">
+A
+</button>
+
+<button class="l"
+onclick="setAttendance(${s.id},'Late')">
+L
+</button>
+
+<span>${status==="Present"?"🟢":status==="Absent"?"🔴":status==="Late"?"🟠":"—"}</span>
 
 </div>
+</td>
+`;
 
+}
+
+});
+
+body+=`</tr>`;
+
+});
+
+document.getElementById("attendanceBody").innerHTML=body;
+
+}
+
+
+/* ================================
+   BOOKS
+================================ */
+
+function bookAlert(name,pages){
+
+alert(
+"📚 "+name+
+"\n\nTotal pages: "+pages+
+"\n\nThis sample book is ready for your classroom library."
+);
+
+}
+
+
+/* ================================
+   DOCUMENTS
+================================ */
+
+let docs=JSON.parse(
+localStorage.getItem("classDocuments")||"[]"
+);
+
+let currentDoc=-1;
+
+
+function renderDocs(){
+
+let html="";
+
+docs.forEach((d,i)=>{
+
+html+=`
+<div class="docitem" onclick="openDoc(${i})">
+📄 ${d.title}
+</div>
 `;
 
 });
 
+document.getElementById("docList").innerHTML=html;
+
 }
 
 
-function newDocument(){
+function newDoc(){
 
-documents.push({
+docs.push({
 title:"New Assignment",
+student:"",
 content:""
 });
 
-currentDocument=documents.length-1;
+currentDoc=docs.length-1;
 
-renderDocuments();
-
-openDocument(currentDocument);
-
-}
-
-
-function openDocument(index){
-
-currentDocument=index;
-
-document.getElementById("docTitle").value=
-documents[index].title;
-
-document.getElementById("docContent").value=
-documents[index].content;
+saveDocs();
+openDoc(currentDoc);
 
 }
 
 
-function saveDocument(){
+function openDoc(i){
 
-if(currentDocument===-1){
+currentDoc=i;
 
-newDocument();
+document.getElementById("docTitle").value=docs[i].title;
+document.getElementById("docContent").value=docs[i].content;
+document.getElementById("studentSelect").value=docs[i].student||"";
 
+}
+
+
+function saveDoc(){
+
+if(currentDoc<0){
+
+newDoc();
 return;
 
 }
 
-documents[currentDocument].title=
-document.getElementById("docTitle").value || "Untitled";
+docs[currentDoc]={
+title:document.getElementById("docTitle").value||"Untitled",
+student:document.getElementById("studentSelect").value,
+content:document.getElementById("docContent").value
+};
 
-documents[currentDocument].content=
-document.getElementById("docContent").value;
-
-localStorage.setItem(
-"classDocuments",
-JSON.stringify(documents)
-);
-
-renderDocuments();
+saveDocs();
+renderDocs();
 
 alert("Document saved ✅");
 
 }
 
 
-function downloadDocument(){
+function saveDocs(){
+localStorage.setItem("classDocuments",JSON.stringify(docs));
+}
 
-const title=document.getElementById("docTitle").value || "document";
 
-const content=document.getElementById("docContent").value;
+function downloadDoc(){
 
-const blob=new Blob(
-[content],
-{type:"text/plain"}
-);
+let title=document.getElementById("docTitle").value||"class-document";
 
-const a=document.createElement("a");
+let text=document.getElementById("docContent").value;
+
+let blob=new Blob([text],{type:"text/plain"});
+
+let a=document.createElement("a");
 
 a.href=URL.createObjectURL(blob);
-
 a.download=title+".txt";
-
 a.click();
 
 }
 
 
-/* =========================
-   WHITEBOARD
-========================= */
+/* STUDENT SELECT */
 
-const canvas=document.getElementById("canvas");
-const ctx=canvas.getContext("2d");
+function fillStudents(){
 
-let drawing=false;
-let erasing=false;
+let select=document.getElementById("studentSelect");
 
-function resizeCanvas(){
+students.forEach(s=>{
 
-const rect=canvas.getBoundingClientRect();
+let option=document.createElement("option");
 
-const old=document.createElement("canvas");
+option.value=s.id;
+option.textContent=s.name;
 
-old.width=canvas.width;
-old.height=canvas.height;
+select.appendChild(option);
 
-old.getContext("2d").drawImage(canvas,0,0);
-
-canvas.width=rect.width;
-canvas.height=rect.height;
-
-ctx.drawImage(old,0,0,old.width,old.height,0,0,canvas.width,canvas.height);
+});
 
 }
 
-window.addEventListener("resize",resizeCanvas);
 
-setTimeout(resizeCanvas,200);
+/* ================================
+   WHITEBOARD
+================================ */
+
+const canvas=document.getElementById("board");
+const ctx=canvas.getContext("2d");
+
+let drawing=false;
+let isEraser=false;
+let canvasReady=false;
 
 
-function position(e){
+function initCanvas(){
 
-const rect=canvas.getBoundingClientRect();
+let rect=canvas.getBoundingClientRect();
+
+if(rect.width===0)return;
+
+let ratio=window.devicePixelRatio||1;
+
+let oldData=null;
+
+if(canvas.width>0 && canvas.height>0){
+oldData=canvas.toDataURL();
+}
+
+canvas.width=rect.width*ratio;
+canvas.height=rect.height*ratio;
+
+canvas.style.width=rect.width+"px";
+canvas.style.height=rect.height+"px";
+
+ctx.setTransform(ratio,0,0,ratio,0,0);
+
+if(oldData){
+
+let img=new Image();
+
+img.onload=()=>{
+ctx.drawImage(img,0,0,rect.width,rect.height);
+};
+
+img.src=oldData;
+
+}
+
+canvasReady=true;
+
+}
+
+
+function getPoint(e){
+
+let rect=canvas.getBoundingClientRect();
 
 return {
 x:e.clientX-rect.left,
@@ -1130,30 +1134,36 @@ y:e.clientY-rect.top
 }
 
 
-canvas.addEventListener("pointerdown",e=>{
+canvas.addEventListener("pointerdown",function(e){
+
+if(!canvasReady)initCanvas();
 
 drawing=true;
 
-const p=position(e);
+canvas.setPointerCapture(e.pointerId);
+
+let p=getPoint(e);
 
 ctx.beginPath();
-
 ctx.moveTo(p.x,p.y);
 
 });
 
 
-canvas.addEventListener("pointermove",e=>{
+canvas.addEventListener("pointermove",function(e){
 
 if(!drawing)return;
 
-const p=position(e);
+let p=getPoint(e);
 
-ctx.lineWidth=document.getElementById("sizePicker").value;
+ctx.lineWidth=parseInt(
+document.getElementById("size").value
+);
 
 ctx.lineCap="round";
+ctx.lineJoin="round";
 
-if(erasing){
+if(isEraser){
 
 ctx.globalCompositeOperation="destination-out";
 
@@ -1162,65 +1172,69 @@ ctx.globalCompositeOperation="destination-out";
 ctx.globalCompositeOperation="source-over";
 
 ctx.strokeStyle=
-document.getElementById("colorPicker").value;
+document.getElementById("color").value;
 
 }
 
 ctx.lineTo(p.x,p.y);
-
 ctx.stroke();
 
 ctx.beginPath();
-
 ctx.moveTo(p.x,p.y);
 
 });
 
 
-canvas.addEventListener("pointerup",()=>{
+function stopDrawing(){
+
 drawing=false;
 ctx.beginPath();
-});
-
-canvas.addEventListener("pointerleave",()=>{
-drawing=false;
-ctx.beginPath();
-});
-
-
-function setPen(){
-
-erasing=false;
 
 ctx.globalCompositeOperation="source-over";
 
 }
 
+canvas.addEventListener("pointerup",stopDrawing);
+canvas.addEventListener("pointercancel",stopDrawing);
+canvas.addEventListener("pointerleave",stopDrawing);
 
-function setEraser(){
 
-erasing=true;
+function pen(){
+
+isEraser=false;
+ctx.globalCompositeOperation="source-over";
+
+}
+
+
+function eraser(){
+
+isEraser=true;
 
 }
 
 
 function clearBoard(){
 
-if(confirm("Clear the whole whiteboard?")){
+if(confirm("Clear the complete whiteboard?")){
 
-ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.clearRect(
+0,
+0,
+canvas.clientWidth,
+canvas.clientHeight
+);
 
 }
 
 }
 
 
-function saveBoard(){
+function downloadBoard(){
 
-const link=document.createElement("a");
+let link=document.createElement("a");
 
 link.download="class-whiteboard.png";
-
 link.href=canvas.toDataURL("image/png");
 
 link.click();
@@ -1228,29 +1242,20 @@ link.click();
 }
 
 
-/* =========================
-   LOAD DATA
-========================= */
+/* ================================
+   START
+================================ */
 
-const savedStudents=
-JSON.parse(localStorage.getItem("students"));
-
-if(savedStudents){
-
-savedStudents.forEach((s,i)=>{
-
-if(students[i]){
-students[i].status=s.status;
-}
-
-});
-
-}
-
+fillStudents();
 renderStudents();
 renderAttendance();
-renderDocuments();
-updateStats();
+renderDocs();
+
+window.addEventListener("resize",()=>{
+if(document.getElementById("whiteboard").classList.contains("active")){
+initCanvas();
+}
+});
 
 </script>
 
