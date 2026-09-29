@@ -2,2333 +2,263 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Classroom Pro</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Classroom Management</title>
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Inter,Arial,sans-serif;
-  background:#f4f7fb;
-  color:#172033;
-}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-
-.app{
-  display:flex;
-  min-height:100vh;
-}
-
-.sidebar{
-  width:245px;
-  background:#111827;
-  color:white;
-  padding:22px 15px;
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  overflow:auto;
-}
-
-.logo{
-  font-size:24px;
-  font-weight:900;
-  padding:8px 12px 25px;
-}
-
-.logo span{color:#60a5fa}
-
-.nav button{
-  width:100%;
-  border:0;
-  background:transparent;
-  color:#cbd5e1;
-  text-align:left;
-  padding:13px 14px;
-  border-radius:12px;
-  margin:3px 0;
-  transition:.2s;
-}
-
-.nav button:hover,
-.nav button.active{
-  background:#2563eb;
-  color:white;
-}
-
-.main{
-  margin-left:245px;
-  width:calc(100% - 245px);
-  padding:28px;
-}
-
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:25px;
-}
-
-.topbar h1{margin:0;font-size:28px}
-
-.page{display:none}
-.page.active{display:block}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-}
-
-.card{
-  background:white;
-  border-radius:18px;
-  padding:20px;
-  box-shadow:0 8px 30px rgba(15,23,42,.07);
-}
-
-.stat{
-  font-size:30px;
-  font-weight:900;
-  margin-top:8px;
-}
-
-.muted{color:#64748b}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:18px;
-}
-
-.student-grid,
-.book-grid,
-.exam-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-}
-
-.student-card,
-.book-card,
-.exam-card{
-  background:white;
-  padding:18px;
-  border-radius:18px;
-  box-shadow:0 6px 25px rgba(0,0,0,.06);
-}
-
-.student-card h3,
-.book-card h3,
-.exam-card h3{margin-top:0}
-
-.badge{
-  display:inline-block;
-  padding:5px 10px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:800;
-}
-
-.badge.green{background:#dcfce7;color:#166534}
-.badge.red{background:#fee2e2;color:#991b1b}
-.badge.yellow{background:#fef3c7;color:#92400e}
-.badge.dark{background:#e5e7eb;color:#374151}
-
-.primary{
-  background:#2563eb;
-  color:white;
-  border:0;
-  padding:10px 15px;
-  border-radius:10px;
-  font-weight:700;
-}
-
-.secondary{
-  background:#e5e7eb;
-  color:#172033;
-  border:0;
-  padding:10px 15px;
-  border-radius:10px;
-  font-weight:700;
-}
-
-.danger{
-  background:#dc2626;
-  color:white;
-  border:0;
-  padding:10px 15px;
-  border-radius:10px;
-  font-weight:700;
-}
-
-.success{
-  background:#16a34a;
-  color:white;
-  border:0;
-  padding:10px 15px;
-  border-radius:10px;
-  font-weight:700;
-}
-
-input,textarea,select{
-  width:100%;
-  padding:11px;
-  border:1px solid #dbe2ea;
-  border-radius:10px;
-  outline:none;
-  background:white;
-}
-
-textarea{
-  resize:vertical;
-  min-height:120px;
-}
-
-label{
-  font-weight:700;
-  display:block;
-  margin-bottom:7px;
-}
-
-.form-group{margin-bottom:15px}
-
-.table-wrap{overflow-x:auto}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  background:white;
-  border-radius:15px;
-  overflow:hidden;
-}
-
-th,td{
-  padding:13px;
-  border-bottom:1px solid #e5e7eb;
-  text-align:left;
-}
-
-th{
-  background:#f8fafc;
-}
-
-.attendance-buttons{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-}
-
-.att-btn{
-  border:2px solid transparent;
-  padding:8px 11px;
-  border-radius:9px;
-  font-size:12px;
-  font-weight:800;
-}
-
-.att-present{
-  background:#dcfce7;
-  color:#166534;
-}
-
-.att-absent{
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-.att-late{
-  background:#fef3c7;
-  color:#92400e;
-}
-
-.att-suspended{
-  background:#e5e7eb;
-  color:#374151;
-}
-
-.att-btn.selected{
-  border-color:#111827;
-  transform:scale(1.04);
-}
-
-.report-box{
-  background:#0f172a;
-  color:#e2e8f0;
-  padding:20px;
-  border-radius:15px;
-  white-space:pre-wrap;
-  line-height:1.7;
-}
-
-.reader{
-  background:white;
-  border-radius:20px;
-  padding:28px;
-  box-shadow:0 8px 30px rgba(0,0,0,.06);
-}
-
-.reader h2{font-size:28px}
-
-.paragraph{
-  font-size:16px;
-  line-height:1.9;
-  margin-bottom:18px;
-  color:#334155;
-}
-
-.chapter-list{
-  display:grid;
-  gap:10px;
-}
-
-.chapter-btn{
-  padding:15px;
-  border:1px solid #dbe2ea;
-  background:white;
-  border-radius:12px;
-  text-align:left;
-  font-weight:700;
-}
-
-.chapter-btn:hover{
-  border-color:#2563eb;
-  background:#eff6ff;
-}
-
-.exam-question{
-  background:white;
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:0 5px 20px rgba(0,0,0,.05);
-}
-
-.exam-question textarea{
-  min-height:160px;
-  margin-top:12px;
-}
-
-.question-number{
-  color:#2563eb;
-  font-weight:900;
-}
-
-.exam-result{
-  background:#eff6ff;
-  border:1px solid #bfdbfe;
-  padding:20px;
-  border-radius:18px;
-  margin-bottom:20px;
-}
-
-.toolbar{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-}
-
-canvas{
-  width:100%;
-  height:550px;
-  background:white;
-  border-radius:16px;
-  border:2px solid #dbe2ea;
-  touch-action:none;
-}
-
-.text-overlay{
-  position:fixed;
-  display:none;
-  z-index:100;
-  width:280px;
-  min-height:80px;
-  border:2px solid #2563eb;
-}
-
-.document-card{
-  background:white;
-  padding:18px;
-  border-radius:16px;
-  margin-bottom:12px;
-}
-
-details{
-  background:white;
-  padding:15px;
-  border-radius:14px;
-  margin-bottom:10px;
-}
-
-summary{
-  cursor:pointer;
-  font-weight:800;
-}
-
-.answer-view{
-  background:#f8fafc;
-  padding:15px;
-  border-radius:12px;
-  margin:10px 0;
-  line-height:1.7;
-}
-
-.empty{
-  text-align:center;
-  padding:30px;
-  color:#64748b;
-}
-
-@media(max-width:1000px){
-  .cards{grid-template-columns:repeat(2,1fr)}
-  .student-grid,.book-grid,.exam-grid{grid-template-columns:repeat(2,1fr)}
-}
-
-@media(max-width:700px){
-  .sidebar{
-    width:100%;
-    height:auto;
-    position:relative;
-  }
-
-  .app{display:block}
-  .main{
-    margin-left:0;
-    width:100%;
-    padding:15px;
-  }
-
-  .cards,
-  .grid,
-  .student-grid,
-  .book-grid,
-  .exam-grid{
-    grid-template-columns:1fr;
-  }
-
-  .topbar{
-    display:block;
-  }
-
-  .topbar h1{margin-bottom:10px}
-
-  canvas{height:400px}
-}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#f4f6fb;color:#172033}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}
+.app{display:flex;min-height:100vh}.sidebar{width:245px;background:#111827;color:white;padding:20px;position:fixed;inset:0 auto 0 0;overflow:auto}.brand{font-size:22px;font-weight:800;margin-bottom:25px}.nav button{width:100%;text-align:left;background:transparent;color:#dbe3f0;padding:12px;border-radius:10px;margin:3px 0}.nav button:hover,.nav button.active{background:#273449;color:#fff}.main{margin-left:245px;width:calc(100% - 245px);padding:25px}.top{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:20px}.top h1{margin:0}.section{display:none}.section.active{display:block}.card{background:#fff;border:1px solid #e3e7ef;border-radius:16px;padding:20px;margin-bottom:18px;box-shadow:0 5px 20px rgba(20,30,50,.04)}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.full{grid-column:1/-1}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}.field input,.field select,.field textarea,input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d8dee9;border-radius:9px;outline:none;background:#fff}.field textarea{min-height:130px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus,input:focus,select:focus,textarea:focus{border-color:#5b4bdb;box-shadow:0 0 0 3px rgba(91,75,219,.1)}.primary,.primary-btn{background:#5b4bdb;color:#fff;padding:11px 16px;border-radius:9px}.secondary,.secondary-btn{background:#eef1f6;color:#263247;padding:10px 14px;border-radius:9px}.danger,.danger-btn{background:#fee8e8;color:#b42318;padding:10px 14px;border-radius:9px}.success{background:#e7f7ed;color:#147a3e;padding:7px 10px;border-radius:20px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat{background:#fff;border:1px solid #e3e7ef;border-radius:15px;padding:18px}.stat b{font-size:27px;display:block;margin-bottom:5px}.muted{color:#667085;font-size:13px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #e8ebf0;text-align:left;font-size:13px;vertical-align:top}th{background:#f8f9fc}.pill{display:inline-block;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:700}.present{background:#dcfce7;color:#166534}.absent{background:#fee2e2;color:#991b1b}.late{background:#fef3c7;color:#92400e}.suspended{background:#e5e7eb;color:#374151}.book-grid,.exam-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.book,.exam{padding:18px;border:1px solid #e2e6ef;border-radius:14px;background:#fff}.book h3,.exam h3{margin:8px 0}.chapter-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.chapter-btn{padding:15px;background:#f7f8fc;border:1px solid #e1e5ed;border-radius:10px;text-align:left}.chapter-btn:hover{background:#eef0ff}.reader{line-height:1.75}.page-nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}.question{border:1px solid #e1e5ed;border-radius:12px;padding:16px;margin-bottom:14px}.question textarea{min-height:130px;margin-top:10px}.report{background:#f8fafc;border-radius:12px;padding:16px;margin-top:15px}.answer-row{border-top:1px solid #e4e7ec;padding:14px 0}.answer-row:first-child{border-top:0}.whiteboard-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.canvas-wrap{background:#fff;border:1px solid #dce1e9;border-radius:12px;overflow:hidden}.canvas-wrap canvas{display:block;width:100%;height:520px;touch-action:none}.doc{border:1px solid #e1e5ed;border-radius:12px;padding:15px;margin:10px 0}.notes-list{display:flex;flex-direction:column;gap:12px}.note{border:1px solid #e0e5ee;border-radius:13px;padding:16px}.note-head{display:flex;justify-content:space-between;gap:12px}.note-body{background:#f7f8fb;padding:13px;border-radius:9px;margin-top:12px;white-space:pre-wrap;line-height:1.6}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.toast{position:fixed;right:20px;bottom:20px;background:#111827;color:white;padding:12px 16px;border-radius:9px;display:none;z-index:99}.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.modal-box{background:#fff;border-radius:16px;padding:22px;max-width:800px;width:100%;max-height:90vh;overflow:auto}.copy-answer{float:right}.report-item{border:1px solid #e1e5ed;border-radius:10px;padding:14px;margin:10px 0}.toolbar{display:flex;gap:8px;flex-wrap:wrap}.toolbar input,.toolbar select{max-width:220px}.empty{text-align:center;padding:35px;color:#667085}
+@media(max-width:900px){.sidebar{width:210px}.main{margin-left:210px;width:calc(100% - 210px)}.book-grid,.exam-grid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.sidebar{position:relative;width:100%;height:auto}.app{display:block}.main{margin:0;width:100%;padding:14px}.grid,.chapter-list{grid-template-columns:1fr}.book-grid,.exam-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.top{align-items:flex-start}.canvas-wrap canvas{height:400px}}
 </style>
 </head>
-
 <body>
-
 <div class="app">
-
 <aside class="sidebar">
-  <div class="logo">Class<span>room</span> Pro</div>
-
-  <div class="nav">
-    <button onclick="showPage('dashboard',this)">🏠 Dashboard</button>
-    <button onclick="showPage('students',this)">👨‍🎓 Students</button>
-    <button onclick="showPage('attendance',this)">📋 Attendance</button>
-    <button onclick="showPage('books',this)">📚 Books</button>
-    <button onclick="showPage('documents',this)">📄 Documents</button>
-    <button onclick="showPage('whiteboard',this)">🖊️ Whiteboard</button>
-    <button onclick="showPage('exams',this)">📝 Exams</button>
-    <button onclick="showPage('admin',this)">🛠️ Admin Panel</button>
-  </div>
+<div class="brand">🏫 Classroom</div>
+<div class="nav" id="nav">
+<button onclick="showSection('dashboard')" class="active">🏠 Dashboard</button>
+<button onclick="showSection('students')">👨‍🎓 Students</button>
+<button onclick="showSection('attendance')">📅 Attendance</button>
+<button onclick="showSection('books')">📚 Books</button>
+<button onclick="showSection('documents')">📄 Documents</button>
+<button onclick="showSection('whiteboard')">🖊️ Whiteboard</button>
+<button onclick="showSection('exams')">📝 Exams</button>
+<button onclick="showSection('notes')">📌 Notes</button>
+<button onclick="showSection('admin')">🛠️ Admin Panel</button>
+</div>
 </aside>
 
 <main class="main">
-
-<div class="topbar">
-  <h1 id="pageTitle">Dashboard</h1>
-  <div class="muted">Classroom Management System</div>
+<section id="dashboard" class="section active">
+<div class="top"><div><h1>Classroom Dashboard</h1><p class="muted">Manage students, attendance, books, notes and exams.</p></div></div>
+<div class="stats">
+<div class="stat"><b id="statActive">0</b><span class="muted">Active Students</span></div>
+<div class="stat"><b id="statExpelled">0</b><span class="muted">Expelled</span></div>
+<div class="stat"><b>4</b><span class="muted">Books</span></div>
+<div class="stat"><b>16</b><span class="muted">Chapter Exams</span></div>
 </div>
-
-<!-- DASHBOARD -->
-
-<section id="dashboard" class="page active">
-
-<div class="cards">
-
-<div class="card">
-<div class="muted">Active Students</div>
-<div class="stat" id="activeCount">40</div>
-</div>
-
-<div class="card">
-<div class="muted">Expelled</div>
-<div class="stat" id="expelledCount">0</div>
-</div>
-
-<div class="card">
-<div class="muted">Books</div>
-<div class="stat">4</div>
-</div>
-
-<div class="card">
-<div class="muted">Chapter Exams</div>
-<div class="stat">16</div>
-</div>
-
-</div>
-
-<br>
-
-<div class="card">
-<h2>Welcome to Classroom Pro 👋</h2>
-<p class="paragraph">
-This classroom system lets a teacher manage students, daily attendance,
-educational books, documents, a digital whiteboard and chapter-based exams
-from one laptop.
-</p>
-</div>
-
+<div class="card"><h2>Welcome 👋</h2><p class="muted">Use the sidebar to manage the classroom.</p></div>
 </section>
 
-
-<!-- STUDENTS -->
-
-<section id="students" class="page">
-
-<div class="card">
-<h2>Students</h2>
-<p class="muted">40 students are already added to the class.</p>
-</div>
-
-<br>
-
-<div id="studentGrid" class="student-grid"></div>
-
+<section id="students" class="section">
+<div class="top"><div><h1>Students</h1><p class="muted">40 students with age information.</p></div></div>
+<div class="card"><div class="toolbar"><input id="studentSearch" placeholder="🔎 Search student..." oninput="renderStudents()"></div></div>
+<div class="card table-wrap"><table><thead><tr><th>Name</th><th>Age</th><th>Status</th><th>Action</th></tr></thead><tbody id="studentsBody"></tbody></table></div>
 </section>
 
-
-<!-- ATTENDANCE -->
-
-<section id="attendance" class="page">
-
-<div class="card">
-
-<h2>📋 Daily Attendance</h2>
-
-<div class="grid">
-
-<div class="form-group">
-<label>Select Date</label>
-<input type="date" id="attendanceDate">
-</div>
-
-<div class="form-group">
-<label>Quick Action</label>
-<div style="display:flex;gap:8px;flex-wrap:wrap">
-<button class="success" onclick="markEveryone('Present')">Mark All Present</button>
-<button class="secondary" onclick="clearAttendance()">Clear</button>
-</div>
-</div>
-
-</div>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h3>Click a button for each student</h3>
-
-<div class="table-wrap">
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Student</th>
-<th>Age</th>
-<th>Status</th>
-</tr>
-</thead>
-
-<tbody id="attendanceTable"></tbody>
-
-</table>
-</div>
-
-<br>
-
-<button class="primary" onclick="saveAttendance()">💾 Save Attendance</button>
-<button class="secondary" onclick="generateAttendanceReport()">📊 Generate Report</button>
-<button class="primary" onclick="downloadAttendanceReport()">⬇️ Download Report</button>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h2>📊 Attendance Report</h2>
-
-<div id="attendanceReport" class="report-box">
-Select a date and generate the report.
-</div>
-
-</div>
-
+<section id="attendance" class="section">
+<div class="top"><div><h1>Attendance</h1><p class="muted">Click a status button for every student.</p></div></div>
+<div class="card"><div class="grid">
+<div class="field"><label>Date</label><input type="date" id="attendanceDate" onchange="renderAttendance()"></div>
+<div class="field"><label>Search</label><input id="attendanceSearch" placeholder="Student..." oninput="renderAttendance()"></div>
+</div></div>
+<div class="card table-wrap"><table><thead><tr><th>Student</th><th>Age</th><th>Status</th></tr></thead><tbody id="attendanceBody"></tbody></table></div>
+<div class="card"><h2>Daily Report</h2><div id="attendanceReport" class="report">Select attendance to generate report.</div><br><button class="primary" onclick="downloadAttendanceReport()">📥 Download TXT</button></div>
 </section>
 
-
-<!-- BOOKS -->
-
-<section id="books" class="page">
-
-<div id="bookLibrary">
-
-<div class="card">
-<h2>📚 Digital Library</h2>
-<p class="muted">
-Every book contains 4 chapters. Each chapter contains detailed educational pages.
-</p>
-</div>
-
-<br>
-
-<div id="bookGrid" class="book-grid"></div>
-
-</div>
-
-<div id="chapterView" style="display:none">
-
-<div class="card">
-<button class="secondary" onclick="backToBooks()">← Back to Books</button>
-<h2 id="chapterBookTitle"></h2>
-<p class="muted">Choose a chapter</p>
-</div>
-
-<br>
-
-<div id="chapterList" class="chapter-list"></div>
-
-</div>
-
-<div id="bookReader" style="display:none">
-
-<div class="reader">
-
-<button class="secondary" onclick="backToChapters()">← Back to Chapters</button>
-
-<h2 id="readerTitle"></h2>
-
-<div class="muted" id="readerPage"></div>
-
-<hr>
-
-<div id="readerContent"></div>
-
-<br>
-
-<div style="display:flex;justify-content:space-between;gap:10px">
-
-<button class="secondary" onclick="previousBookPage()">← Previous</button>
-
-<button class="primary" onclick="nextBookPage()">Next →</button>
-
-</div>
-
-</div>
-
-</div>
-
+<section id="books" class="section">
+<div class="top"><div><h1>Books</h1><p class="muted">Books → chapters → pages.</p></div></div>
+<div id="bookHome"></div>
+<div id="chapterView" style="display:none"></div>
+<div id="pageView" style="display:none"></div>
 </section>
 
-
-<!-- DOCUMENTS -->
-
-<section id="documents" class="page">
-
-<div class="card">
-
-<h2>📄 Documents & Tasks</h2>
-
-<div class="form-group">
-<label>Document Title</label>
-<input id="docTitle" placeholder="Example: Science Homework">
-</div>
-
-<div class="form-group">
-<label>Assign to Student</label>
-<select id="docStudent"></select>
-</div>
-
-<div class="form-group">
-<label>Document Content</label>
-<textarea id="docContent" placeholder="Write the task or document..."></textarea>
-</div>
-
-<button class="primary" onclick="saveDocument()">Save Document</button>
-
-</div>
-
-<br>
-
-<div id="documentList"></div>
-
+<section id="documents" class="section">
+<div class="top"><div><h1>Documents</h1><p class="muted">Create classroom tasks and documents.</p></div></div>
+<div class="card"><div class="grid">
+<div class="field"><label>Document title</label><input id="docTitle" placeholder="e.g. Science Task"></div>
+<div class="field"><label>Assign to student</label><select id="docStudent"></select></div>
+<div class="field full"><label>Content</label><textarea id="docText" placeholder="Write document..."></textarea></div>
+</div><br><button class="primary" onclick="saveDocument()">💾 Save Document</button></div>
+<div class="card"><h2>Saved Documents</h2><div id="documentsList"></div></div>
 </section>
 
-
-<!-- WHITEBOARD -->
-
-<section id="whiteboard" class="page">
-
+<section id="whiteboard" class="section">
+<div class="top"><div><h1>Whiteboard</h1><p class="muted">Draw or type with mouse/touch.</p></div></div>
 <div class="card">
-
-<h2>🖊️ Digital Whiteboard</h2>
-
-<div class="toolbar">
-
-<button class="primary" onclick="setWhiteboardTool('draw')">
-✏️ Dibujar
-</button>
-
-<button class="secondary" onclick="setWhiteboardTool('text')">
-🔤 Escribir
-</button>
-
-<button class="secondary" onclick="setWhiteboardTool('eraser')">
-🧽 Borrar
-</button>
-
-<button class="danger" onclick="clearBoard()">
-🗑️ Limpiar
-</button>
-
-<button class="success" onclick="saveBoardPNG()">
-💾 Guardar PNG
-</button>
-
-<label style="margin:0">
-<input type="color" id="penColor" value="#111827">
-</label>
-
-<label style="margin:0">
-<input type="range" id="penSize" min="1" max="30" value="4">
-</label>
-
+<div class="whiteboard-tools">
+<button class="primary" onclick="setWhiteboardTool('draw')">✏️ Dibujar</button>
+<button class="secondary" onclick="setWhiteboardTool('text')">🔤 Escribir</button>
+<button class="secondary" onclick="setWhiteboardTool('eraser')">🧽 Borrar</button>
+<button class="danger" onclick="clearCanvas()">🗑️ Limpiar</button>
+<button class="primary" onclick="saveCanvas()">💾 Guardar PNG</button>
+<label>Color <input type="color" id="penColor" value="#111827"></label>
+<label>Size <input type="range" id="penSize" min="1" max="30" value="4"></label>
 </div>
-
-<p class="muted">
-Dibujar = mouse/touch se usa como lápiz.
-Escribir = haz click en el tablero y escribe con el teclado.
-</p>
-
-<canvas id="whiteboardCanvas"></canvas>
-
-<textarea id="textInputOverlay"
-class="text-overlay"
-placeholder="Escribe aquí..."></textarea>
-
+<div class="canvas-wrap"><canvas id="whiteboardCanvas"></canvas></div>
 </div>
-
 </section>
 
-
-<!-- EXAMS -->
-
-<section id="exams" class="page">
-
+<section id="exams" class="section">
 <div id="examHome">
-
-<div class="card">
-
-<h2>📝 Chapter Exams</h2>
-
-<p class="paragraph">
-Each exam contains 10 long-answer questions worth 2 marks each.
-Students should answer using complete paragraphs.
-</p>
-
+<div class="top"><div><h1>Chapter Exams</h1><p class="muted">16 chapter exams, 10 long-answer questions each.</p></div></div>
+<div id="examBooks" class="exam-grid"></div>
 </div>
-
-<br>
-
-<div id="examBookGrid" class="exam-grid"></div>
-
-</div>
-
-<div id="examChapters" style="display:none">
-
-<div class="card">
-
-<button class="secondary" onclick="backToExamBooks()">← Back</button>
-
-<h2 id="examBookTitle"></h2>
-
-<div id="examChapterList"></div>
-
-</div>
-
-</div>
-
-<div id="examPaper" style="display:none">
-
-<div class="card">
-
-<button class="secondary" onclick="backToExamChapters()">← Back</button>
-
-<h2 id="examTitle"></h2>
-
-<p class="muted">
-10 questions • 20 marks • Long paragraph answers
-</p>
-
-</div>
-
-<br>
-
-<div id="questionsContainer"></div>
-
-<button class="success" onclick="submitExam()">
-✅ Submit Exam & Generate Report
-</button>
-
-</div>
-
-<div id="examReport" style="display:none">
-
-<div class="exam-result">
-
-<h2>📊 Exam Report</h2>
-
-<div id="examReportContent"></div>
-
-</div>
-
-<button class="primary" onclick="resetCurrentExam()">
-🔄 Reset Exam for Next Student
-</button>
-
-<button class="secondary" onclick="backToExamBooks()">
-📚 Back to Exams
-</button>
-
-</div>
-
+<div id="examChapters" style="display:none"></div>
+<div id="examPaper" style="display:none"></div>
+<div id="examReport" style="display:none"></div>
 </section>
 
-
-<!-- ADMIN -->
-
-<section id="admin" class="page">
-
-<div class="card">
-
-<h2>🛠️ Admin Panel</h2>
-
-<p class="muted">
-Teacher can see submitted exam answers and previous exam reports.
-No login required.
-</p>
-
-<button class="danger" onclick="clearExamHistory()">
-🗑️ Clear Exam History
-</button>
-
+<section id="notes" class="section">
+<div class="top"><div><h1>📌 Student Notes</h1><p class="muted">Google Forms-style notes inside the classroom app.</p></div></div>
+<div class="stats">
+<div class="stat"><b id="notesCount">0</b><span class="muted">Total Notes</span></div>
+<div class="stat"><b id="notesStudents">0</b><span class="muted">Students</span></div>
+<div class="stat"><b id="notesToday">0</b><span class="muted">Today</span></div>
+<div class="stat"><b id="notesImportant">0</b><span class="muted">Important</span></div>
 </div>
-
-<br>
-
-<div id="adminExamHistory"></div>
-
+<div class="card">
+<h2>➕ Create New Note</h2><br>
+<div class="grid">
+<div class="field"><label>Student Name *</label><input id="notesStudentName" placeholder="e.g. Alex"></div>
+<div class="field"><label>Age *</label><input id="notesStudentAge" type="number" placeholder="e.g. 16"></div>
+<div class="field"><label>Date *</label><input id="notesDate" type="date"></div>
+<div class="field"><label>Subject</label><select id="notesSubject"><option value="">Select subject</option><option>Science Explorer</option><option>Mathematics</option><option>Computer Science</option><option>World Geography</option><option>English</option><option>Spanish</option><option>Catalan</option><option>Other</option></select></div>
+<div class="field"><label>Note Type</label><select id="notesType"><option>General</option><option>Homework</option><option>Behaviour</option><option>Performance</option><option>Attendance</option><option>Important</option><option>Parent Meeting</option><option>Teacher Note</option></select></div>
+<div class="field"><label>Short Title</label><input id="notesTitle" placeholder="e.g. Homework progress"></div>
+<div class="field full"><label>Notes *</label><textarea id="notesText" placeholder="Write your note here..."></textarea></div>
+</div><br>
+<button class="primary" onclick="saveClassNote()">💾 Save Note</button>
+<button class="secondary" onclick="clearClassNoteForm()">↩ Clear</button>
+</div>
+<div class="card"><h2>📚 Saved Notes</h2><br>
+<div class="grid"><input id="notesSearch" placeholder="🔎 Search..." oninput="renderClassNotes()"><select id="notesFilter" onchange="renderClassNotes()"><option value="all">All Types</option><option>General</option><option>Homework</option><option>Behaviour</option><option>Performance</option><option>Attendance</option><option>Important</option><option>Parent Meeting</option><option>Teacher Note</option></select></div><br>
+<div id="classNotesList" class="notes-list"></div></div>
+<div class="card"><button class="primary" onclick="exportNotes()">📥 Download All Notes</button> <button class="danger" onclick="deleteAllNotes()">🗑️ Delete All Notes</button></div>
 </section>
 
+<section id="admin" class="section">
+<div class="top"><div><h1>Admin Panel</h1><p class="muted">View all submitted exam answers. No login required.</p></div></div>
+<div class="card"><button class="danger" onclick="clearExamHistory()">🗑️ Clear Exam History</button></div>
+<div id="adminResults"></div>
+</section>
 </main>
 </div>
 
+<div id="toast" class="toast"></div>
 
 <script>
-
-/* =========================
-   STUDENTS
-========================= */
-
-const students = [
-"Alex","Daniel","Lucas","Leo","Hugo","Marc","Pablo","Adrian","Eric","Noah",
-"Adam","Mario","David","Enzo","Bruno","Ivan","Nil","Jan","Pol","Joel",
-"Arjun","Aarav","Rohan","Kabir","Dev","Ryan","Sam","Ethan","Liam","Oliver",
-"Sofia","Emma","Mia","Anna","Sara","Laura","Julia","Clara","Nora","Aisha"
-];
-
-const ages = [15,16,17];
-
-let studentData =
-JSON.parse(localStorage.getItem("class_students")) ||
-students.map((name,i)=>({
- id:i+1,
- name,
- age:ages[i%3],
- expelled:false
-}));
-
-function saveStudents(){
- localStorage.setItem("class_students",JSON.stringify(studentData));
- updateStats();
-}
-
-function renderStudents(){
-
- const grid=document.getElementById("studentGrid");
- grid.innerHTML="";
-
- studentData.forEach(s=>{
-
-  const div=document.createElement("div");
-  div.className="student-card";
-
-  div.innerHTML=`
-  <h3>${s.name}</h3>
-  <p>Age: ${s.age}</p>
-
-  ${
-   s.expelled
-   ? `<span class="badge red">Expelled</span>
-      <br><br>
-      <button class="success" onclick="restoreStudent(${s.id})">Restore</button>`
-   : `<span class="badge green">Active</span>
-      <br><br>
-      <button class="danger" onclick="expelStudent(${s.id})">Expel</button>`
-  }
-  `;
-
-  grid.appendChild(div);
- });
-}
-
-function expelStudent(id){
- const s=studentData.find(x=>x.id===id);
- if(!s)return;
-
- s.expelled=true;
- saveStudents();
- renderStudents();
- renderAttendance();
-}
-
-function restoreStudent(id){
- const s=studentData.find(x=>x.id===id);
- if(!s)return;
-
- s.expelled=false;
- saveStudents();
- renderStudents();
- renderAttendance();
-}
-
-function updateStats(){
-
- document.getElementById("activeCount").textContent=
- studentData.filter(s=>!s.expelled).length;
-
- document.getElementById("expelledCount").textContent=
- studentData.filter(s=>s.expelled).length;
-}
-
-
-/* =========================
-   NAVIGATION
-========================= */
-
-function showPage(page,button){
-
- document.querySelectorAll(".page")
- .forEach(p=>p.classList.remove("active"));
-
- document.getElementById(page).classList.add("active");
-
- document.querySelectorAll(".nav button")
- .forEach(b=>b.classList.remove("active"));
-
- if(button)button.classList.add("active");
-
- const names={
- dashboard:"Dashboard",
- students:"Students",
- attendance:"Attendance",
- books:"Books",
- documents:"Documents",
- whiteboard:"Whiteboard",
- exams:"Exams",
- admin:"Admin Panel"
- };
-
- document.getElementById("pageTitle").textContent=names[page]||"Classroom";
-}
-
-
-/* =========================
-   ATTENDANCE
-========================= */
-
-let attendanceData=
-JSON.parse(localStorage.getItem("class_attendance"))||{};
-
-let attendanceDates=
-JSON.parse(localStorage.getItem("attendance_dates"))||[];
-
-const attendanceDate=document.getElementById("attendanceDate");
-
-attendanceDate.value=new Date().toISOString().split("T")[0];
-
-function attendanceKey(){
- return attendanceDate.value;
-}
-
-function renderAttendance(){
-
- const tbody=document.getElementById("attendanceTable");
- tbody.innerHTML="";
-
- const date=attendanceKey();
-
- if(!attendanceData[date]){
-   attendanceData[date]={};
- }
-
- studentData.forEach((s,i)=>{
-
-  if(!attendanceData[date][s.id]){
-   attendanceData[date][s.id]="Present";
-  }
-
-  const status=attendanceData[date][s.id];
-
-  const tr=document.createElement("tr");
-
-  tr.innerHTML=`
-  <td>${i+1}</td>
-  <td><strong>${s.name}</strong></td>
-  <td>${s.age}</td>
-
-  <td>
-   <div class="attendance-buttons">
-
-    <button
-    class="att-btn att-present ${status==="Present"?"selected":""}"
-    onclick="setAttendance(${s.id},'Present')">
-    🟢 Present
-    </button>
-
-    <button
-    class="att-btn att-absent ${status==="Absent"?"selected":""}"
-    onclick="setAttendance(${s.id},'Absent')">
-    🔴 Absent
-    </button>
-
-    <button
-    class="att-btn att-late ${status==="Late"?"selected":""}"
-    onclick="setAttendance(${s.id},'Late')">
-    🟡 Late
-    </button>
-
-    <button
-    class="att-btn att-suspended ${status==="Suspended"?"selected":""}"
-    onclick="setAttendance(${s.id},'Suspended')">
-    ⚫ Suspended
-    </button>
-
-   </div>
-  </td>
-  `;
-
-  tbody.appendChild(tr);
- });
-}
-
-function setAttendance(id,status){
-
- const date=attendanceKey();
-
- if(!attendanceData[date]){
-   attendanceData[date]={};
- }
-
- attendanceData[date][id]=status;
-
- localStorage.setItem(
-  "class_attendance",
-  JSON.stringify(attendanceData)
- );
-
- renderAttendance();
- generateAttendanceReport();
-}
-
-function saveAttendance(){
-
- const date=attendanceKey();
-
- if(!attendanceDates.includes(date)){
-   attendanceDates.push(date);
- }
-
- localStorage.setItem(
-  "attendance_dates",
-  JSON.stringify(attendanceDates)
- );
-
- localStorage.setItem(
-  "class_attendance",
-  JSON.stringify(attendanceData)
- );
-
- generateAttendanceReport();
-
- alert("Attendance saved successfully.");
-}
-
-function markEveryone(status){
-
- const date=attendanceKey();
-
- if(!attendanceData[date]){
-   attendanceData[date]={};
- }
-
- studentData.forEach(s=>{
-   attendanceData[date][s.id]=status;
- });
-
- renderAttendance();
-}
-
-function clearAttendance(){
-
- const date=attendanceKey();
-
- attendanceData[date]={};
-
- renderAttendance();
-
- document.getElementById("attendanceReport").textContent=
- "Attendance cleared for this date.";
-}
-
-attendanceDate.addEventListener("change",()=>{
- renderAttendance();
- generateAttendanceReport();
-});
-
-function generateAttendanceReport(){
-
- const date=attendanceKey();
-
- const data=attendanceData[date]||{};
-
- const groups={
-  Present:[],
-  Absent:[],
-  Late:[],
-  Suspended:[]
- };
-
- studentData.forEach(s=>{
-
-  const status=data[s.id]||"Present";
-
-  if(groups[status]){
-    groups[status].push(s.name);
-  }
-
- });
-
- const total=studentData.length;
-
- const report=
-`DAILY ATTENDANCE REPORT
-========================
-
-Date: ${date}
-
-Total Students: ${total}
-
-Present: ${groups.Present.length}
-Absent: ${groups.Absent.length}
-Late: ${groups.Late.length}
-Suspended: ${groups.Suspended.length}
-
-------------------------
-
-PRESENT STUDENTS
-${groups.Present.length ? groups.Present.join(", ") : "None"}
-
-ABSENT STUDENTS
-${groups.Absent.length ? groups.Absent.join(", ") : "None"}
-
-LATE STUDENTS
-${groups.Late.length ? groups.Late.join(", ") : "None"}
-
-SUSPENDED STUDENTS
-${groups.Suspended.length ? groups.Suspended.join(", ") : "None"}
-
-------------------------
-
-Attendance Percentage:
-${total ? ((groups.Present.length/total)*100).toFixed(1) : 0}%
-
-Generated by Classroom Pro
-`;
-
- document.getElementById("attendanceReport").textContent=report;
-
- return report;
-}
-
-function downloadAttendanceReport(){
-
- const report=generateAttendanceReport();
-
- const blob=new Blob([report],{type:"text/plain"});
-
- const a=document.createElement("a");
-
- a.href=URL.createObjectURL(blob);
-
- a.download=`attendance-${attendanceKey()}.txt`;
-
- a.click();
-
- URL.revokeObjectURL(a.href);
-}
-
-
-/* =========================
-   BOOKS
-========================= */
+const studentNames=["Alex","Daniel","Lucas","Leo","Hugo","Marc","Pablo","Adrian","Eric","Noah","Adam","Mario","David","Enzo","Bruno","Ivan","Nil","Jan","Pol","Joel","Arjun","Aarav","Rohan","Kabir","Dev","Ryan","Sam","Ethan","Liam","Oliver","Sofia","Emma","Mia","Anna","Sara","Laura","Julia","Clara","Nora","Aisha"];
+const ages=[15,16,17];
+let students=JSON.parse(localStorage.getItem("class_students")||"null")||studentNames.map((name,i)=>({id:i+1,name,age:ages[i%3],expelled:false}));
+let attendance=JSON.parse(localStorage.getItem("class_attendance")||"{}");
+let attendanceDates=JSON.parse(localStorage.getItem("attendance_dates")||"[]");
+let documents=JSON.parse(localStorage.getItem("class_documents")||"[]");
+let examResults=JSON.parse(localStorage.getItem("exam_results")||"[]");
+let classNotes=JSON.parse(localStorage.getItem("class_notes")||"[]");
+let currentBook=null,currentChapter=null,currentPage=0,editingNote=null;
 
 const books={
-
-"Science Explorer":[
-"Life Processes",
-"Chemical Reactions",
-"Electricity",
-"Light"
-],
-
-"Mathematics":[
-"Real Numbers",
-"Polynomials",
-"Geometry",
-"Statistics"
-],
-
-"Computer Science":[
-"Computer Fundamentals",
-"Programming",
-"Computer Networks",
-"Cyber Safety"
-],
-
-"World Geography":[
-"Earth and Continents",
-"Climate",
-"Natural Resources",
-"Population"
-]
-
+"Science Explorer":["Life Processes","Chemical Reactions","Electricity","Light"],
+"Mathematics":["Real Numbers","Polynomials","Geometry","Statistics"],
+"Computer Science":["Computer Fundamentals","Programming","Computer Networks","Cyber Safety"],
+"World Geography":["Earth and Continents","Climate","Natural Resources","Population"]
 };
-
 const chapterInfo={
-
-"Life Processes":[
-"Life processes are the basic activities that allow living organisms to survive. Nutrition provides energy and materials, respiration releases usable energy, transportation moves substances through the organism, and excretion removes unwanted products.",
-"Living organisms need food because cells constantly perform chemical reactions. Plants can prepare food through photosynthesis, while animals obtain nutrients by consuming other organisms. A balanced supply of nutrients supports growth and repair.",
-"Respiration is the process through which cells release energy from food. In aerobic respiration, oxygen is involved in releasing energy from glucose. The energy produced can then be used for movement, growth, repair and other cellular activities.",
-"The transport system distributes important substances around an organism. In humans, blood carries oxygen, nutrients and waste materials. In plants, specialized tissues transport water and dissolved minerals from roots and distribute food produced by leaves."
-],
-
-"Chemical Reactions":[
-"A chemical reaction occurs when one or more substances change into new substances with different properties. Reactions may involve changes in colour, temperature, state, formation of a gas or formation of a solid.",
-"Chemical equations are used to represent reactions. The substances present before the reaction are called reactants, while the substances produced are called products. Equations should be balanced because atoms are conserved during a chemical reaction.",
-"Oxidation and reduction are important ideas in chemistry. Oxidation can involve gaining oxygen or losing electrons, while reduction can involve losing oxygen or gaining electrons. Many chemical processes contain both changes at the same time.",
-"Chemical reactions are important in everyday life. Cooking, digestion, respiration, corrosion and combustion all involve chemical changes. Understanding reactions helps us predict how materials behave under different conditions."
-],
-
-"Electricity":[
-"Electricity involves the movement of electric charge. A simple electric circuit requires a source of electrical energy, conducting paths and suitable components. A closed circuit allows current to flow continuously.",
-"Voltage represents the electrical potential difference between two points. Current describes the rate at which charge flows through a circuit. Resistance describes how strongly a component opposes the flow of current.",
-"Ohm's law connects voltage, current and resistance. For many conductors under suitable conditions, the relationship can be expressed as V = IR. This relationship allows electrical quantities to be calculated when two values are known.",
-"Electrical energy is used in homes, schools, transportation and industry. Electrical safety is important because excessive current, damaged insulation and incorrect connections can create dangerous situations."
-],
-
-"Light":[
-"Light is a form of electromagnetic radiation that allows us to see objects. When light reaches an object it can be reflected, absorbed or transmitted depending on the material.",
-"Reflection occurs when light changes direction after striking a surface. Smooth surfaces can produce clear reflections, while rough surfaces scatter light in many directions.",
-"Refraction occurs when light changes speed and direction as it moves between different transparent materials. This effect explains why objects can appear displaced when viewed through water.",
-"Lenses use refraction to form images. Convex lenses can converge light, while concave lenses can diverge it. Lenses are used in cameras, spectacles, microscopes and many scientific instruments."
-],
-
-"Real Numbers":[
-"Real numbers include rational and irrational numbers. Rational numbers can be written as a fraction of two integers, while irrational numbers cannot be represented as an exact fraction of integers.",
-"The number line provides a visual way to represent real numbers. Every real number corresponds to a point on the number line, and numbers increase as we move from left to right.",
-"Prime factorisation expresses a number as a product of prime numbers. It is useful when finding highest common factors, lowest common multiples and simplifying numerical expressions.",
-"Real numbers follow important properties such as commutativity, associativity and distributivity. These properties help us rearrange expressions and perform calculations efficiently."
-],
-
-"Polynomials":[
-"A polynomial is an algebraic expression made from variables, coefficients and non-negative integer powers. Examples include linear, quadratic and cubic expressions.",
-"Polynomials can be added and subtracted by combining like terms. Terms are considered like terms when they contain the same variables raised to the same powers.",
-"Multiplication of polynomials uses the distributive property. Each term in one polynomial is multiplied by each term in the other polynomial before like terms are combined.",
-"Factorisation is the process of expressing a polynomial as a product of simpler expressions. It can make equations easier to solve and expressions easier to understand."
-],
-
-"Geometry":[
-"Geometry studies shapes, sizes, positions and relationships between objects. Basic geometric ideas include points, lines, angles, triangles, quadrilaterals and circles.",
-"Triangles can be classified by their sides or angles. The sum of the interior angles of a triangle is 180 degrees, which provides an important relationship for solving geometric problems.",
-"Area measures the amount of surface covered by a two-dimensional shape. Different shapes have different formulas for area, and units must be squared because area measures two dimensions.",
-"Geometric reasoning uses definitions, properties and logical steps. Diagrams are useful because they provide a visual representation of the information in a problem."
-],
-
-"Statistics":[
-"Statistics is the study of collecting, organizing, analysing and interpreting data. Data can be represented using tables, charts and graphs.",
-"The mean is calculated by adding all values and dividing by the number of values. The median is the middle value after sorting the data, while the mode is the value that occurs most frequently.",
-"Graphs allow patterns in data to be seen quickly. Bar charts are useful for categories, while line graphs can show how a quantity changes over time.",
-"Statistics should be interpreted carefully. A numerical summary may describe a dataset, but conclusions should consider the size, quality and source of the data."
-],
-
-"Computer Fundamentals":[
-"A computer is an electronic system that accepts input, processes information and produces output. Modern computers contain hardware and software working together.",
-"The central processing unit performs instructions and controls many operations. Memory stores information that the processor needs during operation, while storage devices keep data for longer periods.",
-"Input devices allow users to provide information to a computer. Output devices communicate processed information back to the user through displays, speakers or other methods.",
-"An operating system manages computer hardware and provides services for applications. It also handles files, memory, devices, users and many other system functions."
-],
-
-"Programming":[
-"Programming is the process of creating instructions that a computer can execute. A program is normally designed to solve a problem or automate a task.",
-"Variables are used to store values that a program can use and change. Different programming languages provide different data types such as numbers, strings and Boolean values.",
-"Conditional statements allow programs to make decisions. A program can test whether a condition is true or false and then execute different instructions.",
-"Loops allow a set of instructions to be repeated. They are useful when the same operation must be performed many times, such as processing items in a list."
-],
-
-"Computer Networks":[
-"A computer network connects devices so they can communicate and share resources. Networks can be small, such as a home network, or very large, such as the Internet.",
-"Network devices include switches, routers and wireless access points. A switch connects devices within a local network, while a router helps connect different networks.",
-"An IP address identifies a device or network interface for communication. Different addressing systems are used depending on the network technology and protocol.",
-"Network security protects information and systems from unauthorized access. Strong passwords, updates, encryption and careful behaviour all contribute to safer networks."
-],
-
-"Cyber Safety":[
-"Cyber safety means using digital systems responsibly and securely. Users should protect personal information and think carefully before sharing data online.",
-"Strong passwords should be difficult to guess and should not be reused across important accounts. Multi-factor authentication provides another layer of protection.",
-"Phishing attacks attempt to trick users into revealing information or clicking unsafe links. Checking the sender, website address and message context can help identify suspicious communication.",
-"Software updates often contain security fixes. Keeping operating systems, browsers and applications updated reduces exposure to known vulnerabilities."
-],
-
-"Earth and Continents":[
-"Earth is a planet with a complex surface made of continents and oceans. Continents contain different landscapes, climates and ecosystems.",
-"The major continents are Africa, Antarctica, Asia, Europe, North America, South America and Australia. Their locations influence climate, trade, population and ecosystems.",
-"Earth's surface is constantly changing through geological processes. Plate movements can produce mountains, earthquakes and volcanic activity over long periods.",
-"Maps are representations of Earth's surface. Scale, symbols, direction and coordinates help people understand the location and characteristics of places."
-],
-
-"Climate":[
-"Climate describes the long-term pattern of weather in a region. It differs from weather, which describes short-term atmospheric conditions.",
-"Temperature and precipitation are important factors when describing climate. Latitude, altitude, distance from oceans and landforms can influence regional climate.",
-"Climate affects ecosystems, agriculture, settlement and economic activity. Different plants and animals adapt to the environmental conditions of their regions.",
-"Human activities can influence the climate system. Burning fossil fuels, changes in land use and other activities can alter atmospheric concentrations of greenhouse gases."
-],
-
-"Natural Resources":[
-"Natural resources are materials and conditions obtained from nature that people use. Examples include water, forests, minerals, soil and sources of energy.",
-"Renewable resources can naturally regenerate over time when they are managed responsibly. Solar and wind energy are examples of renewable energy sources.",
-"Non-renewable resources form over very long periods. Fossil fuels and many mineral deposits are limited, so their use requires careful planning.",
-"Conservation means protecting and managing resources so they remain available. Recycling, efficient energy use and responsible land management can reduce unnecessary consumption."
-],
-
-"Population":[
-"Population geography studies where people live, how populations change and the factors influencing settlement. Population is not distributed evenly across Earth.",
-"Population density describes the number of people living in a given area. Areas with favourable climate, resources, transport and employment opportunities often attract larger populations.",
-"Migration is the movement of people from one place to another. People may migrate because of employment, education, family, environmental conditions or other circumstances.",
-"Population changes are influenced by birth rates, death rates and migration. Understanding these patterns helps governments plan schools, housing, transport and public services."
-]
-
+"Life Processes":["Life processes are the basic activities that keep living organisms alive. Nutrition provides materials and energy, respiration releases usable energy, transportation moves useful and waste materials, and excretion removes unwanted substances.","Nutrition is the process of obtaining and using food. Plants can make food through photosynthesis, while animals obtain food and digest it. Digested nutrients are absorbed and used for energy, growth and repair.","Respiration releases energy from food. In aerobic respiration, cells use oxygen to break down glucose and release energy. The energy supports movement, growth, repair and other cellular activities.","Transportation connects different parts of an organism. In humans, the heart pumps blood through blood vessels. Plants transport water and minerals from roots and distribute food made in leaves."],
+"Chemical Reactions":["A chemical reaction changes one or more substances into new substances with different properties. Signs can include a colour change, temperature change, gas formation or formation of a solid.","Chemical equations represent reactions using formulas. A balanced equation has equal numbers of each type of atom on both sides because atoms are conserved.","Oxidation can involve addition of oxygen or removal of hydrogen, while reduction can involve removal of oxygen or addition of hydrogen. These processes often occur together as redox reactions.","Chemical reactions are important in digestion, respiration, combustion, rusting, cooking and industrial production. Understanding them helps explain changes in materials around us."],
+"Electricity":["Electric current is the flow of electric charge through a conductor. A circuit needs a source, conducting path and suitable components arranged in a closed path.","Voltage is the potential difference that pushes charge through a circuit. Resistance opposes current. Ohm's law relates voltage, current and resistance as V = IR under suitable conditions.","Series circuits provide one path for current, while parallel circuits provide multiple branches. Parallel arrangements are commonly useful because devices can operate independently.","Electrical energy is used in lighting, heating, computing, communication and transport. Safe circuits require appropriate insulation, switches and protection devices."],
+"Light":["Light is electromagnetic radiation that allows us to see objects. It travels in straight lines in a uniform medium and can be reflected, refracted or absorbed.","Reflection occurs when light returns from a surface. The angle of incidence equals the angle of reflection for a plane mirror under the usual law of reflection.","Refraction is the change in direction of light when it passes between materials with different optical properties. Lenses use refraction to form images.","Mirrors and lenses are used in cameras, glasses, microscopes, telescopes and many other devices. Understanding light helps explain image formation and optical instruments."],
+"Real Numbers":["Real numbers include rational and irrational numbers. Rational numbers can be written as a fraction of integers, while irrational numbers cannot be expressed as such a fraction.","The decimal expansion of a rational number terminates or repeats. Irrational numbers have non-terminating, non-repeating decimal expansions.","The Euclidean algorithm can be used to find the highest common factor of two positive integers by repeated division.","Real numbers can be represented on a number line. Comparing their positions helps us understand order, intervals and distances."],
+"Polynomials":["A polynomial is an algebraic expression made from variables, coefficients and non-negative integer powers. Terms are combined using addition or subtraction.","The degree of a polynomial is the greatest exponent of the variable with a non-zero coefficient. Examples include linear, quadratic and cubic polynomials.","Polynomial identities such as (a+b)^2=a^2+2ab+b^2 help simplify expressions and solve algebraic problems.","Factorisation rewrites a polynomial as a product of simpler expressions. It is useful for solving equations and simplifying algebraic fractions."],
+"Geometry":["Geometry studies shapes, sizes, positions and properties of figures. Points, lines, angles, triangles and circles are fundamental ideas.","Triangles can be classified by sides and angles. Important properties include the angle-sum rule and relationships between corresponding sides and angles.","Similarity means figures have the same shape but may have different sizes. Corresponding angles are equal and corresponding sides are proportional.","Geometry is used in construction, design, maps, engineering, art and measurement. Diagrams help communicate relationships clearly."],
+"Statistics":["Statistics involves collecting, organizing, analysing and interpreting data. Data can be numerical or categorical depending on what is measured.","The mean is the sum of values divided by the number of values. The median is the middle value after sorting, and the mode is the most frequent value.","Tables, bar charts, histograms and line graphs present data visually. A suitable graph makes patterns easier to notice.","Statistics helps people compare groups, identify trends and communicate evidence. Good analysis also considers how data was collected."],
+"Computer Fundamentals":["A computer is an electronic system that accepts input, processes data, stores information and produces output. Hardware and software work together.","The CPU performs instructions and coordinates operations. Memory and storage hold information at different speeds and capacities.","Input devices such as keyboards and sensors provide data. Output devices such as displays and printers communicate processed information.","Operating systems manage hardware and provide services for applications. Files and folders help organize digital information."],
+"Programming":["Programming is the process of writing instructions that a computer can execute. Programs use variables, operations, conditions, loops and functions.","Variables store values that a program can use and change. Data types describe the kind of information represented by a value.","Conditions allow programs to make decisions. Loops repeat instructions while a condition remains true or for a specified number of iterations.","Functions divide programs into reusable parts. Good programs use clear names, simple structure, testing and debugging to reduce errors."],
+"Computer Networks":["A computer network connects devices so they can communicate and share resources. Networks can be small local networks or large interconnected systems.","An IP address identifies a device or interface on a network. Routers forward traffic between networks, while switches connect devices within many local networks.","Protocols are agreed rules for communication. Different protocols support tasks such as web access, name resolution, file transfer and email.","Networks support collaboration, cloud services, online learning and communication. Security measures help protect devices and information."],
+"Cyber Safety":["Cyber safety means using digital systems responsibly and protecting accounts, devices and information. Safe habits reduce common risks.","Strong unique passwords and multi-factor authentication help protect accounts. Passwords should not be shared with other people.","Phishing messages attempt to trick users into revealing information or opening harmful content. Users should check senders, links and unexpected requests.","Privacy settings, software updates, backups and careful sharing help protect personal information. If something suspicious happens, reporting it to a trusted adult or responsible service is important."],
+"Earth and Continents":["Earth is a planet with oceans and landmasses. Continents are large land areas separated by oceans or geographic boundaries.","The major continents are commonly identified as Africa, Antarctica, Asia, Europe, North America, South America and Australia depending on the geographic model used.","Maps use symbols, scale, directions and coordinates to represent places. Latitude measures position north or south of the equator and longitude measures east or west.","Physical geography includes mountains, rivers, plains, deserts and coasts. These features influence settlement, transport, climate and human activities."],
+"Climate":["Climate describes long-term patterns of weather in a region, while weather describes short-term atmospheric conditions.","Temperature, rainfall, wind, latitude, altitude, distance from oceans and landforms all influence climate.","Climate zones can be described using patterns such as tropical, dry, temperate, continental and polar conditions, with variations inside each category.","Climate affects ecosystems, agriculture, water availability and human settlement. Studying climate helps people plan and understand environmental change."],
+"Natural Resources":["Natural resources are materials or forms of energy obtained from the environment. Examples include water, soil, forests, minerals and sunlight.","Renewable resources can naturally replenish on human timescales when managed carefully. Non-renewable resources exist in limited quantities and form slowly.","Sustainable resource use aims to meet present needs while protecting resources and ecosystems for the future.","Resource management includes conservation, recycling, efficient use of energy and responsible land and water practices."],
+"Population":["Population geography studies where people live, how populations change and factors affecting settlement.","Population change is influenced by births, deaths, immigration and emigration. These processes can alter the size and structure of populations.","Population density compares the number of people with the area they occupy. Density varies because of climate, landforms, jobs, services and history.","Urbanisation is the growth of towns and cities. Cities can provide opportunities but also create challenges involving housing, transport, resources and services."]
 };
-
-
-/* Generate 20 pages from chapter paragraphs */
-
-function generatePages(book,chapter){
-
- const base=chapterInfo[chapter]||[
- "This chapter introduces important concepts and explains how they are connected.",
- "Students should read the explanation carefully and identify the main ideas.",
- "Examples help connect theoretical knowledge with practical situations.",
- "A final review should focus on definitions, relationships and applications."
- ];
-
- let pages=[];
-
- for(let i=0;i<20;i++){
-
-   const paragraph=base[i%base.length];
-
-   pages.push({
-     title:`${chapter} — Page ${i+1}`,
-     paragraphs:[
-       paragraph,
-       `In this section, students should connect the idea to the wider topic of ${chapter}. Understanding the concept means more than memorising a definition. A good learner should be able to explain the idea in their own words, identify an example and describe why the concept is useful.`,
-       `For example, when studying ${chapter}, it is helpful to begin with the main definition, then examine the process or relationship involved. After that, students can apply the idea to a simple situation and explain the result using appropriate subject vocabulary.`
-     ],
-     key:`Key idea: The main concept on this page should be understood, explained and applied.`,
-     diagram:`Diagram idea: Draw a simple labelled diagram showing the main relationship discussed on this page.`,
-     example:`Example: Imagine a real classroom or everyday situation where the concept of ${chapter} can be observed. Explain what happens and why.`
-   });
-
- }
-
- return pages;
-}
-
-
-/* =========================
-   BOOK UI
-========================= */
-
-function renderBooks(){
-
- const grid=document.getElementById("bookGrid");
- grid.innerHTML="";
-
- Object.keys(books).forEach(book=>{
-
-   const div=document.createElement("div");
-   div.className="book-card";
-
-   div.innerHTML=`
-   <h3>📘 ${book}</h3>
-   <p class="muted">4 chapters • 80 pages</p>
-   <button class="primary" onclick="openBook('${book}')">
-   Open Book
-   </button>
-   `;
-
-   grid.appendChild(div);
- });
-}
-
-function openBook(book){
-
- document.getElementById("bookLibrary").style.display="none";
- document.getElementById("chapterView").style.display="block";
- document.getElementById("bookReader").style.display="none";
-
- document.getElementById("chapterBookTitle").textContent=book;
-
- const list=document.getElementById("chapterList");
- list.innerHTML="";
-
- books[book].forEach((chapter,i)=>{
-
-   const button=document.createElement("button");
-   button.className="chapter-btn";
-
-   button.innerHTML=`
-   📖 Chapter ${i+1}: ${chapter}
-   <span class="muted"> — 20 pages</span>
-   `;
-
-   button.onclick=()=>openChapter(book,chapter);
-
-   list.appendChild(button);
- });
-}
-
-function openChapter(book,chapter){
-
- currentBook=book;
- currentChapter=chapter;
- currentBookPage=0;
-
- document.getElementById("chapterView").style.display="none";
- document.getElementById("bookReader").style.display="block";
-
- renderBookPage();
-}
-
-function renderBookPage(){
-
- const pages=generatePages(currentBook,currentChapter);
- const page=pages[currentBookPage];
-
- document.getElementById("readerTitle").textContent=page.title;
-
- document.getElementById("readerPage").textContent=
- `Page ${currentBookPage+1} of ${pages.length}`;
-
- let html="";
-
- page.paragraphs.forEach(p=>{
-   html+=`<p class="paragraph">${p}</p>`;
- });
-
- html+=`
- <div class="card">
- <h3>💡 Key Idea</h3>
- <p class="paragraph">${page.key}</p>
- </div>
-
- <div class="card">
- <h3>📐 Diagram</h3>
- <p class="paragraph">${page.diagram}</p>
- </div>
-
- <div class="card">
- <h3>🧠 Example</h3>
- <p class="paragraph">${page.example}</p>
- </div>
- `;
-
- document.getElementById("readerContent").innerHTML=html;
-}
-
-let currentBook="";
-let currentChapter="";
-let currentBookPage=0;
-
-function nextBookPage(){
-
- const pages=generatePages(currentBook,currentChapter);
-
- if(currentBookPage<pages.length-1){
-   currentBookPage++;
-   renderBookPage();
- }
-}
-
-function previousBookPage(){
-
- if(currentBookPage>0){
-   currentBookPage--;
-   renderBookPage();
- }
-}
-
-function backToBooks(){
-
- document.getElementById("bookLibrary").style.display="block";
- document.getElementById("chapterView").style.display="none";
- document.getElementById("bookReader").style.display="none";
-}
-
-function backToChapters(){
-
- document.getElementById("chapterView").style.display="block";
- document.getElementById("bookReader").style.display="none";
-
- openBook(currentBook);
-}
-
-
-/* =========================
-   DOCUMENTS
-========================= */
-
-let documents=
-JSON.parse(localStorage.getItem("class_documents"))||[];
-
-function renderDocumentStudents(){
-
- const select=document.getElementById("docStudent");
-
- select.innerHTML="";
-
- studentData.forEach(s=>{
-
-   const option=document.createElement("option");
-
-   option.value=s.id;
-   option.textContent=s.name;
-
-   select.appendChild(option);
- });
-}
-
-function saveDocument(){
-
- const title=document.getElementById("docTitle").value.trim();
- const studentId=Number(document.getElementById("docStudent").value);
- const content=document.getElementById("docContent").value.trim();
-
- if(!title||!content){
-   alert("Please enter title and content.");
-   return;
- }
-
- documents.push({
-   id:Date.now(),
-   title,
-   studentId,
-   content,
-   date:new Date().toLocaleString()
- });
-
- localStorage.setItem(
-  "class_documents",
-  JSON.stringify(documents)
- );
-
- document.getElementById("docTitle").value="";
- document.getElementById("docContent").value="";
-
- renderDocuments();
-}
-
-function renderDocuments(){
-
- const box=document.getElementById("documentList");
- box.innerHTML="";
-
- if(!documents.length){
-   box.innerHTML=`<div class="card empty">No documents yet.</div>`;
-   return;
- }
-
- documents.slice().reverse().forEach(doc=>{
-
-   const student=studentData.find(s=>s.id===doc.studentId);
-
-   const div=document.createElement("div");
-   div.className="document-card";
-
-   div.innerHTML=`
-   <h3>📄 ${doc.title}</h3>
-   <p><strong>Student:</strong> ${student?student.name:"Unknown"}</p>
-   <p class="muted">${doc.date}</p>
-   <p class="paragraph">${escapeHtml(doc.content)}</p>
-
-   <button class="danger" onclick="deleteDocument(${doc.id})">
-   Delete
-   </button>
-
-   <button class="primary" onclick="downloadDocument(${doc.id})">
-   Download
-   </button>
-   `;
-
-   box.appendChild(div);
- });
-}
-
-function deleteDocument(id){
-
- documents=documents.filter(d=>d.id!==id);
-
- localStorage.setItem(
-  "class_documents",
-  JSON.stringify(documents)
- );
-
- renderDocuments();
-}
-
-function downloadDocument(id){
-
- const doc=documents.find(d=>d.id===id);
- if(!doc)return;
-
- const student=studentData.find(s=>s.id===doc.studentId);
-
- const text=
-`${doc.title}
-
-Student: ${student?student.name:"Unknown"}
-Date: ${doc.date}
-
-${doc.content}`;
-
- const blob=new Blob([text],{type:"text/plain"});
-
- const a=document.createElement("a");
-
- a.href=URL.createObjectURL(blob);
- a.download=doc.title.replace(/\s+/g,"-")+".txt";
- a.click();
-
- URL.revokeObjectURL(a.href);
-}
-
-
-/* =========================
-   WHITEBOARD
-========================= */
-
-const canvas=document.getElementById("whiteboardCanvas");
-const ctx=canvas.getContext("2d");
-
-let drawing=false;
-let currentTool="draw";
-let lastX=0;
-let lastY=0;
-
-function resizeCanvas(){
-
- const old=canvas.width?
- canvas.toDataURL():null;
-
- canvas.width=canvas.clientWidth*2;
- canvas.height=550*2;
-
- ctx.scale(2,2);
-
- if(old){
-
-   const img=new Image();
-
-   img.onload=()=>{
-     ctx.drawImage(img,0,0,canvas.clientWidth,550);
-   };
-
-   img.src=old;
- }
-}
-
-window.addEventListener("resize",resizeCanvas);
-
-function setWhiteboardTool(tool){
-
- currentTool=tool;
-
- if(tool==="text"){
-   canvas.style.cursor="text";
- }else if(tool==="eraser"){
-   canvas.style.cursor="crosshair";
- }else{
-   canvas.style.cursor="crosshair";
- }
-}
-
-function getPointer(e){
-
- const rect=canvas.getBoundingClientRect();
-
- return{
-  x:e.clientX-rect.left,
-  y:e.clientY-rect.top
- };
-}
-
-canvas.addEventListener("pointerdown",e=>{
-
- if(currentTool==="text"){
-
-   const p=getPointer(e);
-
-   showTextInput(p.x,p.y);
-
-   return;
- }
-
- drawing=true;
-
- const p=getPointer(e);
-
- lastX=p.x;
- lastY=p.y;
-});
-
-canvas.addEventListener("pointermove",e=>{
-
- if(!drawing)return;
-
- const p=getPointer(e);
-
- ctx.beginPath();
- ctx.moveTo(lastX,lastY);
- ctx.lineTo(p.x,p.y);
-
- ctx.strokeStyle=
- currentTool==="eraser"
- ? "#ffffff"
- : document.getElementById("penColor").value;
-
- ctx.lineWidth=
- currentTool==="eraser"
- ? 25
- : Number(document.getElementById("penSize").value);
-
- ctx.lineCap="round";
- ctx.lineJoin="round";
-
- ctx.stroke();
-
- lastX=p.x;
- lastY=p.y;
-});
-
-canvas.addEventListener("pointerup",()=>{
- drawing=false;
-});
-
-canvas.addEventListener("pointerleave",()=>{
- drawing=false;
-});
-
-function showTextInput(x,y){
-
- const overlay=document.getElementById("textInputOverlay");
-
- const rect=canvas.getBoundingClientRect();
-
- overlay.style.left=(rect.left+x)+"px";
- overlay.style.top=(rect.top+y)+"px";
-
- overlay.style.display="block";
- overlay.value="";
-
- overlay.dataset.x=x;
- overlay.dataset.y=y;
-
- overlay.focus();
-}
-
-document.getElementById("textInputOverlay")
-.addEventListener("keydown",e=>{
-
- if(e.key==="Escape"){
-   cancelText();
- }
-
- if(e.key==="Enter" && e.ctrlKey){
-   commitText();
- }
-});
-
-function commitText(){
-
- const overlay=document.getElementById("textInputOverlay");
-
- const text=overlay.value.trim();
-
- if(!text){
-   cancelText();
-   return;
- }
-
- const x=Number(overlay.dataset.x);
- const y=Number(overlay.dataset.y);
-
- ctx.fillStyle=document.getElementById("penColor").value;
-
- const size=Math.max(
-   16,
-   Number(document.getElementById("penSize").value)*4
- );
-
- ctx.font=`${size}px Arial`;
-
- const lines=text.split("\n");
-
- lines.forEach((line,i)=>{
-   ctx.fillText(line,x,y+(i*size*1.25));
- });
-
- cancelText();
-}
-
-function cancelText(){
-
- const overlay=document.getElementById("textInputOverlay");
-
- overlay.style.display="none";
- overlay.value="";
-}
-
-function clearBoard(){
-
- if(confirm("Clear the entire whiteboard?")){
-   ctx.clearRect(0,0,canvas.width,canvas.height);
- }
-}
-
-function saveBoardPNG(){
-
- const a=document.createElement("a");
-
- a.download="classroom-whiteboard.png";
-
- a.href=canvas.toDataURL("image/png");
-
- a.click();
-}
-
-
-/* =========================
-   EXAMS
-========================= */
-
 const examQuestionBank={};
-
-Object.keys(books).forEach(book=>{
-
- examQuestionBank[book]={};
-
- books[book].forEach(chapter=>{
-
-   examQuestionBank[book][chapter]=[];
-
-   for(let i=1;i<=10;i++){
-
-     examQuestionBank[book][chapter].push({
-
-       question:
-       `Explain in detail the important concepts of "${chapter}" that you have studied. In your answer, define the main ideas, explain how they work, give relevant examples, and describe why the topic is important in real life or in the subject.`,
-
-       keywords:
-       chapter.toLowerCase().split(/\s+/).filter(x=>x.length>3),
-
-       model:
-       `A complete answer should define the main concept of ${chapter}, explain its important characteristics or processes, include relevant subject vocabulary, provide an appropriate example and explain the importance or application of the concept.`
-     });
-   }
-
- });
-});
-
-
-let currentExamBook="";
-let currentExamChapter="";
-
-function renderExamBooks(){
-
- const grid=document.getElementById("examBookGrid");
- grid.innerHTML="";
-
- Object.keys(books).forEach(book=>{
-
-   const div=document.createElement("div");
-   div.className="exam-card";
-
-   div.innerHTML=`
-   <h3>📝 ${book}</h3>
-
-   <p class="muted">
-   4 chapter exams
-   </p>
-
-   <button class="primary" onclick="openExamBook('${book}')">
-   Select Book
-   </button>
-   `;
-
-   grid.appendChild(div);
- });
-}
-
-function openExamBook(book){
-
- currentExamBook=book;
-
- document.getElementById("examHome").style.display="none";
- document.getElementById("examChapters").style.display="block";
- document.getElementById("examPaper").style.display="none";
- document.getElementById("examReport").style.display="none";
-
- document.getElementById("examBookTitle").textContent=
- `${book} — Chapter Exams`;
-
- const list=document.getElementById("examChapterList");
-
- list.innerHTML="";
-
- books[book].forEach((chapter,i)=>{
-
-   const div=document.createElement("div");
-
-   div.className="card";
-   div.style.marginTop="12px";
-
-   div.innerHTML=`
-   <h3>Chapter ${i+1}: ${chapter}</h3>
-
-   <p class="muted">
-   10 long-answer questions • 20 marks
-   </p>
-
-   <button class="primary"
-   onclick="startExam('${book}','${chapter}')">
-   Start Exam
-   </button>
-   `;
-
-   list.appendChild(div);
- });
-}
-
-function startExam(book,chapter){
-
- currentExamBook=book;
- currentExamChapter=chapter;
-
- document.getElementById("examChapters").style.display="none";
- document.getElementById("examPaper").style.display="block";
- document.getElementById("examReport").style.display="none";
-
- document.getElementById("examTitle").textContent=
- `${book} — ${chapter}`;
-
- renderExamQuestions();
-}
-
-function renderExamQuestions(){
-
- const box=document.getElementById("questionsContainer");
-
- box.innerHTML="";
-
- const questions=
- examQuestionBank[currentExamBook][currentExamChapter];
-
- questions.forEach((q,i)=>{
-
-   const div=document.createElement("div");
-
-   div.className="exam-question";
-
-   div.innerHTML=`
-   <div class="question-number">
-   Question ${i+1} — 2 Marks
-   </div>
-
-   <h3>${q.question}</h3>
-
-   <p class="muted">
-   Write a complete paragraph answer. Include explanation,
-   relevant terms and an example where appropriate.
-   </p>
-
-   <textarea
-   id="answer_${i}"
-   placeholder="Write your long answer here..."
-   ></textarea>
-   `;
-
-   box.appendChild(div);
- });
-}
-
-
-/*
- Simple rubric-based marking.
- It rewards:
- - meaningful answer length
- - chapter keywords
- - explanation
- - examples
-*/
-
-function calculateAnswerScore(answer,q){
-
- const text=answer.toLowerCase().trim();
-
- if(text.length<40)return 0;
-
- let score=0;
-
- if(text.length>=80)score+=0.5;
- if(text.length>=150)score+=0.5;
-
- let matches=0;
-
- q.keywords.forEach(k=>{
-   if(text.includes(k))matches++;
- });
-
- if(matches>=1)score+=0.5;
- if(matches>=2)score+=0.5;
-
- return Math.min(2,Math.round(score));
-}
-
-function submitExam(){
-
- const questions=
- examQuestionBank[currentExamBook][currentExamChapter];
-
- const answers=[];
- let total=0;
-
- questions.forEach((q,i)=>{
-
-   const answer=
-   document.getElementById(`answer_${i}`).value.trim();
-
-   const marks=
-   calculateAnswerScore(answer,q);
-
-   total+=marks;
-
-   answers.push({
-     question:q.question,
-     answer,
-     marks,
-     model:q.model
-   });
-
- });
-
- const percentage=(total/20)*100;
-
- const result=
- total>=16
- ? "Excellent work! 🎉"
- : total>=12
- ? "Good work! Keep improving."
- : total>=10
- ? "Pass. Review the chapter and practise more."
- : "More study and practice is recommended.";
-
- const submission={
-   id:Date.now(),
-   studentMode:"Classroom Laptop",
-   book:currentExamBook,
-   chapter:currentExamChapter,
-   marks:total,
-   total:20,
-   percentage,
-   result,
-   date:new Date().toLocaleString(),
-   answers
- };
-
- let history=
- JSON.parse(localStorage.getItem("exam_results"))||[];
-
- history.push(submission);
-
- localStorage.setItem(
-  "exam_results",
-  JSON.stringify(history)
- );
-
- showExamReport(submission);
- renderAdminPanel();
-}
-
-function showExamReport(submission){
-
- document.getElementById("examPaper").style.display="none";
- document.getElementById("examReport").style.display="block";
-
- let html=`
-
- <h2>${submission.book}</h2>
- <h3>${submission.chapter}</h3>
-
- <div class="card">
- <h2>${submission.marks} / ${submission.total}</h2>
- <h3>${submission.percentage}%</h3>
- <p>${submission.result}</p>
- <p class="muted">${submission.date}</p>
- </div>
-
- <h3>Question-by-question report</h3>
- `;
-
- submission.answers.forEach((a,i)=>{
-
-   html+=`
-   <details>
-   <summary>
-   Question ${i+1} — ${a.marks}/2 marks
-   </summary>
-
-   <div class="answer-view">
-   <strong>Question:</strong>
-   <p>${escapeHtml(a.question)}</p>
-
-   <strong>Student Answer:</strong>
-   <p>${escapeHtml(a.answer||"No answer submitted.")}</p>
-
-   <strong>Teacher/Reference Points:</strong>
-   <p>${escapeHtml(a.model)}</p>
-   </div>
-
-   </details>
-   `;
- });
-
- document.getElementById("examReportContent").innerHTML=html;
-}
-
-function resetCurrentExam(){
-
- if(!confirm(
- "Reset this exam? The current report will remain saved in Exam History and a new student can take the exam."
- ))return;
-
- document.getElementById("examReport").style.display="none";
- document.getElementById("examPaper").style.display="block";
-
- renderExamQuestions();
-}
-
-function backToExamBooks(){
-
- document.getElementById("examHome").style.display="block";
- document.getElementById("examChapters").style.display="none";
- document.getElementById("examPaper").style.display="none";
- document.getElementById("examReport").style.display="none";
-}
-
-function backToExamChapters(){
-
- document.getElementById("examHome").style.display="none";
- document.getElementById("examChapters").style.display="block";
- document.getElementById("examPaper").style.display="none";
- document.getElementById("examReport").style.display="none";
-
- openExamBook(currentExamBook);
-}
-
-
-/* =========================
-   ADMIN PANEL
-========================= */
-
-function renderAdminPanel(){
-
- const box=document.getElementById("adminExamHistory");
-
- const history=
- JSON.parse(localStorage.getItem("exam_results"))||[];
-
- if(!history.length){
-
-   box.innerHTML=`
-   <div class="card empty">
-   No exam submissions yet.
-   </div>
-   `;
-
-   return;
- }
-
- box.innerHTML="";
-
- [...history].reverse().forEach((exam,index)=>{
-
-   const details=document.createElement("details");
-
-   details.innerHTML=`
-
-   <summary>
-   ${exam.book} — ${exam.chapter}
-   | ${exam.marks}/${exam.total}
-   | ${exam.percentage}%
-   | ${exam.date}
-   </summary>
-
-   <div style="padding-top:15px">
-
-   <div class="card">
-
-   <h3>Exam Report</h3>
-
-   <p><strong>Score:</strong>
-   ${exam.marks}/${exam.total}</p>
-
-   <p><strong>Percentage:</strong>
-   ${exam.percentage}%</p>
-
-   <p><strong>Result:</strong>
-   ${exam.result}</p>
-
-   </div>
-
-   ${exam.answers.map((a,i)=>`
-
-   <div class="answer-view">
-
-   <strong>Question ${i+1}</strong>
-
-   <p>
-   ${escapeHtml(a.question)}
-   </p>
-
-   <strong>Student Answer:</strong>
-
-   <p>
-   ${escapeHtml(a.answer||"No answer")}
-   </p>
-
-   <strong>Marks:</strong>
-   ${a.marks}/2
-
-   <hr>
-
-   <strong>Reference Answer:</strong>
-
-   <p>
-   ${escapeHtml(a.model)}
-   </p>
-
-   </div>
-
-   `).join("")}
-
-   </div>
-   `;
-
-   box.appendChild(details);
- });
-}
-
-function clearExamHistory(){
-
- if(!confirm("Delete all saved exam reports?"))return;
-
- localStorage.removeItem("exam_results");
-
- renderAdminPanel();
-}
-
-
-/* =========================
-   UTILITIES
-========================= */
-
-function escapeHtml(text){
-
- return String(text)
- .replace(/&/g,"&amp;")
- .replace(/</g,"&lt;")
- .replace(/>/g,"&gt;")
- .replace(/"/g,"&quot;")
- .replace(/'/g,"&#039;")
- .replace(/\n/g,"<br>");
-}
-
-
-/* =========================
-   INITIALIZE
-========================= */
-
-renderStudents();
-renderAttendance();
-renderBooks();
-renderDocumentStudents();
-renderDocuments();
-renderExamBooks();
-renderAdminPanel();
-updateStats();
-
-setTimeout(()=>{
- resizeCanvas();
-},100);
-
-showPage(
- "dashboard",
- document.querySelector(".nav button")
-);
-
+Object.keys(books).forEach(book=>books[book].forEach(ch=>{const bases=chapterInfo[ch];examQuestionBank[ch]=bases.concat([
+`Compare two important ideas from ${ch} and explain how they are connected.`,
+`Describe a real-life situation where knowledge of ${ch} is useful.`,
+`Explain one common mistake students may make when studying ${ch} and how to avoid it.`,
+`Describe the main process or method used in ${ch}, step by step.`,
+`Explain why ${ch} is important in its subject and give an example.`
+]).slice(0,10).map((q,i)=>({q,model:bases[i%4]+" "+bases[(i+1)%4]}));}));
+
+function saveAll(){localStorage.setItem("class_students",JSON.stringify(students));localStorage.setItem("class_attendance",JSON.stringify(attendance));localStorage.setItem("attendance_dates",JSON.stringify(attendanceDates));localStorage.setItem("class_documents",JSON.stringify(documents));localStorage.setItem("exam_results",JSON.stringify(examResults));localStorage.setItem("class_notes",JSON.stringify(classNotes));}
+function toast(t){const x=document.getElementById("toast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",2200)}
+function showSection(id){document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));[...document.querySelectorAll(".nav button")].find(x=>x.getAttribute("onclick")===`showSection('${id}')`)?.classList.add("active");if(id==="admin")renderAdmin();if(id==="notes")renderClassNotes();}
+function escapeHTML(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+
+/* STUDENTS */
+function renderStudents(){const q=(document.getElementById("studentSearch")?.value||"").toLowerCase();document.getElementById("studentsBody").innerHTML=students.filter(s=>s.name.toLowerCase().includes(q)).map(s=>`<tr><td>${escapeHTML(s.name)}</td><td>${s.age}</td><td><span class="pill ${s.expelled?"suspended":"present"}">${s.expelled?"Expelled":"Active"}</span></td><td><button class="${s.expelled?"primary":"danger"}" onclick="toggleExpelled(${s.id})">${s.expelled?"Restore":"Expel"}</button></td></tr>`).join("");updateStats()}
+function toggleExpelled(id){const s=students.find(x=>x.id===id);if(s)s.expelled=!s.expelled;saveAll();renderStudents()}
+function updateStats(){document.getElementById("statActive").textContent=students.filter(s=>!s.expelled).length;document.getElementById("statExpelled").textContent=students.filter(s=>s.expelled).length}
+
+/* ATTENDANCE */
+function attendanceKey(date,id){return `${date}_${id}`}
+function setAttendance(date,id,status){attendance[attendanceKey(date,id)]=status;if(!attendanceDates.includes(date))attendanceDates.push(date);saveAll();renderAttendance()}
+function renderAttendance(){const date=document.getElementById("attendanceDate").value,q=(document.getElementById("attendanceSearch")?.value||"").toLowerCase();document.getElementById("attendanceBody").innerHTML=students.filter(s=>s.name.toLowerCase().includes(q)).map(s=>{const st=attendance[attendanceKey(date,s.id)]||"Present";return `<tr><td>${escapeHTML(s.name)}</td><td>${s.age}</td><td><button class="pill present" onclick="setAttendance('${date}',${s.id},'Present')">🟢 Present</button> <button class="pill absent" onclick="setAttendance('${date}',${s.id},'Absent')">🔴 Absent</button> <button class="pill late" onclick="setAttendance('${date}',${s.id},'Late')">🟡 Late</button> <button class="pill suspended" onclick="setAttendance('${date}',${s.id},'Suspended')">⚫ Suspended</button><div class="muted">Current: ${st}</div></td></tr>`}).join("");generateAttendanceReport()}
+function generateAttendanceReport(){const date=document.getElementById("attendanceDate").value;const groups={Present:[],Absent:[],Late:[],Suspended:[]};students.forEach(s=>groups[attendance[attendanceKey(date,s.id)]||"Present"].push(s.name));document.getElementById("attendanceReport").innerHTML=`<b>${date}</b><br><br>🟢 Present (${groups.Present.length}): ${groups.Present.join(", ")||"None"}<br>🔴 Absent (${groups.Absent.length}): ${groups.Absent.join(", ")||"None"}<br>🟡 Late (${groups.Late.length}): ${groups.Late.join(", ")||"None"}<br>⚫ Suspended (${groups.Suspended.length}): ${groups.Suspended.join(", ")||"None"}`}
+function downloadAttendanceReport(){const date=document.getElementById("attendanceDate").value;const text=document.getElementById("attendanceReport").innerText;downloadText(`attendance-${date}.txt`,text)}
+
+/* BOOKS */
+function renderBooks(){document.getElementById("bookHome").innerHTML=`<div class="book-grid">${Object.entries(books).map(([b,c])=>`<div class="book"><div style="font-size:35px">📚</div><h3>${b}</h3><p class="muted">${c.length} chapters</p><button class="primary" onclick="openBook('${b}')">Open Book</button></div>`).join("")}</div>`}
+function openBook(book){currentBook=book;document.getElementById("bookHome").style.display="none";document.getElementById("chapterView").style.display="block";document.getElementById("chapterView").innerHTML=`<div class="card"><button class="secondary" onclick="backBooks()">← Books</button><h2>${book}</h2><div class="chapter-list">${books[book].map((c,i)=>`<button class="chapter-btn" onclick="openChapter('${c}')">Chapter ${i+1}<br><b>${c}</b><br><small>20 pages</small></button>`).join("")}</div></div>`}
+function backBooks(){document.getElementById("bookHome").style.display="block";document.getElementById("chapterView").style.display="none";document.getElementById("pageView").style.display="none"}
+function openChapter(ch){currentChapter=ch;currentPage=0;document.getElementById("chapterView").style.display="none";document.getElementById("pageView").style.display="block";renderPage()}
+function generatePage(ch,page){const base=chapterInfo[ch];return `<p>${base[page%4]}</p><p><b>Key idea:</b> This page develops the concept of <b>${escapeHTML(ch)}</b> with definitions, explanation and practical context.</p><p><b>Example:</b> A student can connect this topic to an everyday observation, classroom experiment, calculation, map, program or real-world situation depending on the subject.</p><p><b>Diagram idea:</b> Draw a labelled flow diagram showing the main parts and how they are connected.</p>`}
+function renderPage(){document.getElementById("pageView").innerHTML=`<div class="card reader"><button class="secondary" onclick="openBook('${currentBook}')">← Chapters</button><h2>${currentChapter}</h2><p class="muted">Page ${currentPage+1} of 20</p><hr>${generatePage(currentChapter,currentPage)}<div class="page-nav"><button class="secondary" onclick="prevPage()" ${currentPage===0?"disabled":""}>← Previous</button><button class="primary" onclick="nextPage()">${currentPage===19?"Finish":"Next →"}</button></div></div>`}
+function prevPage(){if(currentPage>0){currentPage--;renderPage()}}
+function nextPage(){if(currentPage<19){currentPage++;renderPage()}else openBook(currentChapter)}
+
+/* DOCUMENTS */
+function renderDocumentStudents(){document.getElementById("docStudent").innerHTML=students.map(s=>`<option value="${s.id}">${escapeHTML(s.name)}</option>`).join("")}
+function saveDocument(){const title=document.getElementById("docTitle").value.trim(),student=document.getElementById("docStudent").value,text=document.getElementById("docText").value.trim();if(!title||!text)return toast("Enter title and content");documents.unshift({id:Date.now(),title,student,text,date:new Date().toISOString()});saveAll();document.getElementById("docTitle").value="";document.getElementById("docText").value="";renderDocuments();toast("Document saved")}
+function renderDocuments(){document.getElementById("documentsList").innerHTML=documents.length?documents.map(d=>`<div class="doc"><b>${escapeHTML(d.title)}</b><div class="muted">Assigned to: ${escapeHTML(students.find(s=>s.id==d.student)?.name||"Unknown")}</div><p>${escapeHTML(d.text)}</p><button class="secondary" onclick="downloadText('${escapeHTML(d.title).replace(/'/g,"")} .txt',${JSON.stringify(d.text)})">📥 Download</button> <button class="danger" onclick="deleteDocument(${d.id})">Delete</button></div>`).join(""):`<div class="empty">No documents yet.</div>`}
+function deleteDocument(id){documents=documents.filter(x=>x.id!==id);saveAll();renderDocuments()}
+
+/* WHITEBOARD */
+const canvas=document.getElementById("whiteboardCanvas"),ctx=canvas.getContext("2d");let wbTool="draw",drawing=false,lastX=0,lastY=0;
+function resizeCanvas(){const rect=canvas.getBoundingClientRect(),ratio=devicePixelRatio||1;canvas.width=rect.width*ratio;canvas.height=rect.height*ratio;ctx.setTransform(ratio,0,0,ratio,0,0);ctx.fillStyle="#fff";ctx.fillRect(0,0,rect.width,rect.height)}
+function setWhiteboardTool(t){wbTool=t;toast(t==="draw"?"Draw mode":t==="text"?"Text mode":"Eraser mode")}
+function pos(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+canvas.addEventListener("pointerdown",e=>{const p=pos(e);if(wbTool==="text"){const text=prompt("Type text:");if(text){ctx.fillStyle=document.getElementById("penColor").value;ctx.font="18px Arial";ctx.fillText(text,p.x,p.y)}return}drawing=true;lastX=p.x;lastY=p.y;canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener("pointermove",e=>{if(!drawing)return;const p=pos(e);ctx.strokeStyle=wbTool==="eraser"?"#fff":document.getElementById("penColor").value;ctx.lineWidth=wbTool==="eraser"?25:Number(document.getElementById("penSize").value);ctx.lineCap="round";ctx.beginPath();ctx.moveTo(lastX,lastY);ctx.lineTo(p.x,p.y);ctx.stroke();lastX=p.x;lastY=p.y});
+canvas.addEventListener("pointerup",()=>drawing=false);canvas.addEventListener("pointercancel",()=>drawing=false);
+function clearCanvas(){ctx.clearRect(0,0,canvas.width,canvas.height);resizeCanvas()}
+function saveCanvas(){const a=document.createElement("a");a.href=canvas.toDataURL("image/png");a.download="classroom-whiteboard.png";a.click()}
+
+/* NOTES */
+document.getElementById("notesDate").value=new Date().toISOString().split("T")[0];
+function saveClassNote(){const student=document.getElementById("notesStudentName").value.trim(),age=document.getElementById("notesStudentAge").value.trim(),date=document.getElementById("notesDate").value,subject=document.getElementById("notesSubject").value,type=document.getElementById("notesType").value,title=document.getElementById("notesTitle").value.trim(),text=document.getElementById("notesText").value.trim();if(!student||!age||!date||!text)return toast("Please complete required fields");if(editingNote){const n=classNotes.find(x=>x.id===editingNote);Object.assign(n,{student,age,date,subject,type,title,text});editingNote=null;toast("Note updated")}else{classNotes.unshift({id:Date.now(),student,age,date,subject,type,title,text,createdAt:new Date().toISOString()});toast("Note saved")}saveAll();clearClassNoteForm();renderClassNotes()}
+function clearClassNoteForm(){["notesStudentName","notesStudentAge","notesTitle","notesText"].forEach(id=>document.getElementById(id).value="");document.getElementById("notesDate").value=new Date().toISOString().split("T")[0];document.getElementById("notesSubject").value="";document.getElementById("notesType").value="General";editingNote=null}
+function renderClassNotes(){const list=document.getElementById("classNotesList"),q=(document.getElementById("notesSearch")?.value||"").toLowerCase(),f=document.getElementById("notesFilter")?.value||"all";const arr=classNotes.filter(n=>(n.student+" "+n.subject+" "+n.title+" "+n.text).toLowerCase().includes(q)&&(f==="all"||n.type===f));document.getElementById("notesCount").textContent=classNotes.length;document.getElementById("notesStudents").textContent=new Set(classNotes.map(n=>n.student.toLowerCase())).size;const today=new Date().toISOString().split("T")[0];document.getElementById("notesToday").textContent=classNotes.filter(n=>n.date===today).length;document.getElementById("notesImportant").textContent=classNotes.filter(n=>n.type==="Important").length;if(!arr.length){list.innerHTML='<div class="empty">📝<br>No notes found.</div>';return}list.innerHTML=arr.map(n=>`<div class="note"><div class="note-head"><div><h3>${escapeHTML(n.title||"Student Note")}</h3><div class="muted">👤 ${escapeHTML(n.student)} • 🎂 ${escapeHTML(n.age)} • 📅 ${escapeHTML(n.date)} • 📚 ${escapeHTML(n.subject||"No subject")}</div></div><span class="pill">${escapeHTML(n.type)}</span></div><div class="note-body">${escapeHTML(n.text)}</div><div class="actions"><button class="secondary" onclick="copyClassNote(${n.id})">📋 Copy</button><button class="secondary" onclick="editClassNote(${n.id})">✏️ Edit</button><button class="danger" onclick="deleteClassNote(${n.id})">🗑️ Delete</button></div></div>`).join("")}
+function editClassNote(id){const n=classNotes.find(x=>x.id===id);if(!n)return;document.getElementById("notesStudentName").value=n.student;document.getElementById("notesStudentAge").value=n.age;document.getElementById("notesDate").value=n.date;document.getElementById("notesSubject").value=n.subject;document.getElementById("notesType").value=n.type;document.getElementById("notesTitle").value=n.title;document.getElementById("notesText").value=n.text;editingNote=id;window.scrollTo({top:0,behavior:"smooth"});toast("Editing note")}
+function deleteClassNote(id){if(!confirm("Delete this note?"))return;classNotes=classNotes.filter(n=>n.id!==id);saveAll();renderClassNotes();toast("Note deleted")}
+function copyClassNote(id){const n=classNotes.find(x=>x.id===id);if(!n)return;const t=`STUDENT NOTE\nStudent: ${n.student}\nAge: ${n.age}\nDate: ${n.date}\nSubject: ${n.subject||"None"}\nType: ${n.type}\nTitle: ${n.title||"Student Note"}\n\n${n.text}`;navigator.clipboard?.writeText(t).then(()=>toast("Copied")).catch(()=>{const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();toast("Copied")})}
+function exportNotes(){if(!classNotes.length)return toast("No notes");downloadText("classroom-notes.txt",classNotes.map((n,i)=>`NOTE ${i+1}\nStudent: ${n.student}\nAge: ${n.age}\nDate: ${n.date}\nSubject: ${n.subject||"None"}\nType: ${n.type}\nTitle: ${n.title||"Student Note"}\n\n${n.text}\n\n----------------------`).join("\n"))}
+function deleteAllNotes(){if(!classNotes.length)return;if(confirm("Delete all notes?")){classNotes=[];saveAll();renderClassNotes();toast("All notes deleted")}}
+
+/* EXAMS */
+let currentExamChapter=null;
+function renderExamBooks(){document.getElementById("examBooks").innerHTML=Object.entries(books).map(([b,ch])=>`<div class="exam"><div style="font-size:32px">📝</div><h3>${b}</h3><p class="muted">4 chapter exams</p><button class="primary" onclick="openExamChapters('${b}')">Choose Chapter</button></div>`).join("")}
+function openExamChapters(book){document.getElementById("examHome").style.display="none";document.getElementById("examChapters").style.display="block";document.getElementById("examChapters").innerHTML=`<div class="card"><button class="secondary" onclick="backExams()">← Exams</button><h2>${book}</h2><div class="chapter-list">${books[book].map((c,i)=>`<button class="chapter-btn" onclick="startExam('${c}')">Chapter ${i+1}<br><b>${c}</b><br>10 questions • 20 marks</button>`).join("")}</div></div>`}
+function backExams(){document.getElementById("examHome").style.display="block";document.getElementById("examChapters").style.display="none";document.getElementById("examPaper").style.display="none";document.getElementById("examReport").style.display="none"}
+function startExam(ch){currentExamChapter=ch;document.getElementById("examChapters").style.display="none";document.getElementById("examPaper").style.display="block";document.getElementById("examReport").style.display="none";const qs=examQuestionBank[ch];document.getElementById("examPaper").innerHTML=`<div class="card"><button class="secondary" onclick="backExams()">← Exit</button><h2>${ch} Exam</h2><p class="muted">10 long-answer questions • 2 marks each • 20 marks total</p>${qs.map((x,i)=>`<div class="question"><b>Question ${i+1} — 2 marks</b><p>${escapeHTML(x.q)}</p><textarea id="answer_${i}" placeholder="Write your answer..."></textarea></div>`).join("")}<button class="primary" onclick="submitExam()">Submit Exam</button></div>`}
+function calculateAnswerScore(ans,model){const words=ans.toLowerCase().split(/\W+/).filter(Boolean);if(words.length<8)return 0;const key=model.toLowerCase().split(/\W+/).filter(w=>w.length>4);const hits=key.filter(w=>words.includes(w)).length;return hits>=5?2:hits>=2?1:0}
+function submitExam(){const qs=examQuestionBank[currentExamChapter],answers=qs.map((x,i)=>document.getElementById("answer_"+i).value.trim());const scores=answers.map((a,i)=>calculateAnswerScore(a,qs[i].model));const total=scores.reduce((a,b)=>a+b,0);const result={id:Date.now(),chapter:currentExamChapter,date:new Date().toISOString(),score:total,total:20,answers:answers.map((a,i)=>({question:qs[i].q,answer:a,marks:scores[i],reference:qs[i].model}))};examResults.unshift(result);saveAll();renderReport(result);renderAdmin()}
+function renderReport(r){document.getElementById("examPaper").style.display="none";const p=r.score/r.total*100;document.getElementById("examReport").style.display="block";document.getElementById("examReport").innerHTML=`<div class="card"><h2>📊 Exam Report</h2><div class="report"><h3>${r.score}/20 — ${p}%</h3><p>${p>=80?"Excellent work!":p>=50?"Good effort. Review the reference answers.":"Keep practising and review the reference answers."}</p></div>${r.answers.map((a,i)=>`<div class="report-item"><b>Q${i+1}</b> — ${a.marks}/2<p><b>Student answer:</b><br>${escapeHTML(a.answer||"(No answer)")}</p><p><b>Reference answer:</b><br>${escapeHTML(a.reference)}</p><button class="secondary copy-answer" onclick='copyText(${JSON.stringify(a.reference)})'>📋 Copy Answer</button></div>`).join("")}<button class="primary" onclick="resetCurrentExam()">🔄 Next Student</button></div>`}
+function resetCurrentExam(){startExam(currentExamChapter)}
+function copyText(t){navigator.clipboard?.writeText(t).then(()=>toast("Copied")).catch(()=>{const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();toast("Copied")})}
+
+/* ADMIN */
+function renderAdmin(){const box=document.getElementById("adminResults");if(!examResults.length){box.innerHTML='<div class="card empty">No exam submissions yet.</div>';return}box.innerHTML=examResults.map(r=>`<div class="card"><h2>${escapeHTML(r.chapter)}</h2><p class="muted">${new Date(r.date).toLocaleString()} • Score ${r.score}/${r.total}</p>${r.answers.map((a,i)=>`<div class="answer-row"><b>Question ${i+1} — ${a.marks}/2</b><p><b>Student answer:</b><br>${escapeHTML(a.answer||"(No answer)")}</p><p><b>Reference answer:</b><br>${escapeHTML(a.reference)}</p><button class="secondary" onclick='copyText(${JSON.stringify(a.reference)})'>📋 Copy Answer</button></div>`).join("")}</div>`).join("")}
+function clearExamHistory(){if(confirm("Clear all exam history?")){examResults=[];saveAll();renderAdmin();toast("Exam history cleared")}}
+
+/* UTILITY */
+function downloadText(filename,text){const blob=new Blob([text],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url)}
+
+document.getElementById("attendanceDate").value=new Date().toISOString().split("T")[0];
+renderStudents();renderAttendance();renderBooks();renderDocumentStudents();renderDocuments();renderExamBooks();renderClassNotes();renderAdmin();updateStats();
+setTimeout(resizeCanvas,100);window.addEventListener("resize",resizeCanvas);
 </script>
-
 </body>
 </html>
