@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Notes</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f1f3f4;
+    color:#202124;
+    min-height:100vh;
+}
+
+/* TOP HEADER */
+.topbar{
+    background:#ffffff;
+    border-bottom:1px solid #dadce0;
+    height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    position:sticky;
+    top:0;
+    z-index:20;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:20px;
+    font-weight:700;
+}
+
+.logo-icon{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:#673ab7;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.top-actions{
+    display:flex;
+    gap:8px;
+}
+
+/* PAGE */
+.container{
+    width:min(900px,94%);
+    margin:28px auto 60px;
+}
+
+/* TITLE CARD */
+.title-card{
+    background:white;
+    border-radius:12px;
+    border:1px solid #dadce0;
+    border-top:9px solid #673ab7;
+    padding:28px;
+    margin-bottom:16px;
+}
+
+.title-card h1{
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.title-card p{
+    color:#5f6368;
+    font-size:14px;
+    line-height:1.6;
+}
+
+/* FORM CARD */
+.card{
+    background:#fff;
+    border:1px solid #dadce0;
+    border-radius:12px;
+    padding:24px;
+    margin-bottom:16px;
+}
+
+.card-title{
+    font-size:17px;
+    font-weight:600;
+    margin-bottom:18px;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.field.full{
+    grid-column:1 / -1;
+}
+
+label{
+    font-size:14px;
+    font-weight:600;
+    color:#3c4043;
+}
+
+.required{
+    color:#d93025;
+}
+
+/* INPUTS */
+input,
+select,
+textarea{
+    width:100%;
+    border:1px solid #dadce0;
+    border-radius:8px;
+    padding:13px 14px;
+    font-size:14px;
+    outline:none;
+    background:#fff;
+    color:#202124;
+    transition:.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#673ab7;
+    box-shadow:0 0 0 2px rgba(103,58,183,.12);
+}
+
+textarea{
+    min-height:150px;
+    resize:vertical;
+    line-height:1.6;
+}
+
+/* BUTTONS */
+button{
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+    border-radius:8px;
+    padding:11px 17px;
+    font-size:14px;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-1px);
+}
+
+.primary{
+    background:#673ab7;
+    color:white;
+}
+
+.primary:hover{
+    background:#5630a0;
+}
+
+.secondary{
+    background:#f1f3f4;
+    color:#3c4043;
+}
+
+.secondary:hover{
+    background:#e5e7e9;
+}
+
+.danger{
+    background:#fce8e6;
+    color:#c5221f;
+}
+
+.copy{
+    background:#e8f0fe;
+    color:#1967d2;
+}
+
+/* FORM FOOTER */
+.form-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.left-buttons,
+.right-buttons{
+    display:flex;
+    gap:8px;
+}
+
+/* SEARCH */
+.search-row{
+    display:grid;
+    grid-template-columns:1fr 180px;
+    gap:12px;
+    margin-bottom:18px;
+}
+
+/* NOTES */
+.notes-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.note{
+    border:1px solid #dadce0;
+    border-radius:10px;
+    padding:18px;
+    background:#fff;
+}
+
+.note-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:15px;
+}
+
+.note-title{
+    font-size:17px;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.note-meta{
+    color:#5f6368;
+    font-size:12px;
+    line-height:1.7;
+}
+
+.note-type{
+    display:inline-block;
+    background:#ede7f6;
+    color:#512da8;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
+    white-space:nowrap;
+}
+
+.note-content{
+    margin-top:14px;
+    background:#f8f9fa;
+    border-radius:8px;
+    padding:14px;
+    white-space:pre-wrap;
+    line-height:1.6;
+    font-size:14px;
+}
+
+.note-actions{
+    margin-top:13px;
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+}
+
+.note-actions button{
+    padding:8px 11px;
+    font-size:12px;
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    padding:40px 20px;
+    color:#80868b;
+}
+
+.empty-icon{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:16px;
+}
+
+.stat{
+    background:#fff;
+    border:1px solid #dadce0;
+    border-radius:10px;
+    padding:18px;
+}
+
+.stat-number{
+    font-size:25px;
+    font-weight:700;
+    color:#673ab7;
+}
+
+.stat-label{
+    margin-top:5px;
+    color:#5f6368;
+    font-size:12px;
+}
+
+/* TOAST */
+.toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#202124;
+    color:white;
+    padding:13px 18px;
+    border-radius:8px;
+    font-size:13px;
+    opacity:0;
+    transform:translateY(20px);
+    pointer-events:none;
+    transition:.25s;
+    z-index:100;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* FOOTER */
+.footer{
+    text-align:center;
+    color:#80868b;
+    font-size:12px;
+    margin-top:30px;
+}
+
+/* MOBILE */
+@media(max-width:650px){
+
+    .topbar{
+        padding:0 15px;
+        height:58px;
+    }
+
+    .logo{
+        font-size:16px;
+    }
+
+    .logo-icon{
+        width:32px;
+        height:32px;
+        font-size:17px;
+    }
+
+    .container{
+        width:94%;
+        margin-top:18px;
+    }
+
+    .title-card{
+        padding:22px;
+    }
+
+    .title-card h1{
+        font-size:24px;
+    }
+
+    .card{
+        padding:18px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+        gap:15px;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .search-row{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr 1fr;
+        gap:7px;
+    }
+
+    .stat{
+        padding:13px 8px;
+        text-align:center;
+    }
+
+    .stat-number{
+        font-size:20px;
+    }
+
+    .stat-label{
+        font-size:10px;
+    }
+
+    .form-footer{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .left-buttons,
+    .right-buttons{
+        width:100%;
+    }
+
+    .form-footer button{
+        flex:1;
+    }
+
+    .note-top{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="topbar">
+    <div class="logo">
+        <div class="logo-icon">📝</div>
+        <span>Class Notes</span>
+    </div>
+
+    <div class="top-actions">
+        <button class="secondary" onclick="scrollToNotes()">
+            📚 Notes
+        </button>
+    </div>
+</header>
+
+
+<main class="container">
+
+    <!-- TITLE -->
+    <section class="title-card">
+        <h1>Student Notes</h1>
+        <p>
+            Create and manage classroom notes for students.
+            Add student information, subject, date and detailed notes.
+        </p>
+    </section>
+
+
+    <!-- STATS -->
+    <section class="stats">
+
+        <div class="stat">
+            <div class="stat-number" id="totalNotes">0</div>
+            <div class="stat-label">Total Notes</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-number" id="totalStudents">0</div>
+            <div class="stat-label">Students</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-number" id="todayNotes">0</div>
+            <div class="stat-label">Today</div>
+        </div>
+
+    </section>
+
+
+    <!-- CREATE NOTE -->
+    <section class="card">
+
+        <div class="card-title">
+            📄 Create a new note
+        </div>
+
+        <div class="grid">
+
+            <div class="field">
+                <label>
+                    Student Name <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="e.g. Alex"
+                    autocomplete="off"
+                >
+            </div>
+
+
+            <div class="field">
+                <label>
+                    Age <span class="required">*</span>
+                </label>
+
+                <input
+                    type="number"
+                    id="studentAge"
+                    placeholder="e.g. 16"
+                    min="1"
+                    max="100"
+                >
+            </div>
+
+
+            <div class="field">
+                <label>
+                    Date <span class="required">*</span>
+                </label>
+
+                <input
+                    type="date"
+                    id="noteDate"
+                >
+            </div>
+
+
+            <div class="field">
+                <label>
+                    Subject
+                </label>
+
+                <select id="subject">
+
+                    <option value="">
+                        Select subject
+                    </option>
+
+                    <option>Science Explorer</option>
+                    <option>Mathematics</option>
+                    <option>Computer Science</option>
+                    <option>World Geography</option>
+                    <option>English</option>
+                    <option>Spanish</option>
+                    <option>Catalan</option>
+                    <option>Physical Education</option>
+                    <option>Other</option>
+
+                </select>
+            </div>
+
+
+            <div class="field">
+                <label>
+                    Note Type
+                </label>
+
+                <select id="noteType">
+
+                    <option value="General">General</option>
+                    <option value="Homework">Homework</option>
+                    <option value="Behaviour">Behaviour</option>
+                    <option value="Performance">Performance</option>
+                    <option value="Attendance">Attendance</option>
+                    <option value="Important">Important</option>
+                    <option value="Parent Meeting">Parent Meeting</option>
+                    <option value="Teacher Note">Teacher Note</option>
+
+                </select>
+            </div>
+
+
+            <div class="field">
+                <label>
+                    Short Title
+                </label>
+
+                <input
+                    type="text"
+                    id="noteTitle"
+                    placeholder="e.g. Homework progress"
+                >
+            </div>
+
+
+            <div class="field full">
+
+                <label>
+                    Notes <span class="required">*</span>
+                </label>
+
+                <textarea
+                    id="noteText"
+                    placeholder="Write your note here..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-footer">
+
+            <div class="left-buttons">
+
+                <button
+                    class="secondary"
+                    onclick="clearForm()"
+                >
+                    ↩ Clear
+                </button>
+
+            </div>
+
+            <div class="right-buttons">
+
+                <button
+                    class="primary"
+                    onclick="saveNote()"
+                >
+                    💾 Save Note
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SAVED NOTES -->
+    <section class="card" id="notesSection">
+
+        <div class="card-title">
+            📚 Saved Notes
+        </div>
+
+
+        <div class="search-row">
+
+            <input
+                type="text"
+                id="searchNotes"
+                placeholder="🔎 Search student, subject or note..."
+                oninput="renderNotes()"
+            >
+
+            <select
+                id="filterType"
+                onchange="renderNotes()"
+            >
+
+                <option value="all">
+                    All Types
+                </option>
+
+                <option value="General">General</option>
+                <option value="Homework">Homework</option>
+                <option value="Behaviour">Behaviour</option>
+                <option value="Performance">Performance</option>
+                <option value="Attendance">Attendance</option>
+                <option value="Important">Important</option>
+                <option value="Parent Meeting">Parent Meeting</option>
+                <option value="Teacher Note">Teacher Note</option>
+
+            </select>
+
+        </div>
+
+
+        <div id="notesList" class="notes-list"></div>
+
+    </section>
+
+
+    <!-- EXPORT -->
+    <section class="card">
+
+        <div class="card-title">
+            📤 Export Notes
+        </div>
+
+        <p style="color:#5f6368;font-size:13px;margin-bottom:15px;line-height:1.6;">
+            Download all saved classroom notes as a text file.
+        </p>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+
+            <button
+                class="primary"
+                onclick="exportNotes()"
+            >
+                📥 Download All Notes
+            </button>
+
+            <button
+                class="danger"
+                onclick="deleteAllNotes()"
+            >
+                🗑️ Delete All
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <div class="footer">
+        Class Notes • Local classroom management
+    </div>
+
+</main>
+
+
+<div id="toast" class="toast">
+    Saved successfully
+</div>
+
+
+<script>
+
+/* =========================================
+   DATA
+========================================= */
+
+const STORAGE_KEY = "class_notes";
+
+let notes = JSON.parse(
+    localStorage.getItem(STORAGE_KEY) || "[]"
+);
+
+let editingId = null;
+
+
+/* =========================================
+   DEFAULT DATE
+========================================= */
+
+document.getElementById("noteDate").value =
+    new Date().toISOString().split("T")[0];
+
+
+/* =========================================
+   SAVE DATA
+========================================= */
+
+function saveData(){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(notes)
+    );
+
+}
+
+
+/* =========================================
+   SAVE NOTE
+========================================= */
+
+function saveNote(){
+
+    const studentName =
+        document.getElementById("studentName").value.trim();
+
+    const studentAge =
+        document.getElementById("studentAge").value.trim();
+
+    const noteDate =
+        document.getElementById("noteDate").value;
+
+    const subject =
+        document.getElementById("subject").value;
+
+    const noteType =
+        document.getElementById("noteType").value;
+
+    const noteTitle =
+        document.getElementById("noteTitle").value.trim();
+
+    const noteText =
+        document.getElementById("noteText").value.trim();
+
+
+    if(!studentName){
+
+        showToast("Please enter student name");
+        return;
+
+    }
+
+
+    if(!studentAge){
+
+        showToast("Please enter student age");
+        return;
+
+    }
+
+
+    if(!noteDate){
+
+        showToast("Please select a date");
+        return;
+
+    }
+
+
+    if(!noteText){
+
+        showToast("Please write a note");
+        return;
+
+    }
+
+
+    if(editingId){
+
+        const index = notes.findIndex(
+            n => n.id === editingId
+        );
+
+        if(index !== -1){
+
+            notes[index] = {
+
+                ...notes[index],
+
+                studentName,
+                studentAge,
+                noteDate,
+                subject,
+                noteType,
+                noteTitle,
+                noteText
+
+            };
+
+        }
+
+        editingId = null;
+
+        showToast("Note updated successfully");
+
+    }else{
+
+        const newNote = {
+
+            id: Date.now(),
+
+            studentName,
+            studentAge,
+            noteDate,
+            subject,
+            noteType,
+            noteTitle,
+            noteText,
+
+            createdAt:
+                new Date().toISOString()
+
+        };
+
+        notes.unshift(newNote);
+
+        showToast("Note saved successfully");
+
+    }
+
+
+    saveData();
+
+    clearForm();
+
+    renderNotes();
+
+    updateStats();
+
+}
+
+
+/* =========================================
+   CLEAR FORM
+========================================= */
+
+function clearForm(){
+
+    document.getElementById("studentName").value = "";
+
+    document.getElementById("studentAge").value = "";
+
+    document.getElementById("noteDate").value =
+        new Date().toISOString().split("T")[0];
+
+    document.getElementById("subject").value = "";
+
+    document.getElementById("noteType").value =
+        "General";
+
+    document.getElementById("noteTitle").value = "";
+
+    document.getElementById("noteText").value = "";
+
+    editingId = null;
+
+}
+
+
+/* =========================================
+   RENDER NOTES
+========================================= */
+
+function renderNotes(){
+
+    const container =
+        document.getElementById("notesList");
+
+    const search =
+        document.getElementById("searchNotes")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const filter =
+        document.getElementById("filterType").value;
+
+
+    let filtered = notes.filter(note => {
+
+        const searchable = (
+
+            note.studentName +
+            " " +
+            note.subject +
+            " " +
+            note.noteTitle +
+            " " +
+            note.noteText
+
+        ).toLowerCase();
+
+
+        const matchesSearch =
+            searchable.includes(search);
+
+
+        const matchesFilter =
+            filter === "all" ||
+            note.noteType === filter;
+
+
+        return matchesSearch && matchesFilter;
+
+    });
+
+
+    if(filtered.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">📝</div>
+
+                <div>
+                    No notes found.
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = filtered.map(note => `
+
+        <div class="note">
+
+            <div class="note-top">
+
+                <div>
+
+                    <div class="note-title">
+
+                        ${escapeHTML(
+                            note.noteTitle ||
+                            "Student Note"
+                        )}
+
+                    </div>
+
+                    <div class="note-meta">
+
+                        👤 ${escapeHTML(note.studentName)}
+                        &nbsp; • &nbsp;
+
+                        🎂 ${escapeHTML(note.studentAge)}
+                        years
+
+                        <br>
+
+                        📅 ${formatDate(note.noteDate)}
+
+                        &nbsp; • &nbsp;
+
+                        📚 ${escapeHTML(
+                            note.subject || "No subject"
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <span class="note-type">
+
+                    ${escapeHTML(note.noteType)}
+
+                </span>
+
+            </div>
+
+
+            <div class="note-content">
+
+                ${escapeHTML(note.noteText)}
+
+            </div>
+
+
+            <div class="note-actions">
+
+                <button
+                    class="copy"
+                    onclick="copyNote(${note.id})"
+                >
+                    📋 Copy
+                </button>
+
+
+                <button
+                    class="secondary"
+                    onclick="editNote(${note.id})"
+                >
+                    ✏️ Edit
+                </button>
+
+
+                <button
+                    class="danger"
+                    onclick="deleteNote(${note.id})"
+                >
+                    🗑️ Delete
+                </button>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+/* =========================================
+   EDIT
+========================================= */
+
+function editNote(id){
+
+    const note =
+        notes.find(n => n.id === id);
+
+    if(!note) return;
+
+
+    document.getElementById("studentName").value =
+        note.studentName;
+
+    document.getElementById("studentAge").value =
+        note.studentAge;
+
+    document.getElementById("noteDate").value =
+        note.noteDate;
+
+    document.getElementById("subject").value =
+        note.subject;
+
+    document.getElementById("noteType").value =
+        note.noteType;
+
+    document.getElementById("noteTitle").value =
+        note.noteTitle;
+
+    document.getElementById("noteText").value =
+        note.noteText;
+
+
+    editingId = id;
+
+
+    window.scrollTo({
+
+        top:0,
+        behavior:"smooth"
+
+    });
+
+
+    showToast("Editing note");
+
+}
+
+
+/* =========================================
+   DELETE
+========================================= */
+
+function deleteNote(id){
+
+    const note =
+        notes.find(n => n.id === id);
+
+    if(!note) return;
+
+
+    if(!confirm(
+        `Delete note for ${note.studentName}?`
+    )){
+        return;
+    }
+
+
+    notes =
+        notes.filter(n => n.id !== id);
+
+
+    saveData();
+
+    renderNotes();
+
+    updateStats();
+
+    showToast("Note deleted");
+
+}
+
+
+/* =========================================
+   DELETE ALL
+========================================= */
+
+function deleteAllNotes(){
+
+    if(notes.length === 0){
+
+        showToast("There are no notes");
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Delete ALL classroom notes? This cannot be undone."
+        );
+
+
+    if(!confirmed) return;
+
+
+    notes = [];
+
+    saveData();
+
+    renderNotes();
+
+    updateStats();
+
+    showToast("All notes deleted");
+
+}
+
+
+/* =========================================
+   COPY NOTE
+========================================= */
+
+async function copyNote(id){
+
+    const note =
+        notes.find(n => n.id === id);
+
+    if(!note) return;
+
+
+    const text =
+
+`STUDENT NOTE
+------------------------------
+Student: ${note.studentName}
+Age: ${note.studentAge}
+Date: ${formatDate(note.noteDate)}
+Subject: ${note.subject || "None"}
+Type: ${note.noteType}
+Title: ${note.noteTitle || "Student Note"}
+
+NOTE:
+${note.noteText}
+------------------------------`;
+
+
+    try{
+
+        await navigator.clipboard.writeText(text);
+
+        showToast("Note copied");
+
+    }catch(error){
+
+        fallbackCopy(text);
+
+    }
+
+}
+
+
+/* =========================================
+   COPY FALLBACK
+========================================= */
+
+function fallbackCopy(text){
+
+    const textarea =
+        document.createElement("textarea");
+
+    textarea.value = text;
+
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+
+    document.body.appendChild(textarea);
+
+    textarea.select();
+
+    document.execCommand("copy");
+
+    textarea.remove();
+
+    showToast("Note copied");
+
+}
+
+
+/* =========================================
+   EXPORT
+========================================= */
+
+function exportNotes(){
+
+    if(notes.length === 0){
+
+        showToast("No notes to export");
+        return;
+
+    }
+
+
+    let output =
+        "CLASSROOM NOTES\n";
+
+    output +=
+        "==============================\n\n";
+
+
+    notes.forEach((note,index) => {
+
+        output +=
+`NOTE ${index + 1}
+------------------------------
+Student: ${note.studentName}
+Age: ${note.studentAge}
+Date: ${formatDate(note.noteDate)}
+Subject: ${note.subject || "None"}
+Type: ${note.noteType}
+Title: ${note.noteTitle || "Student Note"}
+
+${note.noteText}
+
+==============================
+
+`;
+
+    });
+
+
+    const blob =
+        new Blob(
+            [output],
+            {type:"text/plain;charset=utf-8"}
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const a =
+        document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+        "classroom-notes.txt";
+
+    a.click();
+
+
+    URL.revokeObjectURL(url);
+
+    showToast("Notes downloaded");
+
+}
+
+
+/* =========================================
+   STATS
+========================================= */
+
+function updateStats(){
+
+    document.getElementById("totalNotes")
+        .textContent = notes.length;
+
+
+    const students =
+        new Set(
+            notes.map(
+                note => note.studentName.toLowerCase()
+            )
+        );
+
+
+    document.getElementById("totalStudents")
+        .textContent = students.size;
+
+
+    const today =
+        new Date()
+        .toISOString()
+        .split("T")[0];
+
+
+    const todayCount =
+        notes.filter(
+            note => note.noteDate === today
+        ).length;
+
+
+    document.getElementById("todayNotes")
+        .textContent = todayCount;
+
+}
+
+
+/* =========================================
+   DATE FORMAT
+========================================= */
+
+function formatDate(date){
+
+    if(!date) return "No date";
+
+
+    const parts =
+        date.split("-");
+
+
+    if(parts.length !== 3)
+        return date;
+
+
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   SCROLL
+========================================= */
+
+function scrollToNotes(){
+
+    document.getElementById(
+        "notesSection"
+    ).scrollIntoView({
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+/* =========================================
+   TOAST
+========================================= */
+
+let toastTimer;
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(() => {
+
+            toast.classList.remove("show");
+
+        },2200);
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+renderNotes();
+
+updateStats();
+
+</script>
+
+</body>
+</html>
