@@ -1,438 +1,417 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ORION — Report Builder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClassHub • Classroom Manager</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-
-:root{
- --bg:#f4f6fa;
- --card:#fff;
- --text:#172033;
- --muted:#778196;
- --border:#e2e6ee;
- --primary:#4f46e5;
- --primary2:#7c3aed;
- --green:#16a34a;
- --orange:#f59e0b;
- --red:#ef4444;
-}
-
-body.dark{
- --bg:#0c1018;
- --card:#141a24;
- --text:#f4f6fa;
- --muted:#929caf;
- --border:#28303d;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
- font-family:Inter,Arial,sans-serif;
- background:var(--bg);
- color:var(--text);
- transition:.2s;
+    background:#eef2f7;
+    color:#172033;
 }
-
-button,input,textarea,select{
- font:inherit;
-}
-
-button{cursor:pointer}
 
 .app{
- display:flex;
- min-height:100vh;
+    display:flex;
+    min-height:100vh;
 }
 
 /* SIDEBAR */
 
 .sidebar{
- width:245px;
- position:fixed;
- top:0;
- bottom:0;
- background:var(--card);
- border-right:1px solid var(--border);
- padding:24px 14px;
+    width:250px;
+    background:linear-gradient(180deg,#111827,#1e293b);
+    color:white;
+    padding:22px 15px;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    z-index:10;
 }
 
 .logo{
- display:flex;
- align-items:center;
- gap:10px;
- font-weight:900;
- font-size:21px;
- padding:0 12px 30px;
+    font-size:25px;
+    font-weight:800;
+    padding:10px 12px 25px;
 }
 
-.logo-box{
- width:38px;
- height:38px;
- display:grid;
- place-items:center;
- border-radius:11px;
- color:white;
- background:linear-gradient(135deg,var(--primary),var(--primary2));
+.logo span{
+    color:#60a5fa;
 }
 
 .nav{
- width:100%;
- border:0;
- background:transparent;
- color:var(--muted);
- padding:12px 14px;
- border-radius:10px;
- text-align:left;
- margin:3px 0;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
 }
 
-.nav:hover,
-.nav.active{
- background:#4f46e515;
- color:var(--primary);
- font-weight:bold;
+.nav button{
+    border:0;
+    background:transparent;
+    color:#cbd5e1;
+    text-align:left;
+    padding:14px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:15px;
+    transition:.2s;
 }
 
-.nav span{
- display:inline-block;
- width:25px;
- font-size:18px;
+.nav button:hover,
+.nav button.active{
+    background:#2563eb;
+    color:white;
+    transform:translateX(3px);
 }
+
+/* MAIN */
 
 .main{
- margin-left:245px;
- width:calc(100% - 245px);
- padding:30px 38px;
+    margin-left:250px;
+    width:calc(100% - 250px);
+    padding:25px;
 }
 
-.top{
- display:flex;
- justify-content:space-between;
- align-items:center;
- margin-bottom:25px;
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
 }
 
-.top h1{
- font-size:27px;
+.topbar h1{
+    font-size:28px;
 }
 
-.top p{
- color:var(--muted);
- font-size:13px;
- margin-top:5px;
+.teacher{
+    background:white;
+    padding:10px 16px;
+    border-radius:15px;
+    box-shadow:0 5px 20px #00000010;
 }
 
-.actions{
- display:flex;
- gap:9px;
+/* PAGES */
+
+.page{
+    display:none;
 }
 
-.btn{
- border:1px solid var(--border);
- background:var(--card);
- color:var(--text);
- padding:11px 17px;
- border-radius:10px;
+.page.active{
+    display:block;
 }
 
-.btn.primary{
- border:0;
- color:white;
- background:linear-gradient(135deg,var(--primary),var(--primary2));
-}
+/* CARDS */
 
-.btn.green{
- border:0;
- color:white;
- background:var(--green);
-}
-
-/* FORM */
-
-.report-layout{
- display:grid;
- grid-template-columns:1fr 300px;
- gap:22px;
- align-items:start;
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
 }
 
 .card{
- background:var(--card);
- border:1px solid var(--border);
- border-radius:17px;
- overflow:hidden;
- margin-bottom:20px;
+    background:white;
+    padding:22px;
+    border-radius:20px;
+    box-shadow:0 8px 25px #0000000d;
 }
 
-.card-title{
- padding:19px 22px;
- border-bottom:1px solid var(--border);
- display:flex;
- justify-content:space-between;
- align-items:center;
+.stat-number{
+    font-size:32px;
+    font-weight:800;
+    margin-top:8px;
 }
 
-.card-title h2{
- font-size:16px;
-}
-
-.card-title p{
- font-size:11px;
- color:var(--muted);
- margin-top:4px;
-}
-
-.card-body{
- padding:22px;
-}
-
-.form-grid{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:17px;
-}
-
-.form-group{
- margin-bottom:17px;
-}
-
-.form-group.full{
- grid-column:1/-1;
-}
-
-label{
- display:block;
- font-size:12px;
- font-weight:bold;
- margin-bottom:7px;
-}
-
-label span{
- color:var(--red);
-}
-
-input,
-select,
-textarea{
- width:100%;
- border:1px solid var(--border);
- background:var(--bg);
- color:var(--text);
- padding:12px 13px;
- border-radius:9px;
- outline:none;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
- border-color:var(--primary);
- box-shadow:0 0 0 3px #4f46e512;
-}
-
-textarea{
- resize:vertical;
- min-height:130px;
- line-height:1.7;
-}
-
-/* REPORT SECTIONS */
-
-.section{
- margin-bottom:18px;
-}
-
-.section-header{
- display:flex;
- justify-content:space-between;
- align-items:center;
- margin-bottom:9px;
-}
-
-.section-header h3{
- font-size:14px;
-}
-
-.remove-section{
- border:0;
- background:transparent;
- color:var(--red);
- font-size:12px;
-}
+.blue{color:#2563eb}
+.green{color:#16a34a}
+.red{color:#dc2626}
+.orange{color:#ea580c}
 
 /* TABLE */
 
-.table-wrap{
- overflow:auto;
- border:1px solid var(--border);
- border-radius:10px;
+.table-box{
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    overflow:auto;
+    box-shadow:0 8px 25px #0000000d;
 }
 
 table{
- width:100%;
- border-collapse:collapse;
- min-width:600px;
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
 }
 
-th,
-td{
- border-bottom:1px solid var(--border);
- padding:11px;
- text-align:left;
- font-size:12px;
+th,td{
+    padding:14px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:left;
 }
 
 th{
- background:#4f46e508;
- font-size:11px;
+    background:#f8fafc;
 }
 
-td input{
- border:0;
- padding:7px;
- background:transparent;
- border-radius:5px;
+.status{
+    border:0;
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-.delete-row{
- border:0;
- background:#ef444415;
- color:var(--red);
- width:28px;
- height:28px;
- border-radius:7px;
+.present{
+    background:#dcfce7;
+    color:#15803d;
 }
 
-.add-row{
- margin-top:10px;
- border:1px dashed var(--primary);
- background:#4f46e508;
- color:var(--primary);
- padding:9px 13px;
- border-radius:8px;
+.absent{
+    background:#fee2e2;
+    color:#b91c1c;
 }
 
-/* SIDEBAR INFO */
-
-.info-box{
- padding:20px;
+.late{
+    background:#ffedd5;
+    color:#c2410c;
 }
 
-.progress{
- height:7px;
- background:var(--border);
- border-radius:10px;
- overflow:hidden;
- margin:10px 0;
+/* BUTTONS */
+
+.btn{
+    border:0;
+    padding:11px 17px;
+    border-radius:11px;
+    cursor:pointer;
+    background:#2563eb;
+    color:white;
+    font-weight:bold;
 }
 
-.progress div{
- height:100%;
- width:65%;
- background:linear-gradient(90deg,var(--primary),var(--primary2));
+.btn:hover{
+    opacity:.9;
 }
 
-.meta{
- display:flex;
- justify-content:space-between;
- padding:10px 0;
- border-bottom:1px solid var(--border);
- font-size:12px;
+.btn.gray{
+    background:#64748b;
 }
 
-.meta span:first-child{
- color:var(--muted);
+.btn.red{
+    background:#dc2626;
 }
 
-.priority{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:6px;
+.btn.green{
+    background:#16a34a;
 }
 
-.priority button{
- padding:9px 5px;
- border:1px solid var(--border);
- background:var(--card);
- color:var(--muted);
- border-radius:7px;
- font-size:11px;
+/* BOOKS */
+
+.books{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:22px;
 }
 
-.priority button.active{
- color:white;
- background:var(--primary);
- border-color:var(--primary);
+.book{
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 8px 25px #00000010;
 }
 
-/* CHECKBOX */
-
-.check{
- display:flex;
- align-items:center;
- gap:8px;
- font-size:12px;
- color:var(--muted);
+.book-cover{
+    height:190px;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+    justify-content:end;
 }
 
-.check input{
- width:auto;
+.book:nth-child(2) .book-cover{
+    background:linear-gradient(135deg,#059669,#0f766e);
 }
 
-/* SUCCESS */
-
-.success{
- display:none;
- position:fixed;
- right:25px;
- bottom:25px;
- padding:14px 18px;
- background:#172033;
- color:white;
- border-radius:10px;
- box-shadow:0 15px 40px #0003;
+.book-body{
+    padding:20px;
 }
 
-.success.show{
- display:block;
+.chapter{
+    padding:11px 0;
+    border-bottom:1px solid #e5e7eb;
 }
 
-/* MOBILE */
-
-@media(max-width:1000px){
- .sidebar{display:none}
- .main{
-  margin:0;
-  width:100%;
-  padding:20px 13px 40px;
- }
- .report-layout{
-  grid-template-columns:1fr;
- }
+.diagram{
+    margin-top:15px;
+    padding:15px;
+    background:#f8fafc;
+    border-radius:15px;
+    text-align:center;
+    font-size:30px;
 }
 
-@media(max-width:650px){
- .top{
-  align-items:flex-start;
-  gap:15px;
- }
- .top h1{font-size:22px}
- .form-grid{
-  grid-template-columns:1fr;
- }
- .form-group.full{
-  grid-column:auto;
- }
- .actions{
-  flex-wrap:wrap;
- }
+/* DOCUMENTS */
+
+.document-layout{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:20px;
+}
+
+.documents-list,
+.editor{
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 8px 25px #0000000d;
+}
+
+.doc-item{
+    padding:13px;
+    margin-top:8px;
+    border-radius:10px;
+    background:#f1f5f9;
+    cursor:pointer;
+}
+
+.doc-item:hover{
+    background:#dbeafe;
+}
+
+input,textarea,select{
+    width:100%;
+    border:1px solid #d1d5db;
+    padding:12px;
+    border-radius:10px;
+    margin:8px 0;
+    outline:none;
+}
+
+textarea{
+    min-height:300px;
+    resize:vertical;
+}
+
+.editor-header{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+/* WHITEBOARD */
+
+.board-tools{
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.board-tools input[type=color]{
+    width:45px;
+    height:40px;
+    padding:2px;
+    margin:0;
+}
+
+.board-tools input[type=range]{
+    width:120px;
+    margin:0;
+}
+
+.canvas-box{
+    background:white;
+    border-radius:20px;
+    padding:12px;
+    box-shadow:0 8px 25px #0000000d;
+}
+
+canvas{
+    width:100%;
+    height:600px;
+    border:2px solid #e2e8f0;
+    border-radius:15px;
+    display:block;
+    cursor:crosshair;
+    background:white;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:75px;
+    }
+
+    .logo{
+        font-size:0;
+        text-align:center;
+    }
+
+    .logo span{
+        font-size:22px;
+    }
+
+    .nav button{
+        font-size:0;
+        text-align:center;
+    }
+
+    .nav button:first-letter{
+        font-size:20px;
+    }
+
+    .main{
+        margin-left:75px;
+        width:calc(100% - 75px);
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .books{
+        grid-template-columns:1fr;
+    }
+
+    .document-layout{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    .main{
+        padding:15px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .topbar h1{
+        font-size:21px;
+    }
+
+    canvas{
+        height:450px;
+    }
 }
 </style>
-
 </head>
 
 <body>
@@ -444,43 +423,24 @@ td input{
 <aside class="sidebar">
 
 <div class="logo">
- <div class="logo-box">OR</div>
- ORION
+📚 Class<span>Hub</span>
 </div>
 
-<button class="nav">
- <span>⌂</span> Dashboard
-</button>
+<div class="nav">
 
-<button class="nav active">
- <span>＋</span> New Report
-</button>
+<button onclick="showPage('dashboard')" class="active">🏠 Dashboard</button>
 
-<button class="nav">
- <span>▤</span> All Reports
-</button>
+<button onclick="showPage('students')">👨‍🎓 Students</button>
 
-<button class="nav">
- <span>♙</span> Employees
-</button>
+<button onclick="showPage('attendance')">✅ Attendance</button>
 
-<button class="nav">
- <span>⚑</span> Announcements
-</button>
+<button onclick="showPage('books')">📚 Books</button>
 
-<button class="nav">
- <span>▥</span> Analytics
-</button>
+<button onclick="showPage('documents')">📄 Documents</button>
 
-<br>
+<button onclick="showPage('board')">🖊️ Whiteboard</button>
 
-<button class="nav" onclick="toggleDark()">
- <span>◐</span> Dark Mode
-</button>
-
-<button class="nav">
- <span>⚙</span> Settings
-</button>
+</div>
 
 </aside>
 
@@ -488,1010 +448,809 @@ td input{
 
 <main class="main">
 
-<div class="top">
+<div class="topbar">
+<h1 id="pageTitle">Class Dashboard</h1>
 
-<div>
- <h1>Create New Report</h1>
- <p>Prepare a professional company report</p>
+<div class="teacher">
+👨‍🏫 Teacher • Class 10A
+</div>
 </div>
 
-<div class="actions">
 
-<button class="btn" onclick="saveDraft()">
- Save Draft
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page active">
+
+<div class="stats">
+
+<div class="card">
+<div>👨‍🎓 Students</div>
+<div class="stat-number blue">40</div>
+</div>
+
+<div class="card">
+<div>🟢 Present</div>
+<div class="stat-number green" id="presentCount">40</div>
+</div>
+
+<div class="card">
+<div>🔴 Absent</div>
+<div class="stat-number red" id="absentCount">0</div>
+</div>
+
+<div class="card">
+<div>🟠 Late</div>
+<div class="stat-number orange" id="lateCount">0</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>📊 Today's Class</h2>
+
+<br>
+
+<p>Welcome to your classroom management dashboard.</p>
+
+<br>
+
+<button class="btn" onclick="showPage('attendance')">
+Take Attendance
 </button>
 
-<button class="btn green" onclick="publishReport()">
- ✓ Publish Report
-</button>
-
-</div>
-
-</div>
-
-<div class="report-layout">
-
-<!-- LEFT -->
-
-<div>
-
-<!-- BASIC INFORMATION -->
-
-<div class="card">
-
-<div class="card-title">
- <div>
-  <h2>📄 Report Information</h2>
-  <p>Basic information about this report</p>
- </div>
-</div>
-
-<div class="card-body">
-
-<div class="form-grid">
-
-<div class="form-group full">
- <label>Report Title <span>*</span></label>
- <input
-  id="title"
-  placeholder="Example: September Monthly Performance Report"
- >
-</div>
-
-<div class="form-group">
- <label>Report ID</label>
- <input id="reportId" readonly>
-</div>
-
-<div class="form-group">
- <label>Report Type</label>
-
- <select id="type">
-  <option>Monthly Report</option>
-  <option>Weekly Report</option>
-  <option>Quarterly Report</option>
-  <option>Annual Report</option>
-  <option>Project Report</option>
-  <option>Financial Report</option>
-  <option>Incident Report</option>
-  <option>Employee Report</option>
-  <option>Technical Report</option>
-  <option>Custom Report</option>
- </select>
-
-</div>
-
-<div class="form-group">
- <label>Department</label>
-
- <select id="department">
-  <option>Management</option>
-  <option>Marketing</option>
-  <option>Finance</option>
-  <option>Technical</option>
-  <option>Human Resources</option>
-  <option>Operations</option>
-  <option>Sales</option>
-  <option>Customer Support</option>
- </select>
-
-</div>
-
-<div class="form-group">
- <label>Author</label>
-
-<input
-id="author"
-placeholder="Employee / Manager name"
-
->
-
-</div>
-
-<div class="form-group">
- <label>Report Date</label>
-
-<input
-id="date"
-type="date"
-
->
-
-</div>
-
-<div class="form-group">
- <label>Due Date</label>
-
-<input
-id="dueDate"
-type="date"
-
->
-
-</div>
-
-<div class="form-group full">
-
-<label>Priority</label>
-
-<div class="priority">
-
-<button
-class="active"
-onclick="priority(this,'Normal')"
-
->
-
-Normal </button>
-
-<button
-onclick="priority(this,'Important')"
-
->
-
-Important </button>
-
-<button
-onclick="priority(this,'Critical')"
-
->
-
-Critical </button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-<!-- EXECUTIVE SUMMARY -->
-
-<div class="card">
-
-<div class="card-title">
-
-<div>
- <h2>📌 Executive Summary</h2>
- <p>Short overview of the report</p>
-</div>
-
-</div>
-
-<div class="card-body">
-
-<textarea
- id="summary"
- placeholder="Write a short executive summary...
-
-Example:
-This report provides an overview of the company's performance during September 2026, including financial results, team performance, ongoing projects and key challenges."
-></textarea>
-
-</div>
-</div>
-
-<!-- OBJECTIVES -->
-
-<div class="card">
-
-<div class="card-title">
-
-<div>
- <h2>🎯 Objectives</h2>
- <p>What does this report cover?</p>
-</div>
-
-</div>
-
-<div class="card-body">
-
-<textarea
- id="objectives"
- placeholder="1. Review monthly performance
-2. Identify current problems
-3. Analyze project progress
-4. Define next steps"
-></textarea>
-
-</div>
-</div>
-
-<!-- FINDINGS -->
-
-<div class="card">
-
-<div class="card-title">
-
-<div>
- <h2>🔎 Findings & Analysis</h2>
- <p>Detailed report information</p>
-</div>
-
-</div>
-
-<div class="card-body">
-
-<textarea
- id="findings"
- style="min-height:230px"
- placeholder="Write your detailed analysis here...
-
-You can include:
-• Important findings
-• Performance analysis
-• Problems
-• Risks
-• Business information
-• Technical details
-• Team performance"
-></textarea>
-
-</div>
-</div>
-
-<!-- DATA TABLE -->
-
-<div class="card">
-
-<div class="card-title">
-
-<div>
- <h2>📊 Data & Performance</h2>
- <p>Add structured information using a table</p>
-</div>
-
-<button class="add-row" onclick="addRow()">
-+ Add Row
+<button class="btn green" onclick="showPage('board')">
+Open Whiteboard
 </button>
 
 </div>
 
-<div class="card-body">
+</section>
 
-<div class="table-wrap">
+
+<!-- STUDENTS -->
+
+<section id="students" class="page">
+
+<div class="table-box">
+
+<h2>👨‍🎓 Students — Class 10A</h2>
+
+<br>
+
+<table>
+
+<thead>
+<tr>
+<th>#</th>
+<th>Name</th>
+<th>Roll No.</th>
+<th>Age</th>
+<th>Attendance</th>
+</tr>
+</thead>
+
+<tbody id="studentTable"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- ATTENDANCE -->
+
+<section id="attendance" class="page">
+
+<div class="table-box">
+
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+
+<h2>✅ Daily Attendance</h2>
+
+<button class="btn green" onclick="markAllPresent()">
+Mark All Present
+</button>
+
+</div>
+
+<br>
 
 <table>
 
 <thead>
 
 <tr>
- <th>Metric</th>
- <th>Target</th>
- <th>Actual</th>
- <th>Progress</th>
- <th>Notes</th>
- <th></th>
+<th>Roll</th>
+<th>Student</th>
+<th>Status</th>
 </tr>
 
 </thead>
 
-<tbody id="dataTable">
-
-<tr>
-
-<td>
-<input placeholder="Sales">
-</td>
-
-<td>
-<input placeholder="€50,000">
-</td>
-
-<td>
-<input placeholder="€54,200">
-</td>
-
-<td>
-<input placeholder="108%">
-</td>
-
-<td>
-<input placeholder="Above target">
-</td>
-
-<td>
-<button class="delete-row" onclick="deleteRow(this)">
-×
-</button>
-</td>
-
-</tr>
-
-</tbody>
+<tbody id="attendanceTable"></tbody>
 
 </table>
 
 </div>
 
-</div>
-</div>
+</section>
 
-<!-- RECOMMENDATIONS -->
 
-<div class="card">
+<!-- BOOKS -->
 
-<div class="card-title">
+<section id="books" class="page">
 
-<div>
- <h2>💡 Recommendations</h2>
- <p>Suggested actions and improvements</p>
-</div>
-
-</div>
-
-<div class="card-body">
-
-<textarea
- id="recommendations"
- placeholder="Write recommended actions...
-
-Example:
-1. Increase marketing activity.
-2. Review current project deadlines.
-3. Improve communication between departments."
-></textarea>
-
-</div>
-</div>
-
-<!-- CONCLUSION -->
-
-<div class="card">
-
-<div class="card-title">
-
-<div>
- <h2>✅ Conclusion</h2>
- <p>Final summary</p>
-</div>
-
-</div>
-
-<div class="card-body">
-
-<textarea
- id="conclusion"
- placeholder="Write the final conclusion of this report..."
-></textarea>
-
-</div>
-</div>
-
-<!-- EXTRA -->
-
-<div class="card">
-
-<div class="card-title">
-
-<div>
- <h2>📎 Additional Information</h2>
- <p>Extra notes and references</p>
-</div>
-
-</div>
-
-<div class="card-body">
-
-<textarea
- id="additional"
- placeholder="Add any additional information, references, links or notes..."
-></textarea>
-
-<br><br>
-
-<label class="check">
-
-<input type="checkbox" id="confidential">
-
-Mark this report as confidential
-
-</label>
-
-</div>
-</div>
-
-</div>
-
-<!-- RIGHT SIDEBAR -->
-
-<aside style="position:static;width:auto;padding:0;border:0;background:transparent">
-
-<div class="card">
-
-<div class="card-title">
-
-<div>
- <h2>Report Status</h2>
- <p>Current document status</p>
-</div>
-
-</div>
-
-<div class="info-box">
-
-<div class="meta">
- <span>Status</span>
- <b id="statusText">Draft</b>
-</div>
-
-<div class="meta">
- <span>Created</span>
- <b id="createdText">Today</b>
-</div>
-
-<div class="meta">
- <span>Author</span>
- <b id="authorPreview">—</b>
-</div>
-
-<div class="meta">
- <span>Department</span>
- <b id="departmentPreview">Management</b>
-</div>
-
-<div style="margin-top:18px">
-
-<div style="display:flex;justify-content:space-between;font-size:11px">
-
-<span style="color:var(--muted)">
-Completion
-</span>
-
-<span id="completion">
-20%
-</span>
-
-</div>
-
-<div class="progress">
- <div id="progressBar"></div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-<div class="card">
-
-<div class="card-title">
-
-<div>
- <h2>Report Checklist</h2>
- <p>Before publishing</p>
-</div>
-
-</div>
-
-<div class="info-box">
-
-<label class="check">
-<input type="checkbox">
- Executive summary completed
-</label>
+<h2>📚 Class Books</h2>
 
 <br>
 
-<label class="check">
-<input type="checkbox">
- Data verified
-</label>
+<div class="books">
+
+<!-- BOOK 1 -->
+
+<div class="book">
+
+<div class="book-cover">
+
+<h2>🔬 Science Explorer</h2>
+
+<p>Class 10 • Science</p>
+
+</div>
+
+<div class="book-body">
+
+<div class="chapter">
+<b>Chapter 1</b><br>
+Life Processes
+</div>
+
+<div class="chapter">
+<b>Chapter 2</b><br>
+Chemical Reactions
+</div>
+
+<div class="chapter">
+<b>Chapter 3</b><br>
+Electricity
+</div>
+
+<div class="chapter">
+<b>Chapter 4</b><br>
+Light & Reflection
+</div>
+
+<div class="diagram">
+
+⚡<br>
+Battery → Wire → 💡<br>
+<b>Simple Electric Circuit</b>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- BOOK 2 -->
+
+<div class="book">
+
+<div class="book-cover">
+
+<h2>🌍 World Studies</h2>
+
+<p>Class 10 • Geography</p>
+
+</div>
+
+<div class="book-body">
+
+<div class="chapter">
+<b>Chapter 1</b><br>
+Earth & Environment
+</div>
+
+<div class="chapter">
+<b>Chapter 2</b><br>
+Climate
+</div>
+
+<div class="chapter">
+<b>Chapter 3</b><br>
+Natural Resources
+</div>
+
+<div class="chapter">
+<b>Chapter 4</b><br>
+Population
+</div>
+
+<div class="diagram">
+
+☀️ → ☁️ → 🌧️<br>
+🌊 → ☁️<br>
+<b>Water Cycle</b>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- DOCUMENTS -->
+
+<section id="documents" class="page">
+
+<div class="document-layout">
+
+<div class="documents-list">
+
+<h2>📄 Documents</h2>
+
+<button class="btn" style="width:100%;margin-top:15px"
+onclick="newDocument()">
+＋ New Document
+</button>
+
+<div id="documentList"></div>
+
+</div>
+
+
+<div class="editor">
+
+<div class="editor-header">
+
+<input id="docTitle"
+placeholder="Document title">
+
+<button class="btn" onclick="saveDocument()">
+💾 Save
+</button>
+
+</div>
+
+<textarea id="docContent"
+placeholder="Write assignment, homework, notes or work for students here..."></textarea>
 
 <br>
 
-<label class="check">
-<input type="checkbox">
- Recommendations added
-</label>
+<button class="btn green" onclick="downloadDocument()">
+⬇️ Download
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- WHITEBOARD -->
+
+<section id="board" class="page">
+
+<h2>🖊️ Classroom Whiteboard</h2>
 
 <br>
 
-<label class="check">
-<input type="checkbox">
- Conclusion completed
+<div class="board-tools">
+
+<label>
+Color
+<input type="color" id="colorPicker" value="#111827">
 </label>
 
-<br>
-
-<label class="check">
-<input type="checkbox">
- Manager reviewed
+<label>
+Thickness
+<input type="range" id="sizePicker" min="1" max="30" value="5">
 </label>
 
-</div>
+<button class="btn" onclick="setPen()">
+✏️ Pen
+</button>
+
+<button class="btn gray" onclick="setEraser()">
+🧽 Eraser
+</button>
+
+<button class="btn red" onclick="clearBoard()">
+🗑️ Clear
+</button>
+
+<button class="btn green" onclick="saveBoard()">
+💾 Save Board
+</button>
 
 </div>
 
-<div class="card">
+<div class="canvas-box">
 
-<div class="card-title">
-
-<div>
- <h2>Quick Actions</h2>
-</div>
+<canvas id="canvas"></canvas>
 
 </div>
 
-<div class="info-box">
-
-<button
-class="btn"
-style="width:100%;margin-bottom:8px"
-onclick="window.print()"
-
->
-
-🖨 Print Report </button>
-
-<button
-class="btn"
-style="width:100%"
-onclick="exportReport()"
-
->
-
-↓ Export Report </button>
-
-</div>
-
-</div>
-
-</aside>
-
-</div>
+</section>
 
 </main>
 
 </div>
 
-<div class="success" id="success">
-✓ Report saved successfully
-</div>
 
 <script>
 
-/* ==========================
-   INITIAL VALUES
-========================== */
+/* =========================
+   PAGE SYSTEM
+========================= */
 
-document.getElementById("reportId").value =
-"REP-" +
-new Date().getFullYear() +
-"-" +
-Math.floor(Math.random()*9000+1000);
+const titles = {
+dashboard:"Class Dashboard",
+students:"Students",
+attendance:"Attendance",
+books:"Class Books",
+documents:"Documents",
+board:"Whiteboard"
+};
 
-document.getElementById("date").value =
-new Date().toISOString().split("T")[0];
+function showPage(page){
 
-document.getElementById("author")
-.addEventListener("input",updatePreview);
-
-document.getElementById("department")
-.addEventListener("change",updatePreview);
-
-
-/* ==========================
-   PRIORITY
-========================== */
-
-let selectedPriority="Normal";
-
-function priority(button,value){
-
- document.querySelectorAll(".priority button")
- .forEach(b=>b.classList.remove("active"));
-
- button.classList.add("active");
-
- selectedPriority=value;
-
-}
-
-
-/* ==========================
-   TABLE ROW
-========================== */
-
-function addRow(){
-
- const table =
- document.getElementById("dataTable");
-
- const row =
- document.createElement("tr");
-
- row.innerHTML=`
-
- <td>
-  <input placeholder="Metric">
- </td>
-
- <td>
-  <input placeholder="Target">
- </td>
-
- <td>
-  <input placeholder="Actual">
- </td>
-
- <td>
-  <input placeholder="Progress">
- </td>
-
- <td>
-  <input placeholder="Notes">
- </td>
-
- <td>
-  <button
-   class="delete-row"
-   onclick="deleteRow(this)"
-  >
-   ×
-  </button>
- </td>
-
- `;
-
- table.appendChild(row);
-
- updateProgress();
-
-}
-
-
-function deleteRow(button){
-
- const row=button.closest("tr");
-
- if(document.querySelectorAll("#dataTable tr").length>1){
-
-  row.remove();
-
- }else{
-
-  alert("At least one table row is required.");
-
- }
-
-}
-
-
-/* ==========================
-   PREVIEW
-========================== */
-
-function updatePreview(){
-
- document.getElementById("authorPreview")
- .textContent =
- document.getElementById("author").value ||
- "—";
-
- document.getElementById("departmentPreview")
- .textContent =
- document.getElementById("department").value;
-
- updateProgress();
-
-}
-
-
-/* ==========================
-   PROGRESS
-========================== */
-
-function updateProgress(){
-
- let total=0;
-
- let complete=0;
-
- const fields=[
-  "title",
-  "summary",
-  "objectives",
-  "findings",
-  "recommendations",
-  "conclusion"
- ];
-
- fields.forEach(id=>{
-
-  total++;
-
-  if(document.getElementById(id).value.trim()){
-   complete++;
-  }
-
- });
-
- const percent=
- Math.round((complete/total)*100);
-
- document.getElementById("completion")
- .textContent=percent+"%";
-
- document.getElementById("progressBar")
- .style.width=percent+"%";
-
-}
-
-
-document.querySelectorAll("input,textarea,select")
-.forEach(el=>{
- el.addEventListener("input",updateProgress);
+document.querySelectorAll(".page").forEach(p=>{
+p.classList.remove("active");
 });
 
+document.getElementById(page).classList.add("active");
 
-/* ==========================
-   SAVE DRAFT
-========================== */
+document.querySelectorAll(".nav button").forEach(b=>{
+b.classList.remove("active");
+});
 
-function saveDraft(){
+event.target.classList.add("active");
 
- const data=collectReport();
+document.getElementById("pageTitle").innerText=titles[page];
 
- localStorage.setItem(
-  "orion_report_draft",
-  JSON.stringify(data)
- );
-
- document.getElementById("statusText")
- .textContent="Draft";
-
- showSuccess("✓ Draft saved successfully");
+if(page==="board"){
+setTimeout(resizeCanvas,100);
+}
 
 }
 
 
-/* ==========================
-   PUBLISH
-========================== */
+/* =========================
+   STUDENTS
+========================= */
 
-function publishReport(){
+const students=[];
 
- const title=
- document.getElementById("title").value.trim();
+const firstNames=[
+"Alex","Daniel","Lucas","Leo","Hugo",
+"Marc","Pablo","Adrian","Eric","Noah",
+"Adam","Mario","David","Enzo","Bruno",
+"Ivan","Nil","Jan","Pol","Joel",
+"Arjun","Aarav","Rohan","Kabir","Dev",
+"Ryan","Sam","Ethan","Liam","Oliver",
+"Sofia","Emma","Mia","Anna","Sara",
+"Laura","Julia","Clara","Nora","Aisha"
+];
 
- if(!title){
+for(let i=0;i<40;i++){
 
-  alert("Please enter a report title.");
-
-  document.getElementById("title").focus();
-
-  return;
- }
-
- const data=collectReport();
-
- data.status="Published";
-
- localStorage.setItem(
-  "orion_published_report",
-  JSON.stringify(data)
- );
-
- document.getElementById("statusText")
- .textContent="Published";
-
- showSuccess("✓ Report published successfully");
+students.push({
+id:i+1,
+name:firstNames[i],
+age:15 + (i%3),
+status:"Present"
+});
 
 }
 
 
-/* ==========================
-   COLLECT DATA
-========================== */
+function renderStudents(){
 
-function collectReport(){
+const table=document.getElementById("studentTable");
 
- const rows=[];
+table.innerHTML="";
 
- document.querySelectorAll("#dataTable tr")
- .forEach(row=>{
+students.forEach(s=>{
 
-  const inputs=row.querySelectorAll("input");
+table.innerHTML+=`
 
-  rows.push({
-   metric:inputs[0]?.value || "",
-   target:inputs[1]?.value || "",
-   actual:inputs[2]?.value || "",
-   progress:inputs[3]?.value || "",
-   notes:inputs[4]?.value || ""
-  });
+<tr>
 
- });
+<td>${s.id}</td>
 
+<td><b>${s.name}</b></td>
 
- return {
+<td>10A-${String(s.id).padStart(2,"0")}</td>
 
-  id:document.getElementById("reportId").value,
+<td>${s.age}</td>
 
-  title:document.getElementById("title").value,
+<td>
+<span class="status ${s.status.toLowerCase()}">
+${s.status}
+</span>
+</td>
 
-  type:document.getElementById("type").value,
-
-  department:document.getElementById("department").value,
-
-  author:document.getElementById("author").value,
-
-  date:document.getElementById("date").value,
-
-  dueDate:document.getElementById("dueDate").value,
-
-  priority:selectedPriority,
-
-  summary:document.getElementById("summary").value,
-
-  objectives:document.getElementById("objectives").value,
-
-  findings:document.getElementById("findings").value,
-
-  data:rows,
-
-  recommendations:
-   document.getElementById("recommendations").value,
-
-  conclusion:
-   document.getElementById("conclusion").value,
-
-  additional:
-   document.getElementById("additional").value,
-
-  confidential:
-   document.getElementById("confidential").checked,
-
-  created:new Date().toISOString(),
-
-  status:"Draft"
-
- };
-
-}
-
-
-/* ==========================
-   EXPORT
-========================== */
-
-function exportReport(){
-
- const data=collectReport();
-
- const text=`
-
-ORION COMPANY REPORT
-====================
-
-REPORT ID:
-${data.id}
-
-TITLE:
-${data.title}
-
-TYPE:
-${data.type}
-
-DEPARTMENT:
-${data.department}
-
-AUTHOR:
-${data.author}
-
-DATE:
-${data.date}
-
-DUE DATE:
-${data.dueDate}
-
-PRIORITY:
-${data.priority}
-
-
-EXECUTIVE SUMMARY
-=================
-${data.summary}
-
-
-OBJECTIVES
-==========
-${data.objectives}
-
-
-FINDINGS & ANALYSIS
-===================
-${data.findings}
-
-
-DATA
-====
-${data.data.map(x=>
-`${x.metric} | ${x.target} | ${x.actual} | ${x.progress} | ${x.notes}`
-).join("\n")}
-
-
-RECOMMENDATIONS
-===============
-${data.recommendations}
-
-
-CONCLUSION
-==========
-${data.conclusion}
-
-
-ADDITIONAL INFORMATION
-======================
-${data.additional}
+</tr>
 
 `;
 
- const blob=new Blob([text],{
-  type:"text/plain"
- });
-
- const url=URL.createObjectURL(blob);
-
- const a=document.createElement("a");
-
- a.href=url;
-
- a.download=
- (data.title || "company-report")
- .replaceAll(" ","-")+
- ".txt";
-
- a.click();
-
- URL.revokeObjectURL(url);
-
- showSuccess("↓ Report exported");
+});
 
 }
 
 
-/* ==========================
-   DARK MODE
-========================== */
+function renderAttendance(){
 
-function toggleDark(){
+const table=document.getElementById("attendanceTable");
 
- document.body.classList.toggle("dark");
+table.innerHTML="";
 
- localStorage.setItem(
-  "orion_dark",
-  document.body.classList.contains("dark")
- );
+students.forEach(s=>{
+
+table.innerHTML+=`
+
+<tr>
+
+<td>${s.id}</td>
+
+<td><b>${s.name}</b></td>
+
+<td>
+
+<button class="status present"
+onclick="changeStatus(${s.id},'Present')">
+Present
+</button>
+
+<button class="status absent"
+onclick="changeStatus(${s.id},'Absent')">
+Absent
+</button>
+
+<button class="status late"
+onclick="changeStatus(${s.id},'Late')">
+Late
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
 
 }
 
-if(localStorage.getItem("orion_dark")==="true"){
- document.body.classList.add("dark");
+
+function changeStatus(id,status){
+
+const student=students.find(s=>s.id===id);
+
+student.status=status;
+
+renderStudents();
+renderAttendance();
+updateStats();
+
+localStorage.setItem("students",JSON.stringify(students));
+
+}
+
+
+function markAllPresent(){
+
+students.forEach(s=>s.status="Present");
+
+renderStudents();
+renderAttendance();
+updateStats();
+
 }
 
 
-/* ==========================
-   SUCCESS MESSAGE
-========================== */
+function updateStats(){
 
-function showSuccess(message){
+let present=students.filter(s=>s.status==="Present").length;
+let absent=students.filter(s=>s.status==="Absent").length;
+let late=students.filter(s=>s.status==="Late").length;
 
- const box=
- document.getElementById("success");
-
- box.textContent=message;
-
- box.classList.add("show");
-
- setTimeout(()=>{
-  box.classList.remove("show");
- },2500);
+document.getElementById("presentCount").innerText=present;
+document.getElementById("absentCount").innerText=absent;
+document.getElementById("lateCount").innerText=late;
 
 }
+
+
+/* =========================
+   DOCUMENTS
+========================= */
+
+let documents=JSON.parse(
+localStorage.getItem("classDocuments") || "[]"
+);
+
+let currentDocument=-1;
+
+
+function renderDocuments(){
+
+const list=document.getElementById("documentList");
+
+list.innerHTML="";
+
+documents.forEach((doc,index)=>{
+
+list.innerHTML+=`
+
+<div class="doc-item"
+onclick="openDocument(${index})">
+
+📄 ${doc.title}
+
+</div>
+
+`;
+
+});
+
+}
+
+
+function newDocument(){
+
+documents.push({
+title:"New Assignment",
+content:""
+});
+
+currentDocument=documents.length-1;
+
+renderDocuments();
+
+openDocument(currentDocument);
+
+}
+
+
+function openDocument(index){
+
+currentDocument=index;
+
+document.getElementById("docTitle").value=
+documents[index].title;
+
+document.getElementById("docContent").value=
+documents[index].content;
+
+}
+
+
+function saveDocument(){
+
+if(currentDocument===-1){
+
+newDocument();
+
+return;
+
+}
+
+documents[currentDocument].title=
+document.getElementById("docTitle").value || "Untitled";
+
+documents[currentDocument].content=
+document.getElementById("docContent").value;
+
+localStorage.setItem(
+"classDocuments",
+JSON.stringify(documents)
+);
+
+renderDocuments();
+
+alert("Document saved ✅");
+
+}
+
+
+function downloadDocument(){
+
+const title=document.getElementById("docTitle").value || "document";
+
+const content=document.getElementById("docContent").value;
+
+const blob=new Blob(
+[content],
+{type:"text/plain"}
+);
+
+const a=document.createElement("a");
+
+a.href=URL.createObjectURL(blob);
+
+a.download=title+".txt";
+
+a.click();
+
+}
+
+
+/* =========================
+   WHITEBOARD
+========================= */
+
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+
+let drawing=false;
+let erasing=false;
+
+function resizeCanvas(){
+
+const rect=canvas.getBoundingClientRect();
+
+const old=document.createElement("canvas");
+
+old.width=canvas.width;
+old.height=canvas.height;
+
+old.getContext("2d").drawImage(canvas,0,0);
+
+canvas.width=rect.width;
+canvas.height=rect.height;
+
+ctx.drawImage(old,0,0,old.width,old.height,0,0,canvas.width,canvas.height);
+
+}
+
+window.addEventListener("resize",resizeCanvas);
+
+setTimeout(resizeCanvas,200);
+
+
+function position(e){
+
+const rect=canvas.getBoundingClientRect();
+
+return {
+x:e.clientX-rect.left,
+y:e.clientY-rect.top
+};
+
+}
+
+
+canvas.addEventListener("pointerdown",e=>{
+
+drawing=true;
+
+const p=position(e);
+
+ctx.beginPath();
+
+ctx.moveTo(p.x,p.y);
+
+});
+
+
+canvas.addEventListener("pointermove",e=>{
+
+if(!drawing)return;
+
+const p=position(e);
+
+ctx.lineWidth=document.getElementById("sizePicker").value;
+
+ctx.lineCap="round";
+
+if(erasing){
+
+ctx.globalCompositeOperation="destination-out";
+
+}else{
+
+ctx.globalCompositeOperation="source-over";
+
+ctx.strokeStyle=
+document.getElementById("colorPicker").value;
+
+}
+
+ctx.lineTo(p.x,p.y);
+
+ctx.stroke();
+
+ctx.beginPath();
+
+ctx.moveTo(p.x,p.y);
+
+});
+
+
+canvas.addEventListener("pointerup",()=>{
+drawing=false;
+ctx.beginPath();
+});
+
+canvas.addEventListener("pointerleave",()=>{
+drawing=false;
+ctx.beginPath();
+});
+
+
+function setPen(){
+
+erasing=false;
+
+ctx.globalCompositeOperation="source-over";
+
+}
+
+
+function setEraser(){
+
+erasing=true;
+
+}
+
+
+function clearBoard(){
+
+if(confirm("Clear the whole whiteboard?")){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+}
+
+}
+
+
+function saveBoard(){
+
+const link=document.createElement("a");
+
+link.download="class-whiteboard.png";
+
+link.href=canvas.toDataURL("image/png");
+
+link.click();
+
+}
+
+
+/* =========================
+   LOAD DATA
+========================= */
+
+const savedStudents=
+JSON.parse(localStorage.getItem("students"));
+
+if(savedStudents){
+
+savedStudents.forEach((s,i)=>{
+
+if(students[i]){
+students[i].status=s.status;
+}
+
+});
+
+}
+
+renderStudents();
+renderAttendance();
+renderDocuments();
+updateStats();
 
 </script>
 
