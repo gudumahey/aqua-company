@@ -3,58 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>RAISTAR CAR GAME - Lamborghini Free!</title>
+<title>RAISTAR RACING - Real Racing Game!</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif;-webkit-tap-highlight-color:transparent}
-body{background:#0a0a12;color:#fff;overflow:hidden;user-select:none}
+body{background:#000;color:#fff;overflow:hidden;user-select:none}
+#gameCanvas{width:100vw;height:100vh;display:block}
 .top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:linear-gradient(180deg,rgba(0,0,0,.7),transparent);flex-wrap:wrap;gap:6px}
 .logo{font-size:20px;font-weight:900}.logo span{color:#f59e0b}
-.pill{background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:800;backdrop-filter:blur(8px)}
+.pill{background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.25);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:800;backdrop-filter:blur(8px)}
 .btn{border:none;padding:10px 14px;border-radius:10px;font-weight:800;cursor:pointer;font-size:13px}
 .btn:active{transform:scale(.96)}
 .btn.orange{background:#f97316;color:#fff}.btn.green{background:#16a34a;color:#fff}.btn.dark{background:#222;color:#fff;border:1px solid #444}.btn.purple{background:#7c3aed;color:#fff}.btn.red{background:#ef4444;color:#fff}.btn.white{background:#fff;color:#111}
-#gameCanvas{width:100vw;height:100vh;display:block;background:#1a2e1a}
-.hud{position:fixed;left:12px;bottom:12px;z-index:20;background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:12px;backdrop-filter:blur(10px);min-width:180px}
-.hud b{font-size:22px}
-.hud .bar{height:8px;background:#333;border-radius:10px;overflow:hidden;margin:6px 0}
-.hud .bar div{height:100%;background:linear-gradient(90deg,#f59e0b,#ef4444);transition:.2s}
+.hud{position:fixed;left:12px;bottom:12px;z-index:20;background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:12px;backdrop-filter:blur(10px);min-width:190px}
+.hud b{font-size:28px}
+.hud .bar{height:9px;background:#333;border-radius:10px;overflow:hidden;margin:6px 0}
+.hud .bar div{height:100%;background:linear-gradient(90deg,#f59e0b,#ef4444);transition:.15s}
 .controls{position:fixed;right:12px;bottom:12px;z-index:20;display:flex;flex-direction:column;gap:8px;align-items:center}
-.dpad{display:grid;grid-template-columns:repeat(3,54px);gap:6px}
-.dpad button{width:54px;height:54px;border-radius:14px;border:none;background:rgba(255,255,255,.15);color:#fff;font-size:22px;font-weight:900;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25)}
+.dpad{display:grid;grid-template-columns:repeat(3,56px);gap:6px}
+.dpad button{width:56px;height:56px;border-radius:14px;border:none;background:rgba(255,255,255,.18);color:#fff;font-size:24px;font-weight:900;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3)}
 .dpad button:active{background:#f59e0b}
-.panel{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:50;display:flex;align-items:center;justify-content:center;padding:14px;overflow-y:auto}
-.box{background:#1a1a2e;border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:20px;width:100%;max-width:560px;max-height:92vh;overflow-y:auto}
+.panel{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);z-index:50;display:flex;align-items:center;justify-content:center;padding:14px;overflow-y:auto}
+.box{background:#1a1a2e;border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:20px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto}
 .cars{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}
-.car{border:2px solid rgba(255,255,255,.15);border-radius:14px;padding:12px;cursor:pointer;text-align:center;transition:.15s;background:rgba(255,255,255,.05)}
+.car{border:2px solid rgba(255,255,255,.15);border-radius:14px;padding:12px;cursor:pointer;text-align:center;background:rgba(255,255,255,.05)}
 .car.selected{border-color:#f59e0b;background:rgba(245,158,11,.15);box-shadow:0 0 20px rgba(245,158,11,.4)}
 .car .emoji{font-size:42px;display:block}
-.car b{font-size:14px}.car span{font-size:11px;color:#aaa}
-.car .speed{color:#4ade80;font-weight:900;font-size:12px}
 .music-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .music-btn{padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:#222;color:#fff;cursor:pointer;font-weight:700;font-size:13px;text-align:left}
-.music-btn.active{background:#f59e0b;color:#111;border-color:#f59e0b}
-.music-btn small{display:block;font-size:11px;opacity:.7}
+.music-btn.active{background:#f59e0b;color:#111}
 .cam-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .cam-btn{padding:9px 14px;border-radius:20px;border:1px solid #444;background:#222;color:#fff;cursor:pointer;font-weight:700;font-size:12px}
-.cam-btn.active{background:#f59e0b;color:#111;border-color:#f59e0b}
+.cam-btn.active{background:#f59e0b;color:#111}
 #toast{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:10px 18px;border-radius:30px;font-weight:800;font-size:13px;z-index:99;display:none;max-width:90%;text-align:center}
-#musicFrame{width:100%;height:0;border:none;border-radius:12px;transition:.3s}
-#musicFrame.show{height:180px;margin-top:10px}
-.npc-kill{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;font-weight:900;color:#f59e0b;text-shadow:0 0 20px rgba(0,0,0,.8);z-index:30;display:none;pointer-events:none;text-align:center}
-@media(max-width:700px){.top{padding:8px}.hud{min-width:140px;padding:10px}.dpad{grid-template-columns:repeat(3,48px)}.dpad button{width:48px;height:48px}}
+#musicFrame{width:100%;height:0;border:none;border-radius:12px}
+#musicFrame.show{height:170px;margin-top:10px}
+.countdown{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:90px;font-weight:900;z-index:40;text-shadow:0 0 30px rgba(245,158,11,.8);display:none;text-align:center}
+@media(max-width:700px){.dpad{grid-template-columns:repeat(3,50px)}.dpad button{width:50px;height:50px}.hud{min-width:160px}}
 </style>
 </head>
 <body>
 <div id="toast"></div>
-<div class="npc-kill" id="killMsg">💥 BOOM!<br><span style="font-size:18px">NPC UDA DIYA!</span></div>
+<div class="countdown" id="countdown">3</div>
 
-<!-- TOP HUD -->
 <div class="top">
-<div class="logo">RAISTAR <span>CAR GAME</span></div>
+<div class="logo">RAISTAR <span>RACING</span></div>
 <div style="display:flex;gap:6px;flex-wrap:wrap">
-<span class="pill">🚗 <span id="carNameTop">Lamborghini</span></span>
-<span class="pill">💥 Kills: <span id="killCount">0</span></span>
-<span class="pill">⭐ Score: <span id="score">0</span></span>
+<span class="pill">🏁 Lap <span id="lapText">1</span>/3</span>
+<span class="pill">🏆 Pos: <span id="posText">6</span>/6</span>
+<span class="pill">⏱️ <span id="timeText">0:00</span></span>
 <button class="btn dark" onclick="openGarage()">🚗 Garage</button>
 <button class="btn dark" onclick="openCamera()">📷 Camera</button>
 <button class="btn orange" onclick="openMusic()">🎵 Music</button>
@@ -63,69 +59,74 @@ body{background:#0a0a12;color:#fff;overflow:hidden;user-select:none}
 
 <canvas id="gameCanvas"></canvas>
 
-<!-- BOTTOM HUD -->
 <div class="hud">
-<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:11px;color:#aaa">SPEED</span><span style="font-size:11px;color:#4ade80">● FREE ROAM</span></div>
+<div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#aaa">SPEED</span><span style="font-size:11px;color:#4ade80" id="gearText">GEAR 1</span></div>
 <b><span id="speedText">0</span> <span style="font-size:13px;color:#aaa">km/h</span></b>
 <div class="bar"><div id="speedBar" style="width:0%"></div></div>
-<div style="font-size:12px;line-height:1.7">📷 Camera: <b id="camLabel">Chase Cam</b><br>🎵 Music: <b id="musicLabel">Off</b><br>🚓 Police: <b id="policeLabel" style="color:#4ade80">Safe</b></div>
-<div style="display:flex;gap:6px;margin-top:8px"><button class="btn green" style="flex:1;padding:8px;font-size:12px" onclick="togglePause()">⏸️ Pause</button><button class="btn red" style="flex:1;padding:8px;font-size:12px" onclick="resetGame()">🔄 Reset</button></div>
+<div style="font-size:12px;line-height:1.7">🚗 <b id="carNameTop">Lamborghini</b> • 📷 <b id="camLabel">Chase Cam</b><br>🎵 <b id="musicLabel">Off</b> • 💥 <b id="overtakeText">Overtakes: 0</b></div>
+<div style="display:flex;gap:6px;margin-top:8px"><button class="btn green" style="flex:1;padding:8px;font-size:12px" onclick="togglePause()">⏸️ Pause</button><button class="btn red" style="flex:1;padding:8px;font-size:12px" onclick="restartRace()">🔄 Restart</button></div>
 </div>
 
-<!-- CONTROLS -->
 <div class="controls">
-<div style="display:flex;gap:6px"><button class="btn purple" onclick="boost()">⚡ BOOST!</button><button class="btn red" onclick="horn()">📯 Horn</button></div>
+<div style="display:flex;gap:6px"><button class="btn purple" onclick="boost()">⚡ NITRO!</button><button class="btn red" onclick="horn()">📯 Horn</button></div>
 <div class="dpad">
-<div></div><button onmousedown="keyDown('up')" onmouseup="keyUp('up')" ontouchstart="keyDown('up')" ontouchend="keyUp('up')">↑</button><div></div>
-<button onmousedown="keyDown('left')" onmouseup="keyUp('left')" ontouchstart="keyDown('left')" ontouchend="keyUp('left')">←</button><button onmousedown="keyDown('down')" onmouseup="keyUp('down')" ontouchstart="keyDown('down')" ontouchend="keyUp('down')">↓</button><button onmousedown="keyDown('right')" onmouseup="keyUp('right')" ontouchstart="keyDown('right')" ontouchend="keyUp('right')">→</button>
+<div></div><button onmousedown="kd('up')" onmouseup="ku('up')" ontouchstart="kd('up')" ontouchend="ku('up')">↑</button><div></div>
+<button onmousedown="kd('left')" onmouseup="ku('left')" ontouchstart="kd('left')" ontouchend="ku('left')">←</button><button onmousedown="kd('down')" onmouseup="ku('down')" ontouchstart="kd('down')" ontouchend="ku('down')">↓</button><button onmousedown="kd('right')" onmouseup="ku('right')" ontouchstart="kd('right')" ontouchend="ku('right')">→</button>
 </div>
-<div style="font-size:11px;color:#aaa;background:rgba(0,0,0,.5);padding:6px 10px;border-radius:20px">WASD / Arrow Keys bhi chalenge!</div>
+<div style="font-size:11px;color:#aaa;background:rgba(0,0,0,.5);padding:6px 10px;border-radius:20px">WASD / Arrows — Space = NITRO</div>
 </div>
 
 <!-- GARAGE -->
 <div class="panel" id="garagePanel">
 <div class="box">
-<h2>🚗 Garage — Sari Gadiya FREE Hai!</h2>
-<p style="font-size:13px;color:#aaa;margin:6px 0">Koi bhi car select karo — Sab FREE! Koi paisa nahi!</p>
+<h2>🚗 Garage — Racing Cars — Sab FREE!</h2>
+<p style="font-size:13px;color:#aaa">Koi bhi car chuno — Sab FREE — Racing ke liye best!</p>
 <div class="cars" id="carsGrid"></div>
-<div style="background:rgba(245,158,11,.15);border:1px solid #f59e0b;border-radius:12px;padding:12px;font-size:13px;line-height:1.6"><b id="selectedCarInfo">Lamborghini — 320 km/h — Sabse tez!</b><br><span style="color:#aaa">NPC ko thokar maarne ke liye Thar ya GTR best hai!</span></div>
-<button class="btn orange" style="width:100%;margin-top:12px;padding:14px" onclick="startGame()">🚀 PLAY — Is Car Se Khelo! →</button>
-<p style="font-size:11px;text-align:center;color:#888;margin-top:8px">Controls: W / ↑ = Aage • S / ↓ = Peeche • A/D = Left/Right • Space = Boost</p>
+<div style="background:rgba(245,158,11,.15);border:1px solid #f59e0b;border-radius:12px;padding:12px;font-size:13px"><b id="selectedCarInfo">Lamborghini — 320 km/h</b></div>
+<button class="btn orange" style="width:100%;margin-top:12px;padding:14px" onclick="startRace()">🏁 RACE START →</button>
+<p style="font-size:11px;text-align:center;color:#888;margin-top:8px">3 Laps • 6 Racers • 1st aao to WIN!</p>
 </div>
 </div>
 
-<!-- CAMERA PANEL -->
+<!-- CAMERA -->
 <div class="panel" id="camPanel" style="display:none">
 <div class="box">
-<h2>📷 Camera — Kaunsa Camera Chahiye?</h2>
-<p style="font-size:13px;color:#aaa;margin:6px 0">Koi bhi select karo — Turant badal jayega!</p>
+<h2>📷 Camera</h2>
 <div class="cam-row">
-<button class="cam-btn active" id="camBtn-chase" onclick="setCamera('chase')">🎥 Chase Cam — Peeche Se (GTA Jesa)</button>
-<button class="cam-btn" id="camBtn-top" onclick="setCamera('top')">🗺️ Top Cam — Upar Se (Map Jesa)</button>
-<button class="cam-btn" id="camBtn-hood" onclick="setCamera('hood')">🏎️ Hood Cam — Bonnet Se (Real Jesa)</button>
-<button class="cam-btn" id="camBtn-side" onclick="setCamera('side')">📸 Side Cam — Side Se</button>
+<button class="cam-btn active" id="camBtn-chase" onclick="setCamera('chase')">🎥 Chase — Peeche Se</button>
+<button class="cam-btn" id="camBtn-hood" onclick="setCamera('hood')">🏎️ Hood — Bonnet Se</button>
+<button class="cam-btn" id="camBtn-top" onclick="setCamera('top')">🗺️ Top — Upar Se</button>
 </div>
-<div style="background:#222;border-radius:12px;padding:12px;margin-top:12px;font-size:13px;line-height:1.7"><b>Abhi:</b> <span id="camDesc">Chase Cam — Car ke peeche se dikhega — GTA jesa feel!</span></div>
-<button class="btn green" style="width:100%;margin-top:12px" onclick="closePanel('camPanel')">✅ Done — Khelo! →</button>
+<div style="background:#222;border-radius:12px;padding:12px;margin-top:12px;font-size:13px"><b>Abhi:</b> <span id="camDesc">Chase Cam — Car ke peeche se — Racing jesa!</span></div>
+<button class="btn green" style="width:100%;margin-top:12px" onclick="closePanel('camPanel')">✅ Done →</button>
 </div>
 </div>
 
-<!-- MUSIC PANEL -->
+<!-- MUSIC -->
 <div class="panel" id="musicPanel" style="display:none">
 <div class="box">
-<h2>🎵 Music — Gaana Chuno!</h2>
-<p style="font-size:13px;color:#aaa">Koi bhi gaana dabao — YouTube se chalega — Game ke saath!</p>
+<h2>🎵 Music — Racing ke saath!</h2>
 <div class="music-grid">
-<button class="music-btn" id="m-Alfaaz" onclick="playSong('Alfaaz','https://www.youtube.com/embed/9p5i7c8a3J0?autoplay=1')">🎵 Alfaaz<small>Shreya Ghoshal • Love Song</small></button>
-<button class="music-btn" id="m-Baarishein" onclick="playSong('Baarishein','https://www.youtube.com/embed/8b2s6R0sC2I?autoplay=1')">🌧️ Baarishein<small>Anuv Jain • Baarish Wala</small></button>
-<button class="music-btn" id="m-JoTum" onclick="playSong('Jo Tum Mere Ho','https://www.youtube.com/embed/8Z5d1vN8Yf8?autoplay=1')">❤️ Jo Tum Mere Ho<small>Anuv Jain • Romantic</small></button>
-<button class="music-btn" id="m-Husn" onclick="playSong('Husn','https://www.youtube.com/embed/gD7a8eV8X5w?autoplay=1')">✨ Husn<small>Anuv Jain • Trending</small></button>
-<button class="music-btn" onclick="playSong('Arjan Vailly','https://www.youtube.com/embed/9r8R5iD5P0w?autoplay=1')">🔥 Arjan Vailly<small>Animal • Mass Song</small></button>
-<button class="music-btn" onclick="playSong('Saiyaara','https://www.youtube.com/embed/5XyE0F0F0a0?autoplay=1')">💔 Saiyaara<small>Trending • Love</small></button>
+<button class="music-btn" onclick="playSong('Alfaaz','https://www.youtube.com/embed/9p5i7c8a3J0?autoplay=1')">🎵 Alfaaz<small>Love Song</small></button>
+<button class="music-btn" onclick="playSong('Baarishein','https://www.youtube.com/embed/8b2s6R0sC2I?autoplay=1')">🌧️ Baarishein<small>Anuv Jain</small></button>
+<button class="music-btn" onclick="playSong('Jo Tum Mere Ho','https://www.youtube.com/embed/8Z5d1vN8Yf8?autoplay=1')">❤️ Jo Tum Mere Ho<small>Anuv Jain</small></button>
+<button class="music-btn" onclick="playSong('Husn','https://www.youtube.com/embed/gD7a8eV8X5w?autoplay=1')">✨ Husn<small>Anuv Jain</small></button>
+<button class="music-btn" onclick="playSong('Arjan Vailly','https://www.youtube.com/embed/9r8R5iD5P0w?autoplay=1')">🔥 Arjan Vailly<small>Animal</small></button>
+<button class="music-btn" onclick="playSong('Saiyaara','https://www.youtube.com/embed/5XyE0F0F0a0?autoplay=1')">💔 Saiyaara<small>Trending</small></button>
 </div>
 <iframe id="musicFrame" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-<div style="display:flex;gap:8px;margin-top:10px"><button class="btn red" style="flex:1" onclick="stopMusic()">⏹️ Music Band Karo</button><button class="btn green" style="flex:1" onclick="closePanel('musicPanel')">✅ Done — Khelo!</button></div>
-<p style="font-size:11px;color:#888;margin-top:8px">Note: Gaana YouTube se chalega — Internet chahiye! Agar ek gaana na chale to dusra dabao!</p>
+<div style="display:flex;gap:8px;margin-top:10px"><button class="btn red" style="flex:1" onclick="stopMusic()">⏹️ Band Karo</button><button class="btn green" style="flex:1" onclick="closePanel('musicPanel')">✅ Done</button></div>
+</div>
+</div>
+
+<!-- WIN -->
+<div class="panel" id="winPanel" style="display:none">
+<div class="box" style="text-align:center">
+<h1 style="font-size:42px">🏆 YOU WIN!</h1>
+<p style="font-size:16px;margin:10px 0" id="winText">1st Place! Tu Champion hai!</p>
+<p style="font-size:13px;color:#aaa" id="winStats"></p>
+<button class="btn green" style="width:100%;margin-top:12px;padding:14px" onclick="restartRace()">🏁 Phir Se Race Karo →</button>
+<button class="btn orange" style="width:100%;margin-top:8px" onclick="openGarage()">🚗 Car Badlo →</button>
 </div>
 </div>
 
@@ -136,64 +137,49 @@ function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeigh
 window.addEventListener("resize",resize); resize();
 
 var cars=[
-{name:"Lamborghini",emoji:"🟠",color:"#f97316",speed:320,acc:0.55,handling:0.06,desc:"Lamborghini — 320 km/h — Sabse tez!"},
-{name:"Bugatti",emoji:"🔵",color:"#2563eb",speed:340,acc:0.6,handling:0.05,desc:"Bugatti — 340 km/h — Rocket jesi!"},
-{name:"Ferrari",emoji:"🔴",color:"#ef4444",speed:310,acc:0.52,handling:0.065,desc:"Ferrari — 310 km/h — Style King!"},
-{name:"GTR",emoji:"⚪",color:"#e2e8f0",speed:300,acc:0.5,handling:0.07,desc:"GTR — 300 km/h — Drift King!"},
-{name:"Mustang",emoji:"🟡",color:"#f59e0b",speed:280,acc:0.48,handling:0.06,desc:"Mustang — 280 km/h — Muscle Power!"},
-{name:"Thar",emoji:"🟢",color:"#16a34a",speed:220,acc:0.4,handling:0.055,desc:"Thar — 220 km/h — Sabko Uda Dega! NPC Killer!"},
+{name:"Lamborghini",emoji:"🟠",color:"#f97316",dark:"#c2410c",max:320,acc:0.55,desc:"Lamborghini — 320 km/h — Sabse tez!"},
+{name:"Bugatti",emoji:"🔵",color:"#2563eb",dark:"#1e40af",max:340,acc:0.6,desc:"Bugatti — 340 km/h — Rocket!"},
+{name:"Ferrari",emoji:"🔴",color:"#ef4444",dark:"#991b1b",max:310,acc:0.52,desc:"Ferrari — 310 km/h — Style King!"},
+{name:"GTR",emoji:"⚪",color:"#e2e8f0",dark:"#94a3b8",max:300,acc:0.5,desc:"GTR — 300 km/h — Drift King!"},
+{name:"Mustang",emoji:"🟡",color:"#f59e0b",dark:"#b45309",max:280,acc:0.48,desc:"Mustang — 280 km/h — Muscle!"},
+{name:"Thar",emoji:"🟢",color:"#16a34a",dark:"#166534",max:220,acc:0.4,desc:"Thar — 220 km/h — Offroad King!"},
 ];
-var selectedCar=0;
-var cameraMode="chase";
-var paused=false;
+var selectedCar=0, cameraMode="chase", paused=false, raceStarted=false, raceFinished=false;
 var keys={up:false,down:false,left:false,right:false};
-var player={x:0,y:0,angle:-Math.PI/2,speed:0};
-var npcs=[]; var score=0; var kills=0; var policeLevel=0; var boostActive=false; var boostTime=0;
+var player={x:0,speed:0,lap:1,dist:0};
+var opponents=[]; var overtakes=0; var startTime=0; var nitro=100; var nitroActive=false; var position=6; var countdownVal=3;
 
 function toast(m){var t=document.getElementById("toast");t.innerText=m;t.style.display="block";setTimeout(function(){t.style.display="none"},2400);}
 function renderCars(){
-  var h="";
-  cars.forEach(function(c,i){
-    h+='<div class="car '+(i===selectedCar?'selected':'')+'" onclick="selectCar('+i+')"><span class="emoji">'+c.emoji+'🚗</span><b>'+c.name+'</b><br><span>'+c.desc.split(" — ")[1]+'</span><br><span class="speed">⚡ '+c.speed+' km/h • FREE!</span><br><span style="font-size:11px;color:#f59e0b">'+(i===selectedCar?'✅ Selected — Isi se kheloge!':'Click karo — FREE!')+'</span></div>';
+  var h=""; cars.forEach(function(c,i){
+    h+='<div class="car '+(i===selectedCar?'selected':'')+'" onclick="selectCar('+i+')"><span class="emoji">'+c.emoji+'🏎️</span><b>'+c.name+'</b><br><span style="font-size:11px;color:#aaa">'+c.max+' km/h • FREE</span><br><span style="font-size:11px;color:#f59e0b">'+(i===selectedCar?'✅ Selected':'Click — FREE!')+'</span></div>';
   });
   document.getElementById("carsGrid").innerHTML=h;
 }
-function selectCar(i){selectedCar=i;document.getElementById("selectedCarInfo").innerText=cars[i].desc;document.getElementById("carNameTop").innerText=cars[i].name;renderCars();toast(cars[i].name+" select! "+cars[i].speed+" km/h — FREE!");}
-function startGame(){document.getElementById("garagePanel").style.display="none";toast("🚀 "+cars[selectedCar].name+" se khelo! NPC ko thoko!");resetGame();}
+function selectCar(i){selectedCar=i;document.getElementById("selectedCarInfo").innerText=cars[i].desc;document.getElementById("carNameTop").innerText=cars[i].name;renderCars();toast(cars[i].name+" — "+cars[i].max+" km/h FREE!");}
 function openGarage(){document.getElementById("garagePanel").style.display="flex";}
 function openCamera(){document.getElementById("camPanel").style.display="flex";}
 function openMusic(){document.getElementById("musicPanel").style.display="flex";}
 function closePanel(id){document.getElementById(id).style.display="none";}
-function setCamera(mode){
-  cameraMode=mode;
+function setCamera(m){
+  cameraMode=m;
   document.querySelectorAll(".cam-btn").forEach(function(b){b.classList.remove("active")});
-  document.getElementById("camBtn-"+mode).classList.add("active");
-  var descs={chase:"Chase Cam — Car ke peeche se dikhega — GTA jesa feel!",top:"Top Cam — Upar se pura map dikhega!",hood:"Hood Cam — Bonnet se — Real driving jesa!",side:"Side Cam — Side se — Cinematic jesa!"};
-  var labels={chase:"Chase Cam",top:"Top Cam",hood:"Hood Cam",side:"Side Cam"};
-  document.getElementById("camDesc").innerText=descs[mode];
-  document.getElementById("camLabel").innerText=labels[mode];
-  toast("📷 Camera badal gaya: "+labels[mode]);
+  document.getElementById("camBtn-"+m).classList.add("active");
+  var d={chase:"Chase Cam — Car ke peeche se — Racing jesa!",hood:"Hood Cam — Bonnet se — Real jesa!",top:"Top Cam — Upar se — Pura track dikhega!"};
+  var l={chase:"Chase Cam",hood:"Hood Cam",top:"Top Cam"};
+  document.getElementById("camDesc").innerText=d[m]; document.getElementById("camLabel").innerText=l[m];
+  toast("📷 "+l[m]);
 }
-function playSong(name,url){
-  document.querySelectorAll(".music-btn").forEach(function(b){b.classList.remove("active")});
-  document.getElementById("musicLabel").innerText=name;
-  var frame=document.getElementById("musicFrame");
-  frame.src=url; frame.classList.add("show");
-  toast("🎵 "+name+" chal raha hai! Enjoy!");
-}
-function stopMusic(){document.getElementById("musicFrame").src="";document.getElementById("musicFrame").classList.remove("show");document.getElementById("musicLabel").innerText="Off";toast("Music band!");}
-function togglePause(){paused=!paused;toast(paused?"⏸️ Pause!":"▶️ Chalu!");}
-function resetGame(){player.x=0;player.y=0;player.angle=-Math.PI/2;player.speed=0;score=0;kills=0;policeLevel=0;spawnNPCs();toast("Game reset!");}
-function boost(){boostActive=true;boostTime=60;toast("⚡ BOOST! "+cars[selectedCar].name+" ud raha hai!");}
-function horn(){toast("📯 PEEP PEEP! Hato! "+cars[selectedCar].name+" aa rahi hai!");}
-function keyDown(dir){keys[dir]=true;}
-function keyUp(dir){keys[dir]=false;}
+function playSong(n,u){document.getElementById("musicLabel").innerText=n;var f=document.getElementById("musicFrame");f.src=u;f.classList.add("show");toast("🎵 "+n+" chal raha hai!");}
+function stopMusic(){document.getElementById("musicFrame").src="";document.getElementById("musicFrame").classList.remove("show");document.getElementById("musicLabel").innerText="Off";}
+function togglePause(){paused=!paused;toast(paused?"⏸️ Pause":"▶️ Chalu");}
+function kd(d){keys[d]=true;} function ku(d){keys[d]=false;}
 document.addEventListener("keydown",function(e){
   if(e.key==="w"||e.key==="W"||e.key==="ArrowUp") keys.up=true;
   if(e.key==="s"||e.key==="S"||e.key==="ArrowDown") keys.down=true;
   if(e.key==="a"||e.key==="A"||e.key==="ArrowLeft") keys.left=true;
   if(e.key==="d"||e.key==="D"||e.key==="ArrowRight") keys.right=true;
-  if(e.key===" ") {boost(); e.preventDefault();}
+  if(e.key===" "){boost();e.preventDefault();}
 });
 document.addEventListener("keyup",function(e){
   if(e.key==="w"||e.key==="W"||e.key==="ArrowUp") keys.up=false;
@@ -201,105 +187,229 @@ document.addEventListener("keyup",function(e){
   if(e.key==="a"||e.key==="A"||e.key==="ArrowLeft") keys.left=false;
   if(e.key==="d"||e.key==="D"||e.key==="ArrowRight") keys.right=false;
 });
-function spawnNPCs(){
-  npcs=[];
-  for(var i=0;i<14;i++){
-    npcs.push({x:(Math.random()-0.5)*2000,y:(Math.random()-0.5)*2000,angle:Math.random()*Math.PI*2,speed:1+Math.random()*2,alive:true,color:["#ef4444","#2563eb","#f59e0b","#e2e8f0","#a78bfa"][i%5],emoji:["🚕","🚙","🚗","🛻","🚐"][i%5]});
-  }
+function boost(){if(nitro>20){nitroActive=true;setTimeout(function(){nitroActive=false},1200);toast("⚡ NITRO! UDDD GAYA!");}}
+function horn(){toast("📯 PEEP! HATO! "+cars[selectedCar].name+" aa rahi hai!");}
+function startRace(){
+  document.getElementById("garagePanel").style.display="none";
+  document.getElementById("winPanel").style.display="none";
+  restartRace();
+  // Countdown
+  countdownVal=3; raceStarted=false;
+  var cd=document.getElementById("countdown"); cd.style.display="block"; cd.innerText="3";
+  var iv=setInterval(function(){
+    countdownVal--; 
+    if(countdownVal>0){cd.innerText=countdownVal;}
+    else if(countdownVal===0){cd.innerText="GO! 🏁"; cd.style.color="#4ade80";}
+    else{clearInterval(iv); cd.style.display="none"; cd.style.color="#fff"; raceStarted=true; startTime=Date.now(); toast("🏁 GO! Race shuru! 1st aao!");}
+  },800);
 }
-function showKill(){
-  var el=document.getElementById("killMsg");el.style.display="block";setTimeout(function(){el.style.display="none"},900);
+function restartRace(){
+  player={x:0,speed:0,lap:1,dist:0}; overtakes=0; nitro=100; position=6; raceFinished=false; paused=false;
+  opponents=[];
+  var names=["Rahul","Maria","Juan","Ahmed","Sofia"];
+  var cols=["#ef4444","#2563eb","#f59e0b","#a78bfa","#22c55e"];
+  for(var i=0;i<5;i++){opponents.push({x:(Math.random()-0.5)*1.2,dist:80+i*40,speed:0.8+Math.random()*0.4,color:cols[i],name:names[i],emoji:"🏎️"});}
+  document.getElementById("winPanel").style.display="none";
 }
-function drawRoad(){
-  // Grass + Road
-  ctx.fillStyle="#1a2e1a";ctx.fillRect(0,0,canvas.width,canvas.height);
-  // Road grid
-  var camX=player.x, camY=player.y;
-  var offX=canvas.width/2 - camX, offY=canvas.height/2 - camY;
-  if(cameraMode==="top"){offX=canvas.width/2 - camX;offY=canvas.height/2 - camY;}
-  // Roads - horizontal and vertical
-  ctx.fillStyle="#333";
-  for(var i=-5;i<6;i++){
-    ctx.fillRect(0, offY + i*300 - 40, canvas.width, 80);
-    ctx.fillRect(offX + i*300 - 40, 0, 80, canvas.height);
-  }
-  ctx.strokeStyle="#f59e0b";ctx.setLineDash([20,20]);ctx.lineWidth=3;
-  for(var j=-5;j<6;j++){
-    ctx.beginPath();ctx.moveTo(0, offY + j*300);ctx.lineTo(canvas.width, offY + j*300);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(offX + j*300, 0);ctx.lineTo(offX + j*300, canvas.height);ctx.stroke();
-  }
-  ctx.setLineDash([]);
-  // Buildings
-  ctx.fillStyle="#2a2a3a";
-  for(var bx=-4;bx<5;bx++){for(var by=-4;by<5;by++){
-    var bxPos=offX+bx*300+90, byPos=offY+by*300+90;
-    if(bxPos>-100 && bxPos<canvas.width && byPos>-100 && byPos<canvas.height){
-      ctx.fillRect(bxPos,byPos,120,120);
-      ctx.fillStyle="#3a3a4a";ctx.fillRect(bxPos+10,byPos+10,100,100);ctx.fillStyle="#2a2a3a";
-    }
-  }}
-  return {offX:offX,offY:offY};
-}
-function drawCar(x,y,angle,color,emoji,isPlayer){
-  ctx.save();ctx.translate(x,y);ctx.rotate(angle+Math.PI/2);
-  ctx.fillStyle=color;ctx.fillRect(-18,-32,36,64);
-  ctx.fillStyle="rgba(0,0,0,.3)";ctx.fillRect(-18,-10,36,20);
-  ctx.fillStyle="#111";ctx.fillRect(-22,-28,8,12);ctx.fillRect(14,-28,8,12);ctx.fillRect(-22,16,8,12);ctx.fillRect(14,16,8,12);
-  ctx.fillStyle="#fff";ctx.fillRect(-14,-32,28,6);
-  ctx.fillStyle="#f59e0b";ctx.fillRect(-14,26,28,6);
-  ctx.font="22px Arial";ctx.textAlign="center";ctx.fillText(emoji,0,6);
-  if(isPlayer){ctx.fillStyle="#f59e0b";ctx.font="bold 11px Arial";ctx.fillText("YOU",0,-42);}
-  ctx.restore();
-}
-function gameLoop(){
-  requestAnimationFrame(gameLoop);
-  if(paused) return;
+function update(){
+  if(!raceStarted || paused || raceFinished) return;
   var car=cars[selectedCar];
-  var maxSpeed=car.speed/18;
-  if(boostActive){maxSpeed*=1.6;boostTime--;if(boostTime<=0) boostActive=false;}
-  if(keys.up){player.speed=Math.min(player.speed+car.acc,maxSpeed);}
-  else if(keys.down){player.speed=Math.max(player.speed-car.acc,-maxSpeed*0.4);}
-  else {player.speed*=0.97;if(Math.abs(player.speed)<0.1) player.speed=0;}
-  if(keys.left) player.angle-=car.handling*(player.speed/maxSpeed+0.3);
-  if(keys.right) player.angle+=car.handling*(player.speed/maxSpeed+0.3);
-  player.x+=Math.cos(player.angle)*player.speed;
-  player.y+=Math.sin(player.angle)*player.speed;
-  score+=Math.abs(player.speed)*0.05;
-  // NPC move
-  npcs.forEach(function(n){
-    if(!n.alive) return;
-    n.x+=Math.cos(n.angle)*n.speed; n.y+=Math.sin(n.angle)*n.speed;
-    if(Math.random()<0.01) n.angle+= (Math.random()-0.5)*0.8;
-    if(Math.abs(n.x-player.x)>1200) n.x=player.x+(Math.random()-0.5)*2000;
-    if(Math.abs(n.y-player.y)>1200) n.y=player.y+(Math.random()-0.5)*2000;
-    var dx=n.x-player.x, dy=n.y-player.y, dist=Math.sqrt(dx*dx+dy*dy);
-    if(dist<42 && Math.abs(player.speed)>3){
-      n.alive=false;kills++;score+=500;policeLevel=Math.min(5,policeLevel+1);
-      showKill();toast("💥 BOOM! NPC uda diya! +500 Score! Kills: "+kills);
-      setTimeout(function(){n.alive=true;n.x=player.x+(Math.random()-0.5)*1800;n.y=player.y+(Math.random()-0.5)*1800;},3000);
+  var max=car.max/12;
+  if(nitroActive) max*=1.5;
+  if(keys.up){player.speed=Math.min(player.speed+car.acc,max);}
+  else if(keys.down){player.speed=Math.max(player.speed-car.acc*1.5,-max*0.3);}
+  else {player.speed*=0.99;}
+  if(keys.left) player.x=Math.max(-1.1,player.x-0.045*(player.speed/max+0.3));
+  if(keys.right) player.x=Math.min(1.1,player.x+0.045*(player.speed/max+0.3));
+  // Off-road slow
+  if(Math.abs(player.x)>0.9) player.speed*=0.97;
+  player.dist+=player.speed*0.12;
+  // Nitro refill
+  nitro=Math.min(100,nitro+0.15); if(nitroActive) nitro-=1.2;
+  // Opponents
+  opponents.forEach(function(o){
+    o.dist+=o.speed*0.85 + Math.sin(Date.now()/1000+o.dist)*0.1;
+    o.x+=Math.sin(o.dist*0.02)*0.002;
+    // Collision with player
+    if(Math.abs(o.dist-player.dist)<6 && Math.abs(o.x-player.x)<0.35 && player.speed>8){
+      // Overtake or crash
+      if(player.speed>o.speed*8){overtakes++;toast("💥 OVERTAKE! "+o.name+" ko peeche chhod diya!");}
+      else {player.speed*=0.5; player.x+= (player.x>o.x?0.2:-0.2); toast("💥 Crash! "+o.name+" se takkar!");}
     }
   });
-  // Draw
-  var off=drawRoad();
-  var camX=canvas.width/2, camY=canvas.height/2;
-  if(cameraMode==="chase"){camX=canvas.width/2;camY=canvas.height/2;}
-  if(cameraMode==="top"){camX=canvas.width/2;camY=canvas.height/2;}
-  if(cameraMode==="hood"){camX=canvas.width/2;camY=canvas.height/2+40;}
-  if(cameraMode==="side"){camX=canvas.width/2+40;camY=canvas.height/2;}
-  npcs.forEach(function(n){if(n.alive) drawCar(n.x+off.offX,n.y+off.offY,n.angle,n.color,n.emoji,false);});
-  drawCar(camX,camY,player.angle,car.color,car.emoji,true);
-  // Speed UI
-  var kmh=Math.abs(Math.round(player.speed*18*(boostActive?1.6:1)));
+  // Lap
+  var lapLen=3000;
+  if(player.dist>lapLen*player.lap){
+    player.lap++;
+    if(player.lap>3){
+      raceFinished=true;
+      var totalTime=((Date.now()-startTime)/1000).toFixed(1);
+      var finalPos=position;
+      document.getElementById("winText").innerText=finalPos===1?"1st Place! Tu Champion hai! 🏆":finalPos+"th Place! Phir try karo — 1st aa sakta hai!";
+      document.getElementById("winStats").innerText="Time: "+totalTime+"s • Overtakes: "+overtakes+" • Car: "+car.name;
+      document.getElementById("winPanel").style.display="flex";
+      toast(finalPos===1?"🏆 WIN! Champion!":"🏁 Race khatam! "+finalPos+"th Place!");
+    } else {
+      toast("🏁 Lap "+player.lap+"/3! Aage badho!");
+    }
+  }
+  // Position calc
+  var ahead=opponents.filter(function(o){return o.dist>player.dist}).length;
+  position=ahead+1;
+  // Time
+  var elapsed=Math.floor((Date.now()-startTime)/1000);
+  var mm=Math.floor(elapsed/60), ss=elapsed%60;
+  document.getElementById("timeText").innerText=mm+":"+(ss<10?"0":"")+ss;
+  document.getElementById("lapText").innerText=Math.min(3,player.lap);
+  document.getElementById("posText").innerText=position;
+  document.getElementById("overtakeText").innerText="Overtakes: "+overtakes;
+  var kmh=Math.round(player.speed*12);
   document.getElementById("speedText").innerText=kmh;
-  document.getElementById("speedBar").style.width=Math.min(100,kmh/car.speed*100)+"%";
-  document.getElementById("killCount").innerText=kills;
-  document.getElementById("score").innerText=Math.floor(score);
-  var pol=document.getElementById("policeLabel");
-  if(policeLevel===0){pol.innerText="Safe";pol.style.color="#4ade80";}
-  else if(policeLevel<3){pol.innerText="⭐".repeat(policeLevel)+" Wanted!";pol.style.color="#f59e0b";}
-  else{pol.innerText="⭐".repeat(policeLevel)+" POLICE! BHAGO!";pol.style.color="#ef4444";}
+  document.getElementById("speedBar").style.width=Math.min(100,kmh/car.max*100)+"%";
+  var gear=kmh<60?"GEAR 1":kmh<120?"GEAR 2":kmh<180?"GEAR 3":kmh<240?"GEAR 4":"GEAR 5 ⚡";
+  document.getElementById("gearText").innerText=gear+(nitroActive?" • NITRO!":"");
 }
-renderCars(); spawnNPCs(); gameLoop();
+function draw(){
+  var W=canvas.width, H=canvas.height;
+  // SKY - Gradient - Acha graphics
+  var sky=ctx.createLinearGradient(0,0,0,H*0.45);
+  sky.addColorStop(0,"#0ea5e9"); sky.addColorStop(0.5,"#7dd3fc"); sky.addColorStop(1,"#fde68a");
+  ctx.fillStyle=sky; ctx.fillRect(0,0,W,H*0.45);
+  // Sun
+  ctx.fillStyle="#fde047"; ctx.beginPath(); ctx.arc(W*0.82,H*0.12,42,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle="rgba(253,224,71,.25)"; ctx.beginPath(); ctx.arc(W*0.82,H*0.12,70,0,Math.PI*2); ctx.fill();
+  // Clouds
+  ctx.fillStyle="rgba(255,255,255,.85)";
+  for(var ci=0;ci<4;ci++){
+    var cx=(ci*260 + Date.now()/40)%(W+200)-100;
+    ctx.beginPath(); ctx.ellipse(cx, 40+ci*30, 60, 18, 0, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(cx+30, 46+ci*30, 40, 14, 0, 0, Math.PI*2); ctx.fill();
+  }
+  // Mountains
+  ctx.fillStyle="#166534";
+  ctx.beginPath(); ctx.moveTo(0,H*0.45);
+  for(var mx=0;mx<=W;mx+=80){ctx.lineTo(mx,H*0.45 - Math.abs(Math.sin(mx*0.01+player.dist*0.001))*90);}
+  ctx.lineTo(W,H*0.45); ctx.closePath(); ctx.fill();
+  // Horizon
+  var horizon=H*0.45;
+  // ROAD - Perspective
+  var roadW=W*0.6;
+  // Road base
+  ctx.fillStyle="#14532d"; ctx.fillRect(0,horizon,W,H-horizon);
+  // Road trapezoid
+  var curve=Math.sin(player.dist*0.008)*80;
+  ctx.fillStyle="#1f2937";
+  ctx.beginPath();
+  ctx.moveTo(W/2-30+curve*0.2,horizon);
+  ctx.lineTo(W/2+30+curve*0.2,horizon);
+  ctx.lineTo(W/2+roadW/2,H);
+  ctx.lineTo(W/2-roadW/2,H);
+  ctx.closePath(); ctx.fill();
+  // Road markings - moving
+  ctx.strokeStyle="#f59e0b"; ctx.lineWidth=4; ctx.setLineDash([30,30]);
+  ctx.beginPath(); ctx.moveTo(W/2+curve*0.2,horizon); ctx.lineTo(W/2,H); ctx.stroke();
+  ctx.setLineDash([]);
+  // Side lines
+  ctx.strokeStyle="#fff"; ctx.lineWidth=6;
+  ctx.beginPath(); ctx.moveTo(W/2-30,horizon); ctx.lineTo(W/2-roadW/2,H); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W/2+30,horizon); ctx.lineTo(W/2+roadW/2,H); ctx.stroke();
+  // Lane dashes moving
+  var offset=(player.dist*8)%60;
+  for(var i=0;i<12;i++){
+    var y=horizon + i* ((H-horizon)/12) + offset*0.5;
+    if(y>H) y-= (H-horizon);
+    var scale=(y-horizon)/(H-horizon);
+    var x=W/2 + curve*scale*0.5;
+    ctx.fillStyle="rgba(255,255,255,.8)";
+    ctx.fillRect(x-3,y,6,18*scale+6);
+  }
+  // Trees - moving
+  for(var t=0;t<10;t++){
+    var ty=horizon + ((t*90 + player.dist*6)%(H-horizon));
+    var ts=(ty-horizon)/(H-horizon);
+    var side=t%2===0?-1:1;
+    var tx=W/2 + side*(roadW/2+80+ t*20)*ts + side*100 + curve*ts;
+    ctx.fillStyle="#166534"; ctx.beginPath(); ctx.arc(tx,ty-30*ts,22*ts+8,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle="#78350f"; ctx.fillRect(tx-3*ts,ty-10*ts,6*ts,18*ts);
+  }
+  // Opponents - perspective
+  opponents.forEach(function(o){
+    var rel=o.dist-player.dist;
+    if(rel>-20 && rel<300){
+      var scale=1 - rel/350; if(scale<0.15) scale=0.15;
+      var oy=H - 80 - rel*1.2*scale;
+      if(oy<horizon) oy=horizon+10;
+      var ox=W/2 + o.x*roadW*0.35*scale + curve*scale*0.5;
+      var w=110*scale+30, h=60*scale+22;
+      // Shadow
+      ctx.fillStyle="rgba(0,0,0,.35)"; ctx.beginPath(); ctx.ellipse(ox,oy+h/2,w/2,8,0,0,Math.PI*2); ctx.fill();
+      // Car body
+      ctx.fillStyle=o.color; ctx.fillRect(ox-w/2,oy-h/2,w,h);
+      ctx.fillStyle="#111"; ctx.fillRect(ox-w/2+8,oy-h/2+10,w-16,18);
+      ctx.fillStyle="#fff"; ctx.fillRect(ox-w/2+6,oy+h/2-10,14,6); ctx.fillRect(ox+w/2-20,oy+h/2-10,14,6);
+      ctx.fillStyle="#fff"; ctx.font="bold "+(10*scale+8)+"px Arial"; ctx.textAlign="center"; ctx.fillText(o.emoji,ox,oy+6);
+      ctx.fillStyle="#fff"; ctx.font="bold 11px Arial"; ctx.fillText(o.name,ox,oy-h/2-6);
+    }
+  });
+  // Player car - bottom center - depending camera
+  var car=cars[selectedCar];
+  var px=W/2 + player.x*roadW*0.28;
+  var py=H-110;
+  var pw=150, ph=78;
+  if(cameraMode==="hood"){
+    // Hood view - only bonnet
+    ctx.fillStyle=car.color; ctx.fillRect(W/2-160,H-60,320,60);
+    ctx.fillStyle="rgba(0,0,0,.2)"; ctx.fillRect(W/2-160,H-60,320,10);
+    ctx.fillStyle="#fff"; ctx.font="bold 12px Arial"; ctx.textAlign="center"; ctx.fillText("HOOD CAM — "+car.name, W/2, H-25);
+  } else if(cameraMode==="top"){
+    // Top view - small car top
+    pw=90; ph=120; py=H/2+60;
+    ctx.fillStyle="rgba(0,0,0,.3)"; ctx.beginPath(); ctx.ellipse(px,py+ph/2,pw/2,8,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=car.color; ctx.fillRect(px-pw/2,py-pw, pw, ph);
+    ctx.fillStyle="#111"; ctx.fillRect(px-pw/2+10,py-30,pw-20,40);
+  } else {
+    // Chase cam - big car
+    // Shadow
+    ctx.fillStyle="rgba(0,0,0,.4)"; ctx.beginPath(); ctx.ellipse(px,py+ph/2+6,pw/2,10,0,0,Math.PI*2); ctx.fill();
+    // Body
+    var grad=ctx.createLinearGradient(px-pw/2,py,px+pw/2,py+ph);
+    grad.addColorStop(0,car.color); grad.addColorStop(1,car.dark);
+    ctx.fillStyle=grad; ctx.fillRect(px-pw/2,py,pw,ph);
+    // Roof / Window
+    ctx.fillStyle="#0f172a"; ctx.fillRect(px-pw/2+18,py+10,pw-36,28);
+    ctx.fillStyle="rgba(255,255,255,.35)"; ctx.fillRect(px-pw/2+22,py+12,20,24);
+    // Headlights
+    ctx.fillStyle="#fef08a"; ctx.fillRect(px-pw/2+10,py+ph-12,22,8); ctx.fillRect(px+pw/2-32,py+ph-12,22,8);
+    // Wheels
+    ctx.fillStyle="#111"; ctx.fillRect(px-pw/2-6,py+12,10,24); ctx.fillRect(px+pw/2-4,py+12,10,24); ctx.fillRect(px-pw/2-6,py+ph-32,10,24); ctx.fillRect(px+pw/2-4,py+ph-32,10,24);
+    // Spoiler
+    ctx.fillStyle=car.dark; ctx.fillRect(px-pw/2-8,py-6,pw+16,8);
+    ctx.fillStyle="#fff"; ctx.font="bold 14px Arial"; ctx.textAlign="center"; ctx.fillText(car.emoji+" "+car.name, px, py-16);
+    if(nitroActive){
+      ctx.fillStyle="#38bdf8"; ctx.fillRect(px-18,py+ph,36,26);
+      ctx.fillStyle="#f59e0b"; ctx.fillRect(px-10,py+ph+22,20,16);
+    }
+  }
+  // Speed lines when fast
+  if(player.speed>18){
+    ctx.strokeStyle="rgba(255,255,255,.25)"; ctx.lineWidth=2;
+    for(var s=0;s<6;s++){
+      var sy=Math.random()*H;
+      ctx.beginPath(); ctx.moveTo(0,sy); ctx.lineTo(80,sy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(W-80,sy); ctx.lineTo(W,sy); ctx.stroke();
+    }
+  }
+  // Nitro bar
+  ctx.fillStyle="rgba(0,0,0,.6)"; ctx.fillRect(W/2-80,H-28,160,14);
+  ctx.fillStyle=nitro>30?"#38bdf8":"#ef4444"; ctx.fillRect(W/2-80,H-28,160*nitro/100,14);
+  ctx.fillStyle="#fff"; ctx.font="bold 10px Arial"; ctx.textAlign="center"; ctx.fillText("NITRO "+Math.floor(nitro)+"%",W/2,H-17);
+}
+function loop(){
+  requestAnimationFrame(loop);
+  update();
+  draw();
+}
+renderCars(); restartRace(); loop();
 </script>
 </body>
 </html>
