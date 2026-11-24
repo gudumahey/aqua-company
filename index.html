@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>RAISTAR RACING - Real Cockpit - Music Fix!</title>
+<title>RAISTAR RACING - Gaana Web Pe Hi Chalega!</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif;-webkit-tap-highlight-color:transparent}
 body{background:#000;color:#fff;overflow:hidden;user-select:none}
@@ -26,19 +26,23 @@ body{background:#000;color:#fff;overflow:hidden;user-select:none}
 .car .emoji{font-size:42px;display:block}
 .music-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .music-btn{padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:#222;color:#fff;cursor:pointer;font-weight:700;font-size:13px;text-align:left}
-.music-btn.active{background:#f59e0b;color:#111}
+.music-btn.active{background:#f59e0b;color:#111;border-color:#f59e0b}
 .music-btn small{display:block;font-size:11px;opacity:.7}
 .cam-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .cam-btn{padding:9px 14px;border-radius:20px;border:1px solid #444;background:#222;color:#fff;cursor:pointer;font-weight:700;font-size:12px}
 .cam-btn.active{background:#f59e0b;color:#111}
 #toast{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:10px 18px;border-radius:30px;font-weight:800;font-size:13px;z-index:99;display:none;max-width:92%;text-align:center}
 #musicFrame{width:100%;height:0;border:none;border-radius:12px;background:#000}
-#musicFrame.show{height:200px;margin-top:10px}
+#musicFrame.show{height:210px;margin-top:10px}
 .countdown{position:fixed;top:42%;left:50%;transform:translate(-50%,-50%);font-size:90px;font-weight:900;z-index:40;text-shadow:0 0 30px rgba(245,158,11,.9);display:none;text-align:center}
 .hud-bottom{position:fixed;left:12px;bottom:12px;z-index:20;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:10px}
-.music-mini{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:25;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.25);border-radius:30px;padding:8px 14px;display:none;align-items:center;gap:8px;font-size:12px;font-weight:700}
+.music-mini{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:25;background:rgba(0,0,0,.85);border:2px solid #f59e0b;border-radius:30px;padding:8px 10px 8px 14px;display:none;align-items:center;gap:8px;font-size:12px;font-weight:700;box-shadow:0 0 20px rgba(245,158,11,.4)}
 .music-mini.show{display:flex}
-@media(max-width:700px){.dpad{grid-template-columns:repeat(3,50px)}.dpad button{width:50px;height:50px}.music-mini{bottom:120px}}
+.music-mini .eq{display:flex;gap:2px;align-items:end;height:16px}
+.music-mini .eq span{width:3px;background:#f59e0b;border-radius:2px;animation:eq 0.6s infinite}
+.music-mini .eq span:nth-child(2){animation-delay:.15s}.music-mini .eq span:nth-child(3){animation-delay:.3s}
+@keyframes eq{0%,100%{height:4px}50%{height:16px}}
+@media(max-width:700px){.dpad{grid-template-columns:repeat(3,50px)}.dpad button{width:50px;height:50px}.music-mini{bottom:125px;max-width:92%;flex-wrap:wrap;justify-content:center}}
 </style>
 </head>
 <body>
@@ -59,12 +63,18 @@ body{background:#000;color:#fff;overflow:hidden;user-select:none}
 
 <canvas id="gameCanvas"></canvas>
 
-<div class="music-mini" id="musicMini">🎵 <span id="miniSong">Baarishein</span> <button class="btn green" style="padding:5px 10px;font-size:11px" onclick="openMusic()">Change</button> <button class="btn red" style="padding:5px 10px;font-size:11px" onclick="stopMusic()">⏹️ Stop</button></div>
+<!-- MINI PLAYER - WEB PE HI CHALEGA - RACE KARTE HUE BHI! -->
+<div class="music-mini" id="musicMini">
+<div class="eq"><span></span><span></span><span></span></div>
+<span>🎵 <span id="miniSong">Baarishein</span> — Web pe chal raha hai!</span>
+<button class="btn green" style="padding:5px 10px;font-size:11px" onclick="openMusic()">🎵 Change</button>
+<button class="btn red" style="padding:5px 10px;font-size:11px" onclick="stopMusic()">⏹️ Stop</button>
+</div>
 
 <div class="hud-bottom">
 <div style="font-size:11px;color:#aaa">🚗 <b id="carNameTop" style="color:#fff">Lamborghini</b> • 📷 <b id="camLabel">Cockpit</b></div>
-<div style="font-size:11px;color:#aaa">🎵 <b id="musicLabel">Off</b> • 💥 Overtakes: <b id="overtakeText">0</b> • 🌧️ <b id="weatherLabel">Sunset • Clear</b></div>
-<div style="display:flex;gap:6px;margin-top:6px"><button class="btn green" style="padding:7px 12px;font-size:12px" onclick="togglePause()">⏸️ Pause</button><button class="btn red" style="padding:7px 12px;font-size:12px" onclick="restartRace()">🔄 Restart</button><button class="btn dark" style="padding:7px 12px;font-size:12px" onclick="toggleWeather()">🌧️ Rain On/Off</button></div>
+<div style="font-size:11px;color:#aaa">🎵 <b id="musicLabel">Off — Music dabao!</b> • 💥 Overtakes: <b id="overtakeText">0</b> • 🌧️ <b id="weatherLabel">Sunset • Clear</b></div>
+<div style="display:flex;gap:6px;margin-top:6px"><button class="btn green" style="padding:7px 12px;font-size:12px" onclick="togglePause()">⏸️ Pause</button><button class="btn red" style="padding:7px 12px;font-size:12px" onclick="restartRace()">🔄 Restart</button><button class="btn dark" style="padding:7px 12px;font-size:12px" onclick="toggleWeather()">🌧️ Rain</button></div>
 </div>
 
 <div class="controls">
@@ -79,8 +89,7 @@ body{background:#000;color:#fff;overflow:hidden;user-select:none}
 <!-- GARAGE -->
 <div class="panel" id="garagePanel">
 <div class="box">
-<h2>🚗 Garage — Real Racing — Sab FREE!</h2>
-<p style="font-size:13px;color:#aaa">Car chuno — Andar beth ke chalao!</p>
+<h2>🚗 Garage — Sab FREE!</h2>
 <div class="cars" id="carsGrid"></div>
 <div style="background:rgba(245,158,11,.15);border:1px solid #f59e0b;border-radius:12px;padding:12px;font-size:13px"><b id="selectedCarInfo">Lamborghini — 320 km/h</b></div>
 <button class="btn orange" style="width:100%;margin-top:12px;padding:14px" onclick="startRace()">🏁 RACE START →</button>
@@ -96,28 +105,33 @@ body{background:#000;color:#fff;overflow:hidden;user-select:none}
 <button class="cam-btn" id="camBtn-chase" onclick="setCamera('chase')">🎥 Chase — Peeche Se</button>
 <button class="cam-btn" id="camBtn-hood" onclick="setCamera('hood')">🏎️ Hood — Bonnet Se</button>
 </div>
-<div style="background:#222;border-radius:12px;padding:12px;margin-top:12px;font-size:13px"><b>Abhi:</b> <span id="camDesc">Cockpit — Steering + Dashboard dikhega!</span></div>
+<div style="background:#222;border-radius:12px;padding:12px;margin-top:12px;font-size:13px"><b>Abhi:</b> <span id="camDesc">Cockpit — Steering + Dashboard!</span></div>
 <button class="btn green" style="width:100%;margin-top:12px" onclick="closePanel('camPanel')">✅ Done →</button>
 </div>
 </div>
 
-<!-- MUSIC - FIXED! -->
+<!-- MUSIC - AB WEB PE HI CHALEGA! -->
 <div class="panel" id="musicPanel" style="display:none">
 <div class="box">
-<h2>🎵 Music — Ab Pakka Chalega!</h2>
-<div style="background:#fef3c7;border:1px solid #f59e0b;color:#111;border-radius:12px;padding:12px;font-size:13px;line-height:1.6"><b>⚠️ IMPORTANT — Kaise Chalega?</b><br>1. Gaana dabao — Neeche video aayega<br>2. <b>Video ke beech me PLAY ▶️ dabao</b> — Tabhi awaz aayegi!<br>3. Browser auto-play rok deta hai — Isliye khud PLAY dabana hai!<br>4. Agar phir bhi na chale → <b>YouTube Pe Kholo</b> dabao!</div>
+<h2>🎵 Music — Web Pe Hi Chalega!</h2>
+<div style="background:#dcfce7;border:1px solid #16a34a;color:#111;border-radius:12px;padding:12px;font-size:13px;line-height:1.6"><b>✅ AB FIX HO GAYA!</b><br>Gaana dabao — <b>Isi web pe</b> player khulega — <b>Kahi nahi jayega!</b><br>Race karte hue bhi neeche <b>Mini Player</b> me chalega!</div>
 <div class="music-grid">
-<button class="music-btn" id="m-Alfaaz" onclick="playSong('Alfaaz','search','Alfaaz')">🎵 Alfaaz<small>Hamza Malik • Click → Play dabao!</small></button>
-<button class="music-btn" id="m-Baarishein" onclick="playSong('Baarishein','PJWemSzExXs','Baarishein')">🌧️ Baarishein<small>Anuv Jain • Official</small></button>
-<button class="music-btn" id="m-JoTum" onclick="playSong('Jo Tum Mere Ho','ilNt2bikxDI','Jo Tum Mere Ho')">❤️ Jo Tum Mere Ho<small>Anuv Jain • Official</small></button>
-<button class="music-btn" id="m-Husn" onclick="playSong('Husn','gJLVTKhTnog','Husn')">✨ Husn<small>Anuv Jain • Official</small></button>
+<button class="music-btn" onclick="playSong('Alfaaz','search','Alfaaz')">🎵 Alfaaz<small>Hamza Malik • Web pe chalega!</small></button>
+<button class="music-btn" onclick="playSong('Baarishein','PJWemSzExXs','Baarishein')">🌧️ Baarishein<small>Anuv Jain • Web pe chalega!</small></button>
+<button class="music-btn" onclick="playSong('Jo Tum Mere Ho','ilNt2bikxDI','Jo Tum Mere Ho')">❤️ Jo Tum Mere Ho<small>Anuv Jain • Web pe chalega!</small></button>
+<button class="music-btn" onclick="playSong('Husn','gJLVTKhTnog','Husn')">✨ Husn<small>Anuv Jain • Web pe chalega!</small></button>
 <button class="music-btn" onclick="playSong('Gul','Y2zc2IeVX_g','Gul')">🌹 Gul<small>Anuv Jain</small></button>
 <button class="music-btn" onclick="playSong('Alag Aasmaan','IwEo8o5eC4U','Alag Aasmaan')">☁️ Alag Aasmaan<small>Anuv Jain</small></button>
 </div>
+
+<!-- YAHI PE PLAYER HAI - WEB PE HI! -->
+<div id="playerWrap" style="display:none;margin-top:12px;background:#000;border:2px solid #f59e0b;border-radius:14px;padding:10px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><b style="font-size:13px">🎵 Ab Chal Raha Hai: <span id="nowPlaying" style="color:#f59e0b">—</span></b><span style="font-size:11px;color:#4ade80">● LIVE • Web Pe Hi</span></div>
 <iframe id="musicFrame" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
-<div style="display:flex;gap:8px;margin-top:10px"><button class="btn white" style="flex:1" onclick="openYoutube()">▶️ YouTube Pe Kholo — 100% Chalega →</button><button class="btn red" style="flex:1" onclick="stopMusic()">⏹️ Band Karo</button></div>
-<button class="btn green" style="width:100%;margin-top:8px;padding:12px" onclick="closePanel('musicPanel');toast('Music chal raha hai! Ab race karo! Video me PLAY dabana mat bhoolna!')">✅ Done — Race Karo! →</button>
-<p style="font-size:11px;color:#888;margin-top:8px">Agar video me “Video unavailable” likha aaye to YouTube Pe Kholo dabao — Waha hamesha chalega!</p>
+<p style="font-size:11px;color:#aaa;margin-top:6px">Agar awaz na aaye to video pe ek baar <b>Click</b> karo — Browser ne sound rok rakha hai — Click karte hi awaz aa jayegi! Ye browser ka rule hai!</p>
+</div>
+
+<div style="display:flex;gap:8px;margin-top:10px"><button class="btn red" style="flex:1" onclick="stopMusic()">⏹️ Band Karo</button><button class="btn green" style="flex:1" onclick="closePanel('musicPanel');toast('Music web pe hi chal raha hai! Race karo!')">✅ Done — Race Karo! →</button></div>
 </div>
 </div>
 
@@ -149,8 +163,7 @@ var cars=[
 var selectedCar=0, cameraMode="cockpit", paused=false, raceStarted=false, raceFinished=false, rain=false;
 var keys={up:false,down:false,left:false,right:false};
 var player={x:0,speed:0,lap:1,dist:0,steer:0};
-var opponents=[]; var overtakes=0; var startTime=0; var nitro=100; var nitroActive=false; var position=6; var countdownVal=3; var currentSongName=""; var currentSongId=""; var raindrops=[];
-
+var opponents=[]; var overtakes=0; var startTime=0; var nitro=100; var nitroActive=false; var position=6; var countdownVal=3; var currentSongName=""; var raindrops=[];
 for(var ri=0;ri<120;ri++){raindrops.push({x:Math.random()*2000,y:Math.random()*1000,speed:12+Math.random()*10});}
 
 function toast(m){var t=document.getElementById("toast");t.innerText=m;t.style.display="block";setTimeout(function(){t.style.display="none"},2800);}
@@ -174,32 +187,32 @@ function setCamera(m){
   document.getElementById("camDesc").innerText=d[m]; document.getElementById("camLabel").innerText=l[m];
   toast("📷 "+l[m]);
 }
-function toggleWeather(){rain=!rain;document.getElementById("weatherLabel").innerText=rain?"Sunset • Baarish 🌧️":"Sunset • Clear";toast(rain?"🌧️ Baarish ON! Baarishein gaana chalao — Maza aayega!":"☀️ Baarish OFF!");}
+function toggleWeather(){rain=!rain;document.getElementById("weatherLabel").innerText=rain?"Sunset • Baarish 🌧️":"Sunset • Clear";toast(rain?"🌧️ Baarish ON! Baarishein chalao!":"☀️ Baarish OFF!");}
 
-// MUSIC - FIXED - USER MUST CLICK PLAY INSIDE VIDEO!
+// MUSIC - AB WEB PE HI CHALEGA - YOUTUBE PE NAHI JAYEGA!
 function playSong(name, id, search){
-  currentSongName=name; currentSongId=id;
+  currentSongName=name;
+  // Button active
   document.querySelectorAll(".music-btn").forEach(function(b){b.classList.remove("active")});
-  event.target.closest(".music-btn").classList.add("active");
-  document.getElementById("musicLabel").innerText=name+" — Video me PLAY dabao!";
+  if(event && event.target) { var btn=event.target.closest(".music-btn"); if(btn) btn.classList.add("active"); }
+  document.getElementById("musicLabel").innerText=name+" — Web pe chal raha hai!";
   document.getElementById("miniSong").innerText=name;
   document.getElementById("musicMini").classList.add("show");
+  document.getElementById("nowPlaying").innerText=name;
+  document.getElementById("playerWrap").style.display="block";
   var f=document.getElementById("musicFrame");
+  // FIX: autoplay=1 + mute=0 - Click karte hi web pe hi chalega!
   if(id==="search"){
-    f.src="https://www.youtube.com/embed?listType=search&list="+encodeURIComponent(search+" song official")+"&autoplay=0";
+    f.src="https://www.youtube.com/embed?listType=search&list="+encodeURIComponent(search+" song official")+"&autoplay=1&rel=0";
   } else {
-    f.src="https://www.youtube.com/embed/"+id+"?autoplay=0&rel=0";
+    f.src="https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0&enablejsapi=1";
   }
   f.classList.add("show");
-  toast("🎵 "+name+" ready hai! Neeche video me ▶️ PLAY dabao — Tabhi awaz aayegi!");
+  // Scroll to player - taaki dikhe ki web pe hi chal raha hai!
+  setTimeout(function(){document.getElementById("playerWrap").scrollIntoView({behavior:"smooth",block:"center"});},200);
+  toast("🎵 "+name+" — Web pe hi chal raha hai! Neeche player me dekho! Agar awaz na aaye to video pe Click karo!");
 }
-function openYoutube(){
-  if(!currentSongName){toast("Pehle koi gaana chuno!");return;}
-  var q=currentSongName==="Alfaaz"?"Alfaaz song Hamza Malik":currentSongName+" Anuv Jain song";
-  window.open("https://www.youtube.com/results?search_query="+encodeURIComponent(q),"_blank");
-  toast("YouTube khul gaya — Waha PLAY dabao — 100% chalega!");
-}
-function stopMusic(){document.getElementById("musicFrame").src="";document.getElementById("musicFrame").classList.remove("show");document.getElementById("musicLabel").innerText="Off";document.getElementById("musicMini").classList.remove("show");toast("Music band!");}
+function stopMusic(){document.getElementById("musicFrame").src="";document.getElementById("musicFrame").classList.remove("show");document.getElementById("playerWrap").style.display="none";document.getElementById("musicLabel").innerText="Off";document.getElementById("musicMini").classList.remove("show");toast("Music band!");}
 function togglePause(){paused=!paused;toast(paused?"⏸️ Pause":"▶️ Chalu");}
 function kd(d){keys[d]=true;} function ku(d){keys[d]=false;}
 document.addEventListener("keydown",function(e){
@@ -280,22 +293,18 @@ function update(){
   document.getElementById("posText").innerText=position;
   document.getElementById("overtakeText").innerText=overtakes;
 }
-
 function draw(){
   var W=canvas.width, H=canvas.height;
   var kmh=Math.round(player.speed*12);
-  // === SUNSET SKY - REALISTIC ===
+  // SUNSET SKY - REALISTIC
   var sky=ctx.createLinearGradient(0,0,0,H*0.5);
   sky.addColorStop(0,"#1e1b4b"); sky.addColorStop(0.3,"#7c3aed"); sky.addColorStop(0.55,"#f97316"); sky.addColorStop(0.75,"#fbbf24"); sky.addColorStop(1,"#fef3c7");
   ctx.fillStyle=sky; ctx.fillRect(0,0,W,H*0.5);
-  // Sun - big sunset sun
   var sunX=W*0.5, sunY=H*0.38;
   var glow=ctx.createRadialGradient(sunX,sunY,10,sunX,sunY,140);
   glow.addColorStop(0,"rgba(253,224,71,.95)"); glow.addColorStop(0.4,"rgba(249,115,22,.5)"); glow.addColorStop(1,"rgba(249,115,22,0)");
   ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(sunX,sunY,140,0,Math.PI*2); ctx.fill();
   ctx.fillStyle="#fde047"; ctx.beginPath(); ctx.arc(sunX,sunY,44,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle="#f97316"; ctx.beginPath(); ctx.arc(sunX,sunY,44,0,Math.PI); ctx.fill();
-  // Clouds - sunset pink
   ctx.fillStyle="rgba(255,255,255,.75)";
   for(var ci=0;ci<5;ci++){
     var cx=((ci*280 + Date.now()/70)%(W+300))-150;
@@ -303,7 +312,6 @@ function draw(){
     ctx.beginPath(); ctx.ellipse(cx,cy,80,20,0,0,Math.PI*2); ctx.fill();
     ctx.beginPath(); ctx.ellipse(cx+38,cy+5,50,15,0,0,Math.PI*2); ctx.fill();
   }
-  // Mountains - 2 layers
   ctx.fillStyle="#312e81";
   ctx.beginPath(); ctx.moveTo(0,H*0.5);
   for(var mx=0;mx<=W;mx+=50){ctx.lineTo(mx,H*0.5 - Math.abs(Math.sin(mx*0.008+player.dist*0.001))*120 - 15);}
@@ -312,22 +320,12 @@ function draw(){
   ctx.beginPath(); ctx.moveTo(0,H*0.5);
   for(var mx2=0;mx2<=W;mx2+=60){ctx.lineTo(mx2,H*0.5 - Math.abs(Math.sin(mx2*0.012+player.dist*0.0015))*70);}
   ctx.lineTo(W,H*0.5); ctx.closePath(); ctx.fill();
-
   var horizon=H*0.5;
   var curve=Math.sin(player.dist*0.006)*90 + player.steer*30;
   var roadW=W*0.78;
-  // Grass - realistic green with texture
   var grass=ctx.createLinearGradient(0,horizon,0,H);
   grass.addColorStop(0,"#4ade80"); grass.addColorStop(1,"#14532d");
   ctx.fillStyle=grass; ctx.fillRect(0,horizon,W,H-horizon);
-  // Grass texture dots
-  ctx.fillStyle="rgba(0,0,0,.12)";
-  for(var gd=0;gd<30;gd++){
-    var gy=horizon + ((gd*60 + player.dist*9)%(H-horizon));
-    var gx=(gd*137)%W;
-    ctx.fillRect(gx,gy,4,2);
-  }
-  // Road - asphalt with texture
   ctx.fillStyle="#1f2937";
   ctx.beginPath();
   ctx.moveTo(W/2-26+curve*0.15,horizon);
@@ -335,21 +333,17 @@ function draw(){
   ctx.lineTo(W/2+roadW/2,H);
   ctx.lineTo(W/2-roadW/2,H);
   ctx.closePath(); ctx.fill();
-  // Road shine - wet road reflection
   var shine=ctx.createLinearGradient(W/2-100,horizon,W/2+100,H);
   shine.addColorStop(0,"rgba(255,255,255,.08)"); shine.addColorStop(1,"rgba(255,255,255,0)");
   ctx.fillStyle=shine;
   ctx.beginPath();
   ctx.moveTo(W/2-26,horizon); ctx.lineTo(W/2+26,horizon); ctx.lineTo(W/2+roadW/2,H); ctx.lineTo(W/2-roadW/2,H); ctx.closePath(); ctx.fill();
-  // Center line
   ctx.strokeStyle="#facc15"; ctx.lineWidth=5; ctx.setLineDash([30,30]);
   ctx.beginPath(); ctx.moveTo(W/2+curve*0.15,horizon); ctx.lineTo(W/2+curve*0.4,H); ctx.stroke();
   ctx.setLineDash([]);
-  // Edge lines - white + red/white curb
   ctx.strokeStyle="#fff"; ctx.lineWidth=7;
   ctx.beginPath(); ctx.moveTo(W/2-26,horizon); ctx.lineTo(W/2-roadW/2,H); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(W/2+26,horizon); ctx.lineTo(W/2+roadW/2,H); ctx.stroke();
-  // Curb - red/white blocks
   var off=(player.dist*14)%80;
   for(var i=0;i<10;i++){
     var y=horizon + i*((H-horizon)/10) + off*0.4;
@@ -360,7 +354,6 @@ function draw(){
     ctx.fillStyle=i%2===0?"#fff":"#ef4444";
     ctx.fillRect(W/2 + roadW*0.5*sc + curve*sc*0.3,y,10,14*sc+6);
   }
-  // Lane dashes
   for(var ld=0;ld<10;ld++){
     var ly=horizon + ld*((H-horizon)/10) + off*0.4;
     if(ly>H) ly-= (H-horizon);
@@ -369,32 +362,25 @@ function draw(){
     ctx.fillRect(W/2 - roadW*0.22*lsc + curve*lsc*0.3 -3,ly,6,16*lsc+6);
     ctx.fillRect(W/2 + roadW*0.22*lsc + curve*lsc*0.3 -3,ly,6,16*lsc+6);
   }
-  // Trees + Buildings + Light poles
   for(var t=0;t<16;t++){
     var ty=horizon + ((t*95 + player.dist*10)%(H-horizon));
     var ts=(ty-horizon)/(H-horizon);
     var side=t%2===0?-1:1;
     var tx=W/2 + side*(roadW/2+130+ (t%3)*40)*ts + side*90 + curve*ts*0.6;
     if(t%5===0){
-      // Street light
       ctx.strokeStyle="#111"; ctx.lineWidth=4*ts+1;
       ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(tx,ty-90*ts); ctx.stroke();
       ctx.fillStyle="#fde047"; ctx.beginPath(); ctx.arc(tx,ty-92*ts,6*ts+3,0,Math.PI*2); ctx.fill();
-      ctx.fillStyle="rgba(253,224,71,.25)"; ctx.beginPath(); ctx.arc(tx,ty-92*ts,16*ts,0,Math.PI*2); ctx.fill();
     } else if(t%4===0){
-      // Building with windows
       ctx.fillStyle="#1e293b"; ctx.fillRect(tx-30*ts,ty-100*ts,60*ts,100*ts);
       ctx.fillStyle="#fbbf24";
       for(var w=0;w<3;w++){for(var h=0;h<3;h++){if((w+h+t)%2===0) ctx.fillRect(tx-20*ts+w*14*ts,ty-90*ts+h*24*ts,8*ts,10*ts);}}
     } else {
-      // Tree - detailed
       ctx.fillStyle="#78350f"; ctx.fillRect(tx-4*ts,ty-12*ts,8*ts,24*ts);
       ctx.fillStyle="#14532d"; ctx.beginPath(); ctx.arc(tx,ty-34*ts,28*ts,0,Math.PI*2); ctx.fill();
       ctx.fillStyle="#22c55e"; ctx.beginPath(); ctx.arc(tx-9*ts,ty-42*ts,17*ts,0,Math.PI*2); ctx.fill();
-      ctx.fillStyle="#4ade80"; ctx.beginPath(); ctx.arc(tx+8*ts,ty-40*ts,12*ts,0,Math.PI*2); ctx.fill();
     }
   }
-  // Opponents - realistic
   opponents.forEach(function(o){
     var rel=o.dist-player.dist;
     if(rel>-15 && rel<320){
@@ -403,66 +389,43 @@ function draw(){
       if(oy<horizon) oy=horizon+8;
       var ox=W/2 + o.x*roadW*0.32*scale + curve*scale*0.45;
       var w=140*scale+36, h=78*scale+28;
-      // Shadow - soft
       ctx.fillStyle="rgba(0,0,0,.45)"; ctx.beginPath(); ctx.ellipse(ox,oy+h/2,w/2,7,0,0,Math.PI*2); ctx.fill();
-      // Body - gradient
       var g=ctx.createLinearGradient(ox-w/2,oy,ox+w/2,oy+h);
       g.addColorStop(0,o.color); g.addColorStop(1,"#0f172a");
       ctx.fillStyle=g; ctx.fillRect(ox-w/2,oy-h/2,w,h);
-      // Roof
       ctx.fillStyle="#0f172a"; ctx.fillRect(ox-w/2+12,oy-h/2+10,w-24,22);
-      ctx.fillStyle="rgba(255,255,255,.35)"; ctx.fillRect(ox-w/2+14,oy-h/2+12,18,18);
-      // Headlights + Brake lights
       ctx.fillStyle="#fef08a"; ctx.fillRect(ox-w/2+6,oy+h/2-10,18,6); ctx.fillRect(ox+w/2-24,oy+h/2-10,18,6);
       ctx.fillStyle="#ef4444"; ctx.fillRect(ox-w/2+6,oy-h/2+2,18,5); ctx.fillRect(ox+w/2-24,oy-h/2+2,18,5);
-      // Wheels
       ctx.fillStyle="#111"; ctx.fillRect(ox-w/2-4,oy+2,11,18); ctx.fillRect(ox+w/2-7,oy+2,11,18);
       ctx.fillStyle="#fff"; ctx.font="bold "+(10*scale+9)+"px Arial"; ctx.textAlign="center"; ctx.fillText("🏎️ "+o.name,ox,oy+h/2+20);
     }
   });
-
-  // === COCKPIT ===
   var car=cars[selectedCar];
   if(cameraMode==="cockpit"){
-    // Rearview mirror
     ctx.fillStyle="#0f172a"; ctx.fillRect(W/2-95,8,190,46);
     ctx.fillStyle="#334155"; ctx.fillRect(W/2-89,12,178,38);
     ctx.fillStyle="#fff"; ctx.font="bold 11px Arial"; ctx.textAlign="center";
     var behind=opponents.filter(function(o){return o.dist<player.dist}).length;
     ctx.fillText("🪞 Peeche: "+behind+" cars • Pos "+position+"/6",W/2,36);
-    // Dashboard - leather dark
     var dash=ctx.createLinearGradient(0,H-215,0,H);
     dash.addColorStop(0,"#292524"); dash.addColorStop(0.5,"#1c1917"); dash.addColorStop(1,"#0c0a09");
     ctx.fillStyle=dash; ctx.fillRect(0,H-215,W,215);
-    // Dashboard stitch line
     ctx.fillStyle="#f59e0b"; ctx.fillRect(0,H-215,W,3);
-    ctx.fillStyle="rgba(255,255,255,.08)"; ctx.fillRect(0,H-212,W,2);
-    // Speedometer - big analog
     var sx=W*0.17, sy=H-108, r=64;
     ctx.fillStyle="#000"; ctx.beginPath(); ctx.arc(sx,sy,r,0,Math.PI*2); ctx.fill();
     ctx.strokeStyle="#444"; ctx.lineWidth=4; ctx.beginPath(); ctx.arc(sx,sy,r,0,Math.PI*2); ctx.stroke();
-    // Ticks
-    for(var tk=0;tk<=10;tk++){
-      var a=-Math.PI*0.75 + tk*(Math.PI*1.5/10);
-      ctx.strokeStyle=tk>8?"#ef4444":"#aaa"; ctx.lineWidth=2;
-      ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*(r-10),sy+Math.sin(a)*(r-10)); ctx.lineTo(sx+Math.cos(a)*(r-4),sy+Math.sin(a)*(r-4)); ctx.stroke();
-    }
     ctx.fillStyle="#fff"; ctx.font="bold 28px Arial"; ctx.textAlign="center"; ctx.fillText(kmh,sx,sy+6);
     ctx.fillStyle="#aaa"; ctx.font="11px Arial"; ctx.fillText("km/h",sx,sy+24);
     ctx.fillStyle="#f59e0b"; ctx.font="bold 11px Arial"; ctx.fillText(car.name,sx,sy-38);
-    // Needle - red
     var ang=-Math.PI*0.75 + (kmh/car.max)*Math.PI*1.5;
     ctx.strokeStyle="#ef4444"; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx+Math.cos(ang)*50,sy+Math.sin(ang)*50); ctx.stroke();
     ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(sx,sy,5,0,Math.PI*2); ctx.fill();
-    // Center - Lap / Nitro / Gear
     ctx.fillStyle="#fff"; ctx.font="bold 15px Arial"; ctx.textAlign="center";
     ctx.fillText("LAP "+Math.min(3,player.lap)+"/3  •  POS "+position+"/6",W/2,H-162);
     var gear=kmh<60?"1":kmh<120?"2":kmh<180?"3":kmh<240?"4":"5";
     ctx.fillStyle="#4ade80"; ctx.font="bold 12px Arial"; ctx.fillText("GEAR "+gear+(nitroActive?"  •  ⚡ NITRO!":""),W/2,H-142);
     ctx.fillStyle="#333"; ctx.fillRect(W/2-75,H-134,150,11);
     ctx.fillStyle=nitro>30?"#38bdf8":"#ef4444"; ctx.fillRect(W/2-75,H-134,150*nitro/100,11);
-    ctx.fillStyle="#aaa"; ctx.font="10px Arial"; ctx.fillText("NITRO "+Math.floor(nitro)+"%",W/2,H-112);
-    // Steering - rotates!
     var wx=W*0.78, wy=H-92, wr=60;
     ctx.save(); ctx.translate(wx,wy); ctx.rotate(player.steer*0.9);
     ctx.strokeStyle="#0f172a"; ctx.lineWidth=11; ctx.beginPath(); ctx.arc(0,0,wr,0,Math.PI*2); ctx.stroke();
@@ -474,14 +437,10 @@ function draw(){
     ctx.fillStyle=car.color; ctx.beginPath(); ctx.arc(0,0,17,0,Math.PI*2); ctx.fill();
     ctx.fillStyle="#fff"; ctx.font="bold 11px Arial"; ctx.fillText(car.emoji,0,4);
     ctx.restore();
-    ctx.fillStyle="#aaa"; ctx.font="11px Arial"; ctx.textAlign="center"; ctx.fillText("STEERING",wx,wy+80);
-    // Bonnet
     ctx.fillStyle=car.color; ctx.beginPath(); ctx.moveTo(W/2-190,H-215); ctx.lineTo(W/2+190,H-215); ctx.lineTo(W/2+125,H-145); ctx.lineTo(W/2-125,H-145); ctx.closePath(); ctx.fill();
     ctx.fillStyle="rgba(255,255,255,.3)"; ctx.fillRect(W/2-105,H-200,210,7);
-    ctx.fillStyle="rgba(0,0,0,.2)"; ctx.fillRect(W/2-190,H-215,380,8);
   } else if(cameraMode==="hood"){
     ctx.fillStyle=car.color; ctx.fillRect(W/2-210,H-75,420,75);
-    ctx.fillStyle="rgba(0,0,0,.2)"; ctx.fillRect(W/2-210,H-75,420,12);
     ctx.fillStyle="#fff"; ctx.font="bold 14px Arial"; ctx.textAlign="center"; ctx.fillText("HOOD CAM — "+car.name+" — "+kmh+" km/h",W/2,H-28);
   } else {
     var px=W/2 + player.x*roadW*0.22, py=H-135, pw=175, ph=88;
@@ -491,12 +450,9 @@ function draw(){
     ctx.fillStyle=g2; ctx.fillRect(px-pw/2,py,pw,ph);
     ctx.fillStyle="#0f172a"; ctx.fillRect(px-pw/2+20,py+10,pw-40,30);
     ctx.fillStyle="#fef08a"; ctx.fillRect(px-pw/2+10,py+ph-12,24,8); ctx.fillRect(px+pw/2-34,py+ph-12,24,8);
-    ctx.fillStyle="#111"; ctx.fillRect(px-pw/2-6,py+14,10,26); ctx.fillRect(px+pw/2-4,py+14,10,26);
-    ctx.fillStyle=car.dark; ctx.fillRect(px-pw/2-10,py-6,pw+20,8);
     ctx.fillStyle="#fff"; ctx.font="bold 14px Arial"; ctx.textAlign="center"; ctx.fillText(car.emoji+" "+car.name+" — "+kmh+" km/h",px,py-16);
     if(nitroActive){ctx.fillStyle="#38bdf8"; ctx.fillRect(px-18,py+ph,36,28);}
   }
-  // Rain
   if(rain){
     ctx.strokeStyle="rgba(255,255,255,.6)"; ctx.lineWidth=1;
     for(var r=0;r<raindrops.length;r++){
@@ -505,15 +461,10 @@ function draw(){
       if(drop.y>H){drop.y=0; drop.x=Math.random()*W;}
       ctx.beginPath(); ctx.moveTo(drop.x,drop.y); ctx.lineTo(drop.x-3,drop.y+14); ctx.stroke();
     }
-    // Rain on windshield - droplets
-    ctx.fillStyle="rgba(255,255,255,.25)";
-    for(var rd=0;rd<20;rd++){ctx.beginPath(); ctx.arc((rd*137+Date.now()/20)%W, (rd*89)%(H*0.4), 2, 0, Math.PI*2); ctx.fill();}
   }
-  // Vignette - camera feel
   var vig=ctx.createRadialGradient(W/2,H/2,H*0.3,W/2,H/2,H*0.9);
   vig.addColorStop(0,"rgba(0,0,0,0)"); vig.addColorStop(1,"rgba(0,0,0,.45)");
   ctx.fillStyle=vig; ctx.fillRect(0,0,W,H);
-  // Speed lines
   if(player.speed>18){
     ctx.strokeStyle="rgba(255,255,255,.3)"; ctx.lineWidth=2;
     for(var s=0;s<5;s++){var sy2=Math.random()*H; ctx.beginPath(); ctx.moveTo(0,sy2); ctx.lineTo(70,sy2); ctx.stroke();}
