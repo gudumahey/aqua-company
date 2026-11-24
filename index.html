@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>RAISTAR RACING - Cockpit Real Driving!</title>
+<title>RAISTAR RACING - Real Cockpit - Music Fix!</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif;-webkit-tap-highlight-color:transparent}
 body{background:#000;color:#fff;overflow:hidden;user-select:none}
 #gameCanvas{width:100vw;height:100vh;display:block}
-.top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:linear-gradient(180deg,rgba(0,0,0,.75),transparent);flex-wrap:wrap;gap:6px}
-.logo{font-size:20px;font-weight:900}.logo span{color:#f59e0b}
+.top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:linear-gradient(180deg,rgba(0,0,0,.8),transparent);flex-wrap:wrap;gap:6px}
+.logo{font-size:19px;font-weight:900}.logo span{color:#f59e0b}
 .pill{background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.25);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:800}
 .btn{border:none;padding:10px 14px;border-radius:10px;font-weight:800;cursor:pointer;font-size:13px}
 .btn:active{transform:scale(.96)}
 .btn.orange{background:#f97316;color:#fff}.btn.green{background:#16a34a;color:#fff}.btn.dark{background:#222;color:#fff;border:1px solid #444}.btn.purple{background:#7c3aed;color:#fff}.btn.red{background:#ef4444;color:#fff}.btn.white{background:#fff;color:#111}
 .controls{position:fixed;right:12px;bottom:12px;z-index:30;display:flex;flex-direction:column;gap:8px;align-items:center}
 .dpad{display:grid;grid-template-columns:repeat(3,56px);gap:6px}
-.dpad button{width:56px;height:56px;border-radius:14px;border:none;background:rgba(255,255,255,.2);color:#fff;font-size:24px;font-weight:900;border:1px solid rgba(255,255,255,.3)}
+.dpad button{width:56px;height:56px;border-radius:14px;border:none;background:rgba(255,255,255,.22);color:#fff;font-size:24px;font-weight:900;border:1px solid rgba(255,255,255,.3)}
 .dpad button:active{background:#f59e0b}
-.panel{position:fixed;inset:0;background:rgba(0,0,0,.9);backdrop-filter:blur(12px);z-index:50;display:flex;align-items:center;justify-content:center;padding:14px;overflow-y:auto}
-.box{background:#1a1a2e;border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:20px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto}
+.panel{position:fixed;inset:0;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);z-index:50;display:flex;align-items:center;justify-content:center;padding:14px;overflow-y:auto}
+.box{background:#1a1a2e;border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:20px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto}
 .cars{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}
 .car{border:2px solid rgba(255,255,255,.15);border-radius:14px;padding:12px;cursor:pointer;text-align:center;background:rgba(255,255,255,.05)}
 .car.selected{border-color:#f59e0b;background:rgba(245,158,11,.15);box-shadow:0 0 20px rgba(245,158,11,.4)}
@@ -31,12 +31,14 @@ body{background:#000;color:#fff;overflow:hidden;user-select:none}
 .cam-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .cam-btn{padding:9px 14px;border-radius:20px;border:1px solid #444;background:#222;color:#fff;cursor:pointer;font-weight:700;font-size:12px}
 .cam-btn.active{background:#f59e0b;color:#111}
-#toast{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:10px 18px;border-radius:30px;font-weight:800;font-size:13px;z-index:99;display:none;max-width:90%;text-align:center}
-#musicFrame{width:100%;height:0;border:none;border-radius:12px}
-#musicFrame.show{height:180px;margin-top:10px}
-.countdown{position:fixed;top:45%;left:50%;transform:translate(-50%,-50%);font-size:90px;font-weight:900;z-index:40;text-shadow:0 0 30px rgba(245,158,11,.9);display:none;text-align:center}
-.hud-bottom{position:fixed;left:12px;bottom:12px;z-index:20;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:10px;backdrop-filter:blur(8px)}
-@media(max-width:700px){.dpad{grid-template-columns:repeat(3,50px)}.dpad button{width:50px;height:50px}}
+#toast{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:10px 18px;border-radius:30px;font-weight:800;font-size:13px;z-index:99;display:none;max-width:92%;text-align:center}
+#musicFrame{width:100%;height:0;border:none;border-radius:12px;background:#000}
+#musicFrame.show{height:200px;margin-top:10px}
+.countdown{position:fixed;top:42%;left:50%;transform:translate(-50%,-50%);font-size:90px;font-weight:900;z-index:40;text-shadow:0 0 30px rgba(245,158,11,.9);display:none;text-align:center}
+.hud-bottom{position:fixed;left:12px;bottom:12px;z-index:20;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:10px}
+.music-mini{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:25;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.25);border-radius:30px;padding:8px 14px;display:none;align-items:center;gap:8px;font-size:12px;font-weight:700}
+.music-mini.show{display:flex}
+@media(max-width:700px){.dpad{grid-template-columns:repeat(3,50px)}.dpad button{width:50px;height:50px}.music-mini{bottom:120px}}
 </style>
 </head>
 <body>
@@ -44,7 +46,7 @@ body{background:#000;color:#fff;overflow:hidden;user-select:none}
 <div class="countdown" id="countdown">3</div>
 
 <div class="top">
-<div class="logo">RAISTAR <span>RACING • COCKPIT</span></div>
+<div class="logo">RAISTAR <span>RACING • REAL</span></div>
 <div style="display:flex;gap:6px;flex-wrap:wrap">
 <span class="pill">🏁 Lap <span id="lapText">1</span>/3</span>
 <span class="pill">🏆 Pos: <span id="posText">6</span>/6</span>
@@ -57,10 +59,12 @@ body{background:#000;color:#fff;overflow:hidden;user-select:none}
 
 <canvas id="gameCanvas"></canvas>
 
+<div class="music-mini" id="musicMini">🎵 <span id="miniSong">Baarishein</span> <button class="btn green" style="padding:5px 10px;font-size:11px" onclick="openMusic()">Change</button> <button class="btn red" style="padding:5px 10px;font-size:11px" onclick="stopMusic()">⏹️ Stop</button></div>
+
 <div class="hud-bottom">
-<div style="font-size:11px;color:#aaa">🚗 <b id="carNameTop" style="color:#fff">Lamborghini</b> • 📷 <b id="camLabel">Cockpit — Andar Beth Ke</b></div>
-<div style="font-size:11px;color:#aaa">🎵 <b id="musicLabel">Off — Music dabao!</b> • 💥 Overtakes: <b id="overtakeText">0</b></div>
-<div style="display:flex;gap:6px;margin-top:6px"><button class="btn green" style="padding:7px 12px;font-size:12px" onclick="togglePause()">⏸️ Pause</button><button class="btn red" style="padding:7px 12px;font-size:12px" onclick="restartRace()">🔄 Restart</button></div>
+<div style="font-size:11px;color:#aaa">🚗 <b id="carNameTop" style="color:#fff">Lamborghini</b> • 📷 <b id="camLabel">Cockpit</b></div>
+<div style="font-size:11px;color:#aaa">🎵 <b id="musicLabel">Off</b> • 💥 Overtakes: <b id="overtakeText">0</b> • 🌧️ <b id="weatherLabel">Sunset • Clear</b></div>
+<div style="display:flex;gap:6px;margin-top:6px"><button class="btn green" style="padding:7px 12px;font-size:12px" onclick="togglePause()">⏸️ Pause</button><button class="btn red" style="padding:7px 12px;font-size:12px" onclick="restartRace()">🔄 Restart</button><button class="btn dark" style="padding:7px 12px;font-size:12px" onclick="toggleWeather()">🌧️ Rain On/Off</button></div>
 </div>
 
 <div class="controls">
@@ -75,45 +79,45 @@ body{background:#000;color:#fff;overflow:hidden;user-select:none}
 <!-- GARAGE -->
 <div class="panel" id="garagePanel">
 <div class="box">
-<h2>🚗 Garage — Cockpit Racing — Sab FREE!</h2>
-<p style="font-size:13px;color:#aaa">Car chuno — Phir andar beth ke chalao — Steering ghumega!</p>
+<h2>🚗 Garage — Real Racing — Sab FREE!</h2>
+<p style="font-size:13px;color:#aaa">Car chuno — Andar beth ke chalao!</p>
 <div class="cars" id="carsGrid"></div>
-<div style="background:rgba(245,158,11,.15);border:1px solid #f59e0b;border-radius:12px;padding:12px;font-size:13px"><b id="selectedCarInfo">Lamborghini — 320 km/h — Cockpit View!</b><br><span style="color:#aaa">Cockpit me Steering + Dashboard dikhega!</span></div>
-<button class="btn orange" style="width:100%;margin-top:12px;padding:14px" onclick="startRace()">🏁 RACE START — Andar Beth Ke Chalao! →</button>
+<div style="background:rgba(245,158,11,.15);border:1px solid #f59e0b;border-radius:12px;padding:12px;font-size:13px"><b id="selectedCarInfo">Lamborghini — 320 km/h</b></div>
+<button class="btn orange" style="width:100%;margin-top:12px;padding:14px" onclick="startRace()">🏁 RACE START →</button>
 </div>
 </div>
 
 <!-- CAMERA -->
 <div class="panel" id="camPanel" style="display:none">
 <div class="box">
-<h2>📷 Camera — Kaha Beth Ke Chalana Hai?</h2>
+<h2>📷 Camera</h2>
 <div class="cam-row">
-<button class="cam-btn active" id="camBtn-cockpit" onclick="setCamera('cockpit')">🪑 Cockpit — Andar Beth Ke (BEST!)</button>
+<button class="cam-btn active" id="camBtn-cockpit" onclick="setCamera('cockpit')">🪑 Cockpit — Andar Beth Ke</button>
 <button class="cam-btn" id="camBtn-chase" onclick="setCamera('chase')">🎥 Chase — Peeche Se</button>
 <button class="cam-btn" id="camBtn-hood" onclick="setCamera('hood')">🏎️ Hood — Bonnet Se</button>
 </div>
-<div style="background:#222;border-radius:12px;padding:12px;margin-top:12px;font-size:13px"><b>Abhi:</b> <span id="camDesc">Cockpit — Tu gadi ke andar betha hai — Steering + Dashboard dikhega!</span></div>
+<div style="background:#222;border-radius:12px;padding:12px;margin-top:12px;font-size:13px"><b>Abhi:</b> <span id="camDesc">Cockpit — Steering + Dashboard dikhega!</span></div>
 <button class="btn green" style="width:100%;margin-top:12px" onclick="closePanel('camPanel')">✅ Done →</button>
 </div>
 </div>
 
-<!-- MUSIC - AB SAHI LINK! -->
+<!-- MUSIC - FIXED! -->
 <div class="panel" id="musicPanel" style="display:none">
 <div class="box">
 <h2>🎵 Music — Ab Pakka Chalega!</h2>
-<p style="font-size:13px;color:#aaa">Gaana dabao — Neeche player me chalega — Agar na chale to <b>“YouTube Pe Kholo”</b> dabao!</p>
+<div style="background:#fef3c7;border:1px solid #f59e0b;color:#111;border-radius:12px;padding:12px;font-size:13px;line-height:1.6"><b>⚠️ IMPORTANT — Kaise Chalega?</b><br>1. Gaana dabao — Neeche video aayega<br>2. <b>Video ke beech me PLAY ▶️ dabao</b> — Tabhi awaz aayegi!<br>3. Browser auto-play rok deta hai — Isliye khud PLAY dabana hai!<br>4. Agar phir bhi na chale → <b>YouTube Pe Kholo</b> dabao!</div>
 <div class="music-grid">
-<button class="music-btn" id="m-Alfaaz" onclick="playSong('Alfaaz','search','Alfaaz')">🎵 Alfaaz<small>Hamza Malik • Love</small></button>
+<button class="music-btn" id="m-Alfaaz" onclick="playSong('Alfaaz','search','Alfaaz')">🎵 Alfaaz<small>Hamza Malik • Click → Play dabao!</small></button>
 <button class="music-btn" id="m-Baarishein" onclick="playSong('Baarishein','PJWemSzExXs','Baarishein')">🌧️ Baarishein<small>Anuv Jain • Official</small></button>
 <button class="music-btn" id="m-JoTum" onclick="playSong('Jo Tum Mere Ho','ilNt2bikxDI','Jo Tum Mere Ho')">❤️ Jo Tum Mere Ho<small>Anuv Jain • Official</small></button>
 <button class="music-btn" id="m-Husn" onclick="playSong('Husn','gJLVTKhTnog','Husn')">✨ Husn<small>Anuv Jain • Official</small></button>
 <button class="music-btn" onclick="playSong('Gul','Y2zc2IeVX_g','Gul')">🌹 Gul<small>Anuv Jain</small></button>
 <button class="music-btn" onclick="playSong('Alag Aasmaan','IwEo8o5eC4U','Alag Aasmaan')">☁️ Alag Aasmaan<small>Anuv Jain</small></button>
 </div>
-<iframe id="musicFrame" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
-<div style="display:flex;gap:8px;margin-top:10px"><button class="btn white" style="flex:1" onclick="openYoutube()">▶️ YouTube Pe Kholo →</button><button class="btn red" style="flex:1" onclick="stopMusic()">⏹️ Band Karo</button></div>
-<button class="btn green" style="width:100%;margin-top:8px" onclick="closePanel('musicPanel')">✅ Done — Race Karo!</button>
-<p style="font-size:11px;color:#888;margin-top:8px">Tip: Agar embed block ho to “YouTube Pe Kholo” dabao — Waha 100% chalega! Game chalta rahega!</p>
+<iframe id="musicFrame" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
+<div style="display:flex;gap:8px;margin-top:10px"><button class="btn white" style="flex:1" onclick="openYoutube()">▶️ YouTube Pe Kholo — 100% Chalega →</button><button class="btn red" style="flex:1" onclick="stopMusic()">⏹️ Band Karo</button></div>
+<button class="btn green" style="width:100%;margin-top:8px;padding:12px" onclick="closePanel('musicPanel');toast('Music chal raha hai! Ab race karo! Video me PLAY dabana mat bhoolna!')">✅ Done — Race Karo! →</button>
+<p style="font-size:11px;color:#888;margin-top:8px">Agar video me “Video unavailable” likha aaye to YouTube Pe Kholo dabao — Waha hamesha chalega!</p>
 </div>
 </div>
 
@@ -135,26 +139,28 @@ function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeigh
 window.addEventListener("resize",resize); resize();
 
 var cars=[
-{name:"Lamborghini",emoji:"🟠",color:"#f97316",dark:"#9a3412",max:320,acc:0.55,desc:"Lamborghini — 320 km/h — Cockpit!"},
+{name:"Lamborghini",emoji:"🟠",color:"#f97316",dark:"#9a3412",max:320,acc:0.55,desc:"Lamborghini — 320 km/h"},
 {name:"Bugatti",emoji:"🔵",color:"#2563eb",dark:"#1e3a8a",max:340,acc:0.6,desc:"Bugatti — 340 km/h — Rocket!"},
-{name:"Ferrari",emoji:"🔴",color:"#ef4444",dark:"#7f1d1d",max:310,acc:0.52,desc:"Ferrari — 310 km/h — Style!"},
+{name:"Ferrari",emoji:"🔴",color:"#ef4444",dark:"#7f1d1d",max:310,acc:0.52,desc:"Ferrari — 310 km/h"},
 {name:"GTR",emoji:"⚪",color:"#e2e8f0",dark:"#64748b",max:300,acc:0.5,desc:"GTR — 300 km/h — Drift!"},
-{name:"Mustang",emoji:"🟡",color:"#f59e0b",dark:"#92400e",max:280,acc:0.48,desc:"Mustang — 280 km/h — Muscle!"},
-{name:"Thar",emoji:"🟢",color:"#16a34a",dark:"#14532d",max:220,acc:0.4,desc:"Thar — 220 km/h — Offroad!"},
+{name:"Mustang",emoji:"🟡",color:"#f59e0b",dark:"#92400e",max:280,acc:0.48,desc:"Mustang — 280 km/h"},
+{name:"Thar",emoji:"🟢",color:"#16a34a",dark:"#14532d",max:220,acc:0.4,desc:"Thar — 220 km/h"},
 ];
-var selectedCar=0, cameraMode="cockpit", paused=false, raceStarted=false, raceFinished=false;
+var selectedCar=0, cameraMode="cockpit", paused=false, raceStarted=false, raceFinished=false, rain=false;
 var keys={up:false,down:false,left:false,right:false};
 var player={x:0,speed:0,lap:1,dist:0,steer:0};
-var opponents=[]; var overtakes=0; var startTime=0; var nitro=100; var nitroActive=false; var position=6; var countdownVal=3; var currentSong=""; var currentSongName="";
+var opponents=[]; var overtakes=0; var startTime=0; var nitro=100; var nitroActive=false; var position=6; var countdownVal=3; var currentSongName=""; var currentSongId=""; var raindrops=[];
 
-function toast(m){var t=document.getElementById("toast");t.innerText=m;t.style.display="block";setTimeout(function(){t.style.display="none"},2600);}
+for(var ri=0;ri<120;ri++){raindrops.push({x:Math.random()*2000,y:Math.random()*1000,speed:12+Math.random()*10});}
+
+function toast(m){var t=document.getElementById("toast");t.innerText=m;t.style.display="block";setTimeout(function(){t.style.display="none"},2800);}
 function renderCars(){
   var h=""; cars.forEach(function(c,i){
-    h+='<div class="car '+(i===selectedCar?'selected':'')+'" onclick="selectCar('+i+')"><span class="emoji">'+c.emoji+'🏎️</span><b>'+c.name+'</b><br><span style="font-size:11px;color:#aaa">'+c.max+' km/h • FREE • Cockpit</span><br><span style="font-size:11px;color:#f59e0b">'+(i===selectedCar?'✅ Selected':'Click — FREE!')+'</span></div>';
+    h+='<div class="car '+(i===selectedCar?'selected':'')+'" onclick="selectCar('+i+')"><span class="emoji">'+c.emoji+'🏎️</span><b>'+c.name+'</b><br><span style="font-size:11px;color:#aaa">'+c.max+' km/h • FREE</span><br><span style="font-size:11px;color:#f59e0b">'+(i===selectedCar?'✅ Selected':'Click — FREE!')+'</span></div>';
   });
   document.getElementById("carsGrid").innerHTML=h;
 }
-function selectCar(i){selectedCar=i;document.getElementById("selectedCarInfo").innerText=cars[i].desc;document.getElementById("carNameTop").innerText=cars[i].name;renderCars();toast(cars[i].name+" — Cockpit me betho!");}
+function selectCar(i){selectedCar=i;document.getElementById("selectedCarInfo").innerText=cars[i].desc;document.getElementById("carNameTop").innerText=cars[i].name;renderCars();toast(cars[i].name+" select!");}
 function openGarage(){document.getElementById("garagePanel").style.display="flex";}
 function openCamera(){document.getElementById("camPanel").style.display="flex";}
 function openMusic(){document.getElementById("musicPanel").style.display="flex";}
@@ -163,34 +169,37 @@ function setCamera(m){
   cameraMode=m;
   document.querySelectorAll(".cam-btn").forEach(function(b){b.classList.remove("active")});
   document.getElementById("camBtn-"+m).classList.add("active");
-  var d={cockpit:"Cockpit — Tu gadi ke andar betha hai — Steering + Dashboard dikhega!",chase:"Chase — Car ke peeche se!",hood:"Hood — Bonnet se!"};
-  var l={cockpit:"Cockpit — Andar Beth Ke",chase:"Chase Cam",hood:"Hood Cam"};
+  var d={cockpit:"Cockpit — Steering + Dashboard!",chase:"Chase — Peeche se!",hood:"Hood — Bonnet se!"};
+  var l={cockpit:"Cockpit",chase:"Chase Cam",hood:"Hood Cam"};
   document.getElementById("camDesc").innerText=d[m]; document.getElementById("camLabel").innerText=l[m];
   toast("📷 "+l[m]);
 }
-// MUSIC - SAHI WALA FIX!
+function toggleWeather(){rain=!rain;document.getElementById("weatherLabel").innerText=rain?"Sunset • Baarish 🌧️":"Sunset • Clear";toast(rain?"🌧️ Baarish ON! Baarishein gaana chalao — Maza aayega!":"☀️ Baarish OFF!");}
+
+// MUSIC - FIXED - USER MUST CLICK PLAY INSIDE VIDEO!
 function playSong(name, id, search){
-  currentSongName=name; currentSong=id;
+  currentSongName=name; currentSongId=id;
   document.querySelectorAll(".music-btn").forEach(function(b){b.classList.remove("active")});
-  document.getElementById("musicLabel").innerText=name+" — Chal raha hai!";
+  event.target.closest(".music-btn").classList.add("active");
+  document.getElementById("musicLabel").innerText=name+" — Video me PLAY dabao!";
+  document.getElementById("miniSong").innerText=name;
+  document.getElementById("musicMini").classList.add("show");
   var f=document.getElementById("musicFrame");
   if(id==="search"){
-    // Alfaaz ke liye search embed - hamesha chalta hai!
-    f.src="https://www.youtube.com/embed?listType=search&list="+encodeURIComponent(search+" song")+"&autoplay=1";
+    f.src="https://www.youtube.com/embed?listType=search&list="+encodeURIComponent(search+" song official")+"&autoplay=0";
   } else {
-    f.src="https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0";
+    f.src="https://www.youtube.com/embed/"+id+"?autoplay=0&rel=0";
   }
   f.classList.add("show");
-  toast("🎵 "+name+" chal raha hai! Enjoy! Agar awaz na aaye to YouTube Pe Kholo dabao!");
+  toast("🎵 "+name+" ready hai! Neeche video me ▶️ PLAY dabao — Tabhi awaz aayegi!");
 }
 function openYoutube(){
   if(!currentSongName){toast("Pehle koi gaana chuno!");return;}
-  var q=encodeURIComponent(currentSongName+" Anuv Jain song");
-  if(currentSongName==="Alfaaz") q=encodeURIComponent("Alfaaz song Hamza Malik");
-  window.open("https://www.youtube.com/results?search_query="+q,"_blank");
-  toast("YouTube khul gaya — Waha gaana chalega!");
+  var q=currentSongName==="Alfaaz"?"Alfaaz song Hamza Malik":currentSongName+" Anuv Jain song";
+  window.open("https://www.youtube.com/results?search_query="+encodeURIComponent(q),"_blank");
+  toast("YouTube khul gaya — Waha PLAY dabao — 100% chalega!");
 }
-function stopMusic(){document.getElementById("musicFrame").src="";document.getElementById("musicFrame").classList.remove("show");document.getElementById("musicLabel").innerText="Off";toast("Music band!");}
+function stopMusic(){document.getElementById("musicFrame").src="";document.getElementById("musicFrame").classList.remove("show");document.getElementById("musicLabel").innerText="Off";document.getElementById("musicMini").classList.remove("show");toast("Music band!");}
 function togglePause(){paused=!paused;toast(paused?"⏸️ Pause":"▶️ Chalu");}
 function kd(d){keys[d]=true;} function ku(d){keys[d]=false;}
 document.addEventListener("keydown",function(e){
@@ -207,7 +216,7 @@ document.addEventListener("keyup",function(e){
   if(e.key==="d"||e.key==="D"||e.key==="ArrowRight") keys.right=false;
 });
 function boost(){if(nitro>20){nitroActive=true;setTimeout(function(){nitroActive=false},1200);toast("⚡ NITRO!");}}
-function horn(){toast("📯 PEEP! HATO!");}
+function horn(){toast("📯 PEEP!");}
 function startRace(){
   document.getElementById("garagePanel").style.display="none";
   document.getElementById("winPanel").style.display="none";
@@ -218,7 +227,7 @@ function startRace(){
     countdownVal--;
     if(countdownVal>0) cd.innerText=countdownVal;
     else if(countdownVal===0){cd.innerText="GO! 🏁"; cd.style.color="#4ade80";}
-    else{clearInterval(iv); cd.style.display="none"; cd.style.color="#fff"; raceStarted=true; startTime=Date.now(); toast("🏁 GO! Cockpit se chalao!");}
+    else{clearInterval(iv); cd.style.display="none"; cd.style.color="#fff"; raceStarted=true; startTime=Date.now(); toast("🏁 GO!");}
   },800);
 }
 function restartRace(){
@@ -237,10 +246,7 @@ function update(){
   if(keys.up) player.speed=Math.min(player.speed+car.acc,max);
   else if(keys.down) player.speed=Math.max(player.speed-car.acc*1.5,-max*0.3);
   else player.speed*=0.99;
-  // Steering - smooth
-  var targetSteer=0;
-  if(keys.left) targetSteer=-1;
-  if(keys.right) targetSteer=1;
+  var targetSteer=0; if(keys.left) targetSteer=-1; if(keys.right) targetSteer=1;
   player.steer += (targetSteer-player.steer)*0.18;
   if(keys.left) player.x=Math.max(-1.15,player.x-0.05*(player.speed/max+0.3));
   if(keys.right) player.x=Math.min(1.15,player.x+0.05*(player.speed/max+0.3));
@@ -261,7 +267,7 @@ function update(){
     if(player.lap>3){
       raceFinished=true;
       var totalTime=((Date.now()-startTime)/1000).toFixed(1);
-      document.getElementById("winText").innerText=position===1?"1st Place! Champion! 🏆":position+"th Place! Phir try karo!";
+      document.getElementById("winText").innerText=position===1?"1st Place! Champion! 🏆":position+"th Place!";
       document.getElementById("winStats").innerText="Time: "+totalTime+"s • Overtakes: "+overtakes+" • Car: "+car.name;
       document.getElementById("winPanel").style.display="flex";
     } else toast("🏁 Lap "+player.lap+"/3!");
@@ -278,43 +284,50 @@ function update(){
 function draw(){
   var W=canvas.width, H=canvas.height;
   var kmh=Math.round(player.speed*12);
-  // === SKY - REALISTIC ===
-  var sky=ctx.createLinearGradient(0,0,0,H*0.48);
-  sky.addColorStop(0,"#1e3a8a"); sky.addColorStop(0.35,"#3b82f6"); sky.addColorStop(0.7,"#93c5fd"); sky.addColorStop(1,"#fef3c7");
-  ctx.fillStyle=sky; ctx.fillRect(0,0,W,H*0.48);
-  // Sun with glow
-  var sunX=W*0.78, sunY=H*0.11;
-  var glow=ctx.createRadialGradient(sunX,sunY,10,sunX,sunY,90);
-  glow.addColorStop(0,"rgba(253,224,71,.9)"); glow.addColorStop(1,"rgba(253,224,71,0)");
-  ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(sunX,sunY,90,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle="#fde047"; ctx.beginPath(); ctx.arc(sunX,sunY,36,0,Math.PI*2); ctx.fill();
-  // Clouds - realistic
-  ctx.fillStyle="rgba(255,255,255,.9)";
+  // === SUNSET SKY - REALISTIC ===
+  var sky=ctx.createLinearGradient(0,0,0,H*0.5);
+  sky.addColorStop(0,"#1e1b4b"); sky.addColorStop(0.3,"#7c3aed"); sky.addColorStop(0.55,"#f97316"); sky.addColorStop(0.75,"#fbbf24"); sky.addColorStop(1,"#fef3c7");
+  ctx.fillStyle=sky; ctx.fillRect(0,0,W,H*0.5);
+  // Sun - big sunset sun
+  var sunX=W*0.5, sunY=H*0.38;
+  var glow=ctx.createRadialGradient(sunX,sunY,10,sunX,sunY,140);
+  glow.addColorStop(0,"rgba(253,224,71,.95)"); glow.addColorStop(0.4,"rgba(249,115,22,.5)"); glow.addColorStop(1,"rgba(249,115,22,0)");
+  ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(sunX,sunY,140,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle="#fde047"; ctx.beginPath(); ctx.arc(sunX,sunY,44,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle="#f97316"; ctx.beginPath(); ctx.arc(sunX,sunY,44,0,Math.PI); ctx.fill();
+  // Clouds - sunset pink
+  ctx.fillStyle="rgba(255,255,255,.75)";
   for(var ci=0;ci<5;ci++){
-    var cx=((ci*280 + Date.now()/60)%(W+300))-150;
-    var cy=30+ci*28;
-    ctx.beginPath(); ctx.ellipse(cx,cy,70,20,0,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(cx+35,cy+6,48,16,0,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(cx-35,cy+6,42,14,0,0,Math.PI*2); ctx.fill();
+    var cx=((ci*280 + Date.now()/70)%(W+300))-150;
+    var cy=30+ci*26;
+    ctx.beginPath(); ctx.ellipse(cx,cy,80,20,0,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(cx+38,cy+5,50,15,0,0,Math.PI*2); ctx.fill();
   }
-  // Mountains - layered
+  // Mountains - 2 layers
+  ctx.fillStyle="#312e81";
+  ctx.beginPath(); ctx.moveTo(0,H*0.5);
+  for(var mx=0;mx<=W;mx+=50){ctx.lineTo(mx,H*0.5 - Math.abs(Math.sin(mx*0.008+player.dist*0.001))*120 - 15);}
+  ctx.lineTo(W,H*0.5); ctx.closePath(); ctx.fill();
   ctx.fillStyle="#14532d";
-  ctx.beginPath(); ctx.moveTo(0,H*0.48);
-  for(var mx=0;mx<=W;mx+=60){ctx.lineTo(mx,H*0.48 - Math.abs(Math.sin(mx*0.008+player.dist*0.001))*110 - 20);}
-  ctx.lineTo(W,H*0.48); ctx.closePath(); ctx.fill();
-  ctx.fillStyle="#166534";
-  ctx.beginPath(); ctx.moveTo(0,H*0.48);
-  for(var mx2=0;mx2<=W;mx2+=70){ctx.lineTo(mx2,H*0.48 - Math.abs(Math.sin(mx2*0.012+player.dist*0.0015))*65);}
-  ctx.lineTo(W,H*0.48); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(0,H*0.5);
+  for(var mx2=0;mx2<=W;mx2+=60){ctx.lineTo(mx2,H*0.5 - Math.abs(Math.sin(mx2*0.012+player.dist*0.0015))*70);}
+  ctx.lineTo(W,H*0.5); ctx.closePath(); ctx.fill();
 
-  var horizon=H*0.48;
+  var horizon=H*0.5;
   var curve=Math.sin(player.dist*0.006)*90 + player.steer*30;
-  var roadW=W*0.72;
-  // Grass
+  var roadW=W*0.78;
+  // Grass - realistic green with texture
   var grass=ctx.createLinearGradient(0,horizon,0,H);
-  grass.addColorStop(0,"#22c55e"); grass.addColorStop(1,"#15803d");
+  grass.addColorStop(0,"#4ade80"); grass.addColorStop(1,"#14532d");
   ctx.fillStyle=grass; ctx.fillRect(0,horizon,W,H-horizon);
-  // Road - perspective with curve
+  // Grass texture dots
+  ctx.fillStyle="rgba(0,0,0,.12)";
+  for(var gd=0;gd<30;gd++){
+    var gy=horizon + ((gd*60 + player.dist*9)%(H-horizon));
+    var gx=(gd*137)%W;
+    ctx.fillRect(gx,gy,4,2);
+  }
+  // Road - asphalt with texture
   ctx.fillStyle="#1f2937";
   ctx.beginPath();
   ctx.moveTo(W/2-26+curve*0.15,horizon);
@@ -322,126 +335,157 @@ function draw(){
   ctx.lineTo(W/2+roadW/2,H);
   ctx.lineTo(W/2-roadW/2,H);
   ctx.closePath(); ctx.fill();
-  // Road texture - asphalt dots
-  ctx.fillStyle="rgba(255,255,255,.06)";
-  for(var d=0;d<20;d++){
-    var dy=horizon + ((d*70 + player.dist*12)%(H-horizon));
-    var ds=(dy-horizon)/(H-horizon);
-    ctx.fillRect(W/2-100*ds+curve*ds,dy,200*ds,3);
-  }
-  // Center dashed line - moving
-  ctx.strokeStyle="#facc15"; ctx.lineWidth=5; ctx.setLineDash([28,28]);
+  // Road shine - wet road reflection
+  var shine=ctx.createLinearGradient(W/2-100,horizon,W/2+100,H);
+  shine.addColorStop(0,"rgba(255,255,255,.08)"); shine.addColorStop(1,"rgba(255,255,255,0)");
+  ctx.fillStyle=shine;
+  ctx.beginPath();
+  ctx.moveTo(W/2-26,horizon); ctx.lineTo(W/2+26,horizon); ctx.lineTo(W/2+roadW/2,H); ctx.lineTo(W/2-roadW/2,H); ctx.closePath(); ctx.fill();
+  // Center line
+  ctx.strokeStyle="#facc15"; ctx.lineWidth=5; ctx.setLineDash([30,30]);
   ctx.beginPath(); ctx.moveTo(W/2+curve*0.15,horizon); ctx.lineTo(W/2+curve*0.4,H); ctx.stroke();
   ctx.setLineDash([]);
-  // Edge lines
+  // Edge lines - white + red/white curb
   ctx.strokeStyle="#fff"; ctx.lineWidth=7;
   ctx.beginPath(); ctx.moveTo(W/2-26,horizon); ctx.lineTo(W/2-roadW/2,H); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(W/2+26,horizon); ctx.lineTo(W/2+roadW/2,H); ctx.stroke();
-  // White dashes sides
+  // Curb - red/white blocks
   var off=(player.dist*14)%80;
   for(var i=0;i<10;i++){
     var y=horizon + i*((H-horizon)/10) + off*0.4;
     if(y>H) y-= (H-horizon);
     var sc=(y-horizon)/(H-horizon);
-    ctx.fillStyle="rgba(255,255,255,.85)";
-    ctx.fillRect(W/2 - roadW*0.22*sc + curve*sc*0.3 -3,y,6,16*sc+6);
-    ctx.fillRect(W/2 + roadW*0.22*sc + curve*sc*0.3 -3,y,6,16*sc+6);
+    ctx.fillStyle=i%2===0?"#ef4444":"#fff";
+    ctx.fillRect(W/2 - roadW*0.5*sc + curve*sc*0.3 -10,y,10,14*sc+6);
+    ctx.fillStyle=i%2===0?"#fff":"#ef4444";
+    ctx.fillRect(W/2 + roadW*0.5*sc + curve*sc*0.3,y,10,14*sc+6);
   }
-  // Trees + Buildings - realistic, moving
-  for(var t=0;t<14;t++){
+  // Lane dashes
+  for(var ld=0;ld<10;ld++){
+    var ly=horizon + ld*((H-horizon)/10) + off*0.4;
+    if(ly>H) ly-= (H-horizon);
+    var lsc=(ly-horizon)/(H-horizon);
+    ctx.fillStyle="rgba(255,255,255,.85)";
+    ctx.fillRect(W/2 - roadW*0.22*lsc + curve*lsc*0.3 -3,ly,6,16*lsc+6);
+    ctx.fillRect(W/2 + roadW*0.22*lsc + curve*lsc*0.3 -3,ly,6,16*lsc+6);
+  }
+  // Trees + Buildings + Light poles
+  for(var t=0;t<16;t++){
     var ty=horizon + ((t*95 + player.dist*10)%(H-horizon));
     var ts=(ty-horizon)/(H-horizon);
     var side=t%2===0?-1:1;
-    var tx=W/2 + side*(roadW/2+120+ (t%3)*40)*ts + side*90 + curve*ts*0.6;
-    if(t%4===0){
-      // Building
-      ctx.fillStyle="#334155"; ctx.fillRect(tx-28*ts,ty-90*ts,56*ts,90*ts);
-      ctx.fillStyle="#f59e0b"; for(var w=0;w<3;w++){ctx.fillRect(tx-18*ts+w*14*ts,ty-80*ts+w*22*ts,8*ts,10*ts);}
+    var tx=W/2 + side*(roadW/2+130+ (t%3)*40)*ts + side*90 + curve*ts*0.6;
+    if(t%5===0){
+      // Street light
+      ctx.strokeStyle="#111"; ctx.lineWidth=4*ts+1;
+      ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(tx,ty-90*ts); ctx.stroke();
+      ctx.fillStyle="#fde047"; ctx.beginPath(); ctx.arc(tx,ty-92*ts,6*ts+3,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle="rgba(253,224,71,.25)"; ctx.beginPath(); ctx.arc(tx,ty-92*ts,16*ts,0,Math.PI*2); ctx.fill();
+    } else if(t%4===0){
+      // Building with windows
+      ctx.fillStyle="#1e293b"; ctx.fillRect(tx-30*ts,ty-100*ts,60*ts,100*ts);
+      ctx.fillStyle="#fbbf24";
+      for(var w=0;w<3;w++){for(var h=0;h<3;h++){if((w+h+t)%2===0) ctx.fillRect(tx-20*ts+w*14*ts,ty-90*ts+h*24*ts,8*ts,10*ts);}}
     } else {
-      // Tree - realistic
-      ctx.fillStyle="#78350f"; ctx.fillRect(tx-4*ts,ty-12*ts,8*ts,22*ts);
-      ctx.fillStyle="#14532d"; ctx.beginPath(); ctx.arc(tx,ty-32*ts,26*ts,0,Math.PI*2); ctx.fill();
-      ctx.fillStyle="#22c55e"; ctx.beginPath(); ctx.arc(tx-8*ts,ty-38*ts,16*ts,0,Math.PI*2); ctx.fill();
+      // Tree - detailed
+      ctx.fillStyle="#78350f"; ctx.fillRect(tx-4*ts,ty-12*ts,8*ts,24*ts);
+      ctx.fillStyle="#14532d"; ctx.beginPath(); ctx.arc(tx,ty-34*ts,28*ts,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle="#22c55e"; ctx.beginPath(); ctx.arc(tx-9*ts,ty-42*ts,17*ts,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle="#4ade80"; ctx.beginPath(); ctx.arc(tx+8*ts,ty-40*ts,12*ts,0,Math.PI*2); ctx.fill();
     }
   }
-  // Opponents - realistic car - big to small
+  // Opponents - realistic
   opponents.forEach(function(o){
     var rel=o.dist-player.dist;
     if(rel>-15 && rel<320){
       var scale=1 - rel/380; if(scale<0.12) scale=0.12;
-      var oy=H - 120 - rel*1.05*scale;
+      var oy=H - 140 - rel*1.05*scale;
       if(oy<horizon) oy=horizon+8;
       var ox=W/2 + o.x*roadW*0.32*scale + curve*scale*0.45;
-      var w=130*scale+34, h=72*scale+26;
-      // Shadow
-      ctx.fillStyle="rgba(0,0,0,.4)"; ctx.beginPath(); ctx.ellipse(ox,oy+h/2,w/2,7,0,0,Math.PI*2); ctx.fill();
-      // Body - realistic with gradient
+      var w=140*scale+36, h=78*scale+28;
+      // Shadow - soft
+      ctx.fillStyle="rgba(0,0,0,.45)"; ctx.beginPath(); ctx.ellipse(ox,oy+h/2,w/2,7,0,0,Math.PI*2); ctx.fill();
+      // Body - gradient
       var g=ctx.createLinearGradient(ox-w/2,oy,ox+w/2,oy+h);
-      g.addColorStop(0,o.color); g.addColorStop(1,"#111");
+      g.addColorStop(0,o.color); g.addColorStop(1,"#0f172a");
       ctx.fillStyle=g; ctx.fillRect(ox-w/2,oy-h/2,w,h);
-      ctx.fillStyle="#0f172a"; ctx.fillRect(ox-w/2+10,oy-h/2+10,w-20,20);
-      ctx.fillStyle="#fde047"; ctx.fillRect(ox-w/2+6,oy+h/2-10,16,6); ctx.fillRect(ox+w/2-22,oy+h/2-10,16,6);
-      ctx.fillStyle="#111"; ctx.fillRect(ox-w/2-4,oy+2,10,16); ctx.fillRect(ox+w/2-6,oy+2,10,16);
-      ctx.fillStyle="#fff"; ctx.font="bold "+(10*scale+9)+"px Arial"; ctx.textAlign="center"; ctx.fillText("🏎️ "+o.name,ox,oy+h/2+18);
+      // Roof
+      ctx.fillStyle="#0f172a"; ctx.fillRect(ox-w/2+12,oy-h/2+10,w-24,22);
+      ctx.fillStyle="rgba(255,255,255,.35)"; ctx.fillRect(ox-w/2+14,oy-h/2+12,18,18);
+      // Headlights + Brake lights
+      ctx.fillStyle="#fef08a"; ctx.fillRect(ox-w/2+6,oy+h/2-10,18,6); ctx.fillRect(ox+w/2-24,oy+h/2-10,18,6);
+      ctx.fillStyle="#ef4444"; ctx.fillRect(ox-w/2+6,oy-h/2+2,18,5); ctx.fillRect(ox+w/2-24,oy-h/2+2,18,5);
+      // Wheels
+      ctx.fillStyle="#111"; ctx.fillRect(ox-w/2-4,oy+2,11,18); ctx.fillRect(ox+w/2-7,oy+2,11,18);
+      ctx.fillStyle="#fff"; ctx.font="bold "+(10*scale+9)+"px Arial"; ctx.textAlign="center"; ctx.fillText("🏎️ "+o.name,ox,oy+h/2+20);
     }
   });
 
-  // === COCKPIT / CAMERA ===
+  // === COCKPIT ===
   var car=cars[selectedCar];
   if(cameraMode==="cockpit"){
-    // Windshield frame
-    ctx.fillStyle="rgba(0,0,0,.15)"; ctx.fillRect(0,0,W,6);
-    // Rearview mirror - top center - peeche wali gadi dikhegi!
-    ctx.fillStyle="#111"; ctx.fillRect(W/2-90,10,180,44);
-    ctx.fillStyle="#334155"; ctx.fillRect(W/2-84,14,168,36);
+    // Rearview mirror
+    ctx.fillStyle="#0f172a"; ctx.fillRect(W/2-95,8,190,46);
+    ctx.fillStyle="#334155"; ctx.fillRect(W/2-89,12,178,38);
     ctx.fillStyle="#fff"; ctx.font="bold 11px Arial"; ctx.textAlign="center";
     var behind=opponents.filter(function(o){return o.dist<player.dist}).length;
-    ctx.fillText("🪞 Mirror — Peeche: "+behind+" cars",W/2,36);
-    // Dashboard - bottom - realistic
-    var dashGrad=ctx.createLinearGradient(0,H-210,0,H);
-    dashGrad.addColorStop(0,"#1f2937"); dashGrad.addColorStop(1,"#0f172a");
-    ctx.fillStyle=dashGrad; ctx.fillRect(0,H-210,W,210);
-    ctx.fillStyle="rgba(255,255,255,.08)"; ctx.fillRect(0,H-210,W,4);
-    // Speedometer - left - analog jesa
-    var sx=W*0.18, sy=H-110, r=62;
-    ctx.fillStyle="#111"; ctx.beginPath(); ctx.arc(sx,sy,r,0,Math.PI*2); ctx.fill();
-    ctx.strokeStyle="#f59e0b"; ctx.lineWidth=4; ctx.beginPath(); ctx.arc(sx,sy,r,0,Math.PI*2); ctx.stroke();
-    ctx.fillStyle="#fff"; ctx.font="bold 26px Arial"; ctx.textAlign="center"; ctx.fillText(kmh,sx,sy+4);
-    ctx.fillStyle="#aaa"; ctx.font="11px Arial"; ctx.fillText("km/h",sx,sy+22);
+    ctx.fillText("🪞 Peeche: "+behind+" cars • Pos "+position+"/6",W/2,36);
+    // Dashboard - leather dark
+    var dash=ctx.createLinearGradient(0,H-215,0,H);
+    dash.addColorStop(0,"#292524"); dash.addColorStop(0.5,"#1c1917"); dash.addColorStop(1,"#0c0a09");
+    ctx.fillStyle=dash; ctx.fillRect(0,H-215,W,215);
+    // Dashboard stitch line
+    ctx.fillStyle="#f59e0b"; ctx.fillRect(0,H-215,W,3);
+    ctx.fillStyle="rgba(255,255,255,.08)"; ctx.fillRect(0,H-212,W,2);
+    // Speedometer - big analog
+    var sx=W*0.17, sy=H-108, r=64;
+    ctx.fillStyle="#000"; ctx.beginPath(); ctx.arc(sx,sy,r,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle="#444"; ctx.lineWidth=4; ctx.beginPath(); ctx.arc(sx,sy,r,0,Math.PI*2); ctx.stroke();
+    // Ticks
+    for(var tk=0;tk<=10;tk++){
+      var a=-Math.PI*0.75 + tk*(Math.PI*1.5/10);
+      ctx.strokeStyle=tk>8?"#ef4444":"#aaa"; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*(r-10),sy+Math.sin(a)*(r-10)); ctx.lineTo(sx+Math.cos(a)*(r-4),sy+Math.sin(a)*(r-4)); ctx.stroke();
+    }
+    ctx.fillStyle="#fff"; ctx.font="bold 28px Arial"; ctx.textAlign="center"; ctx.fillText(kmh,sx,sy+6);
+    ctx.fillStyle="#aaa"; ctx.font="11px Arial"; ctx.fillText("km/h",sx,sy+24);
     ctx.fillStyle="#f59e0b"; ctx.font="bold 11px Arial"; ctx.fillText(car.name,sx,sy-38);
-    // Needle
+    // Needle - red
     var ang=-Math.PI*0.75 + (kmh/car.max)*Math.PI*1.5;
-    ctx.strokeStyle="#ef4444"; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx+Math.cos(ang)*48,sy+Math.sin(ang)*48); ctx.stroke();
-    // Gear + Lap - center
-    ctx.fillStyle="#fff"; ctx.font="bold 14px Arial"; ctx.textAlign="center";
-    ctx.fillText("LAP "+Math.min(3,player.lap)+"/3  •  POS "+position+"/6",W/2,H-160);
-    ctx.fillStyle=nitro>30?"#38bdf8":"#ef4444"; ctx.font="bold 12px Arial"; ctx.fillText("NITRO "+Math.floor(nitro)+"%",W/2,H-138);
-    ctx.fillStyle="#333"; ctx.fillRect(W/2-70,H-132,140,10);
-    ctx.fillStyle="#38bdf8"; ctx.fillRect(W/2-70,H-132,140*nitro/100,10);
-    // Steering Wheel - rotates with steering!
-    var wx=W*0.78, wy=H-95, wr=58;
+    ctx.strokeStyle="#ef4444"; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx+Math.cos(ang)*50,sy+Math.sin(ang)*50); ctx.stroke();
+    ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(sx,sy,5,0,Math.PI*2); ctx.fill();
+    // Center - Lap / Nitro / Gear
+    ctx.fillStyle="#fff"; ctx.font="bold 15px Arial"; ctx.textAlign="center";
+    ctx.fillText("LAP "+Math.min(3,player.lap)+"/3  •  POS "+position+"/6",W/2,H-162);
+    var gear=kmh<60?"1":kmh<120?"2":kmh<180?"3":kmh<240?"4":"5";
+    ctx.fillStyle="#4ade80"; ctx.font="bold 12px Arial"; ctx.fillText("GEAR "+gear+(nitroActive?"  •  ⚡ NITRO!":""),W/2,H-142);
+    ctx.fillStyle="#333"; ctx.fillRect(W/2-75,H-134,150,11);
+    ctx.fillStyle=nitro>30?"#38bdf8":"#ef4444"; ctx.fillRect(W/2-75,H-134,150*nitro/100,11);
+    ctx.fillStyle="#aaa"; ctx.font="10px Arial"; ctx.fillText("NITRO "+Math.floor(nitro)+"%",W/2,H-112);
+    // Steering - rotates!
+    var wx=W*0.78, wy=H-92, wr=60;
     ctx.save(); ctx.translate(wx,wy); ctx.rotate(player.steer*0.9);
-    ctx.strokeStyle="#111"; ctx.lineWidth=10; ctx.beginPath(); ctx.arc(0,0,wr,0,Math.PI*2); ctx.stroke();
-    ctx.strokeStyle="#444"; ctx.lineWidth=6; ctx.beginPath(); ctx.arc(0,0,wr-8,0,Math.PI*2); ctx.stroke();
-    ctx.strokeStyle="#111"; ctx.lineWidth=7;
+    ctx.strokeStyle="#0f172a"; ctx.lineWidth=11; ctx.beginPath(); ctx.arc(0,0,wr,0,Math.PI*2); ctx.stroke();
+    ctx.strokeStyle="#57534e"; ctx.lineWidth=5; ctx.beginPath(); ctx.arc(0,0,wr-8,0,Math.PI*2); ctx.stroke();
+    ctx.strokeStyle="#0f172a"; ctx.lineWidth=7;
     ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(0,-wr); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(-wr*0.8,wr*0.6); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(wr*0.8,wr*0.6); ctx.stroke();
-    ctx.fillStyle=car.color; ctx.beginPath(); ctx.arc(0,0,16,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle="#fff"; ctx.font="bold 10px Arial"; ctx.fillText(car.emoji,0,3);
+    ctx.fillStyle=car.color; ctx.beginPath(); ctx.arc(0,0,17,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle="#fff"; ctx.font="bold 11px Arial"; ctx.fillText(car.emoji,0,4);
     ctx.restore();
-    ctx.fillStyle="#aaa"; ctx.font="11px Arial"; ctx.textAlign="center"; ctx.fillText("STEERING — Left/Right karoge to ghumega!",wx,wy+78);
-    // Car bonnet - bottom center - gadi ka bonnet dikhega!
-    ctx.fillStyle=car.color; ctx.beginPath(); ctx.moveTo(W/2-180,H-210); ctx.lineTo(W/2+180,H-210); ctx.lineTo(W/2+120,H-140); ctx.lineTo(W/2-120,H-140); ctx.closePath(); ctx.fill();
-    ctx.fillStyle="rgba(255,255,255,.25)"; ctx.fillRect(W/2-100,H-195,200,8);
+    ctx.fillStyle="#aaa"; ctx.font="11px Arial"; ctx.textAlign="center"; ctx.fillText("STEERING",wx,wy+80);
+    // Bonnet
+    ctx.fillStyle=car.color; ctx.beginPath(); ctx.moveTo(W/2-190,H-215); ctx.lineTo(W/2+190,H-215); ctx.lineTo(W/2+125,H-145); ctx.lineTo(W/2-125,H-145); ctx.closePath(); ctx.fill();
+    ctx.fillStyle="rgba(255,255,255,.3)"; ctx.fillRect(W/2-105,H-200,210,7);
+    ctx.fillStyle="rgba(0,0,0,.2)"; ctx.fillRect(W/2-190,H-215,380,8);
   } else if(cameraMode==="hood"){
-    ctx.fillStyle=car.color; ctx.fillRect(W/2-200,H-70,400,70);
-    ctx.fillStyle="rgba(0,0,0,.2)"; ctx.fillRect(W/2-200,H-70,400,12);
+    ctx.fillStyle=car.color; ctx.fillRect(W/2-210,H-75,420,75);
+    ctx.fillStyle="rgba(0,0,0,.2)"; ctx.fillRect(W/2-210,H-75,420,12);
     ctx.fillStyle="#fff"; ctx.font="bold 14px Arial"; ctx.textAlign="center"; ctx.fillText("HOOD CAM — "+car.name+" — "+kmh+" km/h",W/2,H-28);
   } else {
-    // Chase - big car bottom
-    var px=W/2 + player.x*roadW*0.22, py=H-130, pw=170, ph=86;
-    ctx.fillStyle="rgba(0,0,0,.4)"; ctx.beginPath(); ctx.ellipse(px,py+ph/2+6,pw/2,10,0,0,Math.PI*2); ctx.fill();
+    var px=W/2 + player.x*roadW*0.22, py=H-135, pw=175, ph=88;
+    ctx.fillStyle="rgba(0,0,0,.45)"; ctx.beginPath(); ctx.ellipse(px,py+ph/2+6,pw/2,10,0,0,Math.PI*2); ctx.fill();
     var g2=ctx.createLinearGradient(px-pw/2,py,px+pw/2,py+ph);
     g2.addColorStop(0,car.color); g2.addColorStop(1,car.dark);
     ctx.fillStyle=g2; ctx.fillRect(px-pw/2,py,pw,ph);
@@ -450,8 +494,25 @@ function draw(){
     ctx.fillStyle="#111"; ctx.fillRect(px-pw/2-6,py+14,10,26); ctx.fillRect(px+pw/2-4,py+14,10,26);
     ctx.fillStyle=car.dark; ctx.fillRect(px-pw/2-10,py-6,pw+20,8);
     ctx.fillStyle="#fff"; ctx.font="bold 14px Arial"; ctx.textAlign="center"; ctx.fillText(car.emoji+" "+car.name+" — "+kmh+" km/h",px,py-16);
-    if(nitroActive){ctx.fillStyle="#38bdf8"; ctx.fillRect(px-18,py+ph,36,26);}
+    if(nitroActive){ctx.fillStyle="#38bdf8"; ctx.fillRect(px-18,py+ph,36,28);}
   }
+  // Rain
+  if(rain){
+    ctx.strokeStyle="rgba(255,255,255,.6)"; ctx.lineWidth=1;
+    for(var r=0;r<raindrops.length;r++){
+      var drop=raindrops[r];
+      drop.y+=drop.speed; drop.x-=2;
+      if(drop.y>H){drop.y=0; drop.x=Math.random()*W;}
+      ctx.beginPath(); ctx.moveTo(drop.x,drop.y); ctx.lineTo(drop.x-3,drop.y+14); ctx.stroke();
+    }
+    // Rain on windshield - droplets
+    ctx.fillStyle="rgba(255,255,255,.25)";
+    for(var rd=0;rd<20;rd++){ctx.beginPath(); ctx.arc((rd*137+Date.now()/20)%W, (rd*89)%(H*0.4), 2, 0, Math.PI*2); ctx.fill();}
+  }
+  // Vignette - camera feel
+  var vig=ctx.createRadialGradient(W/2,H/2,H*0.3,W/2,H/2,H*0.9);
+  vig.addColorStop(0,"rgba(0,0,0,0)"); vig.addColorStop(1,"rgba(0,0,0,.45)");
+  ctx.fillStyle=vig; ctx.fillRect(0,0,W,H);
   // Speed lines
   if(player.speed>18){
     ctx.strokeStyle="rgba(255,255,255,.3)"; ctx.lineWidth=2;
