@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>RAISTAR BILL - Scan Karo Bill Banao!</title>
+<title>RAISTAR BILL - Card Cash Gudu Card!</title>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
@@ -12,126 +12,161 @@ body{background:#f1f5f9;color:#111;padding-bottom:100px}
 .logo{font-size:22px;font-weight:900}.logo span{color:#22c55e}
 .btn{border:none;padding:11px 16px;border-radius:12px;font-weight:800;cursor:pointer;font-size:13px}
 .btn:active{transform:scale(.96)}
-.green{background:#16a34a;color:#fff}.orange{background:#f97316;color:#fff}.dark{background:#222;color:#fff;border:1px solid #444}.red{background:#ef4444;color:#fff}.white{background:#fff;color:#111}.blue{background:#2563eb;color:#fff}
+.green{background:#16a34a;color:#fff}.orange{background:#f97316;color:#fff}.dark{background:#222;color:#fff;border:1px solid #444}.red{background:#ef4444;color:#fff}.white{background:#fff;color:#111}.blue{background:#2563eb;color:#fff}.purple{background:#7c3aed;color:#fff}
 .wrap{max-width:800px;margin:0 auto;padding:14px}
 .card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.shop{display:flex;gap:12px;align-items:center}
-.shop input{border:1px solid #ddd;border-radius:10px;padding:10px;width:100%;outline:none;font-size:14px}
-.shop input:focus{border-color:#16a34a}
-.scan-box{background:linear-gradient(135deg,#16a34a,#065f46);color:#fff;border-radius:18px;padding:18px;text-align:center}
-.scan-box h2{font-size:24px}
-.scan-box p{font-size:13px;opacity:.9;margin:6px 0 12px}
-.scan-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.scan-btns button{padding:14px 20px;border-radius:12px;border:none;font-weight:900;font-size:14px;cursor:pointer}
-#reader{width:100%;border-radius:14px;overflow:hidden;background:#000;display:none;margin-top:12px}
-#reader video{width:100%!important}
-.item{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid #eee;border-radius:12px;margin-bottom:8px;background:#fff}
-.item .thumb{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
-.item b{font-size:14px}.item span{font-size:12px;color:#888}
-.qty{display:flex;align-items:center;gap:6px;margin-left:auto}
-.qty button{width:32px;height:32px;border-radius:8px;border:1px solid #ddd;background:#f8fafc;font-size:18px;font-weight:900;cursor:pointer}
-.qty b{min-width:22px;text-align:center}
-.total-row{display:flex;justify-content:space-between;font-size:14px;padding:7px 0}
-.total-row.big{font-size:20px;font-weight:900;border-top:2px dashed #ddd;padding-top:10px}
 input,select{border:1px solid #ddd;border-radius:10px;padding:11px;width:100%;outline:none;font-size:14px}
+input:focus{border-color:#16a34a}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.chip{font-size:11px;background:#dcfce7;color:#166534;padding:4px 8px;border-radius:20px;font-weight:700}
+.scan-box{background:linear-gradient(135deg,#16a34a,#065f46);color:#fff;border-radius:18px;padding:18px;text-align:center}
+#reader{width:100%;border-radius:14px;overflow:hidden;background:#000;display:none;margin-top:12px}
+.item{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid #eee;border-radius:12px;margin-bottom:8px;background:#fff}
+.item .thumb{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.qty{display:flex;align-items:center;gap:6px;margin-left:auto}
+.qty button{width:32px;height:32px;border-radius:8px;border:1px solid #ddd;background:#f8fafc;font-size:18px;font-weight:900;cursor:pointer}
+.total-row{display:flex;justify-content:space-between;font-size:14px;padding:7px 0}
+.total-row.big{font-size:20px;font-weight:900;border-top:2px dashed #ddd;padding-top:10px}
 #toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 18px;border-radius:30px;font-weight:800;font-size:13px;z-index:99;display:none;max-width:92%;text-align:center}
 .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
 .prod{border:1px solid #eee;border-radius:12px;padding:10px;text-align:center;cursor:pointer;background:#f8fafc}
-.prod:active{background:#dcfce7}
 .prod .e{font-size:28px}.prod b{font-size:12px;display:block}.prod span{font-size:11px;color:#888}
 .tabs{display:flex;gap:6px;margin:10px 0;overflow-x:auto}
 .tab{padding:9px 14px;border-radius:20px;border:1px solid #ddd;background:#fff;cursor:pointer;font-weight:700;font-size:12px;white-space:nowrap}
 .tab.active{background:#111;color:#fff}
-@media(max-width:600px){.prod-grid{grid-template-columns:repeat(3,1fr)}.grid3{grid-template-columns:1fr 1fr}}
+.pay-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.pay-btn{border:2px solid #e2e8f0;border-radius:14px;padding:12px 6px;text-align:center;cursor:pointer;background:#f8fafc;font-weight:800;font-size:13px}
+.pay-btn.active{border-color:#16a34a;background:#dcfce7;box-shadow:0 0 12px rgba(22,163,74,.3)}
+.pay-btn .e{font-size:26px;display:block}
+.gudu-box{background:linear-gradient(135deg,#7c3aed,#4c1d95);color:#fff;border-radius:16px;padding:14px;margin-top:10px}
+.gudu-box input{background:#fff;color:#111;font-weight:900;letter-spacing:2px;text-align:center;font-size:18px}
+.swipe-area{background:#111;color:#fff;border-radius:14px;padding:14px;text-align:center;margin-top:10px;position:relative;overflow:hidden}
+.swipe-bar{height:48px;background:#222;border-radius:30px;display:flex;align-items:center;padding:4px;position:relative;margin-top:10px;border:1px solid #444}
+.swipe-thumb{width:44px;height:40px;background:#22c55e;border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:grab;position:absolute;left:4px;transition:left .1s;z-index:2}
+.swipe-text{width:100%;text-align:center;font-size:12px;color:#aaa;font-weight:700}
+.card-visual{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border-radius:14px;padding:14px;margin-top:10px;text-align:left}
+.chip{font-size:11px;background:#dcfce7;color:#166534;padding:4px 8px;border-radius:20px;font-weight:700}
+@media(max-width:600px){.prod-grid{grid-template-columns:repeat(3,1fr)}.pay-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
 <div id="toast"></div>
 
 <div class="top">
-<div class="logo">RAISTAR <span>BILL</span> <span style="font-size:11px;color:#aaa">• Scan Karo • Bill Banao</span></div>
+<div class="logo">RAISTAR <span>BILL</span> <span style="font-size:11px;color:#aaa">• Card • Cash • Gudu Card</span></div>
 <div style="display:flex;gap:6px"><button class="btn dark" onclick="showHistory()">📜 History (<span id="histCount">0</span>)</button><button class="btn green" onclick="printBill()">🖨️ Print</button></div>
 </div>
 
 <div class="wrap">
 
-<!-- SHOP + CUSTOMER -->
 <div class="card">
-<div class="shop"><span style="font-size:32px">🏪</span><div style="flex:1"><input id="shopName" value="RAISTAR KIRANA STORE" oninput="saveShop()"><div style="font-size:11px;color:#888;margin-top:2px">Dukan ka naam — Yahi bill pe aayega!</div></div></div>
+<div style="display:flex;gap:12px;align-items:center"><span style="font-size:32px">🏪</span><input id="shopName" value="RAISTAR KIRANA STORE"></div>
 <div class="grid2" style="margin-top:12px">
-<input id="custName" placeholder="👤 Customer ka naam — Ram, Shyam...">
-<input id="custPhone" placeholder="📱 Phone — 98XXX XXXXX" inputmode="numeric">
+<input id="custName" placeholder="👤 Customer ka naam">
+<input id="custPhone" placeholder="📱 Phone" inputmode="numeric">
 </div>
-<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><span class="chip">📅 Aaj: <span id="todayDate"></span></span><span class="chip">🧾 Bill No: <span id="billNo">#1001</span></span><span class="chip">💰 Total Sale Aaj: ₹<span id="todaySale">0</span></span></div>
+<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><span class="chip">📅 <span id="todayDate"></span></span><span class="chip">🧾 Bill No: <span id="billNo">#1001</span></span><span class="chip">💰 Aaj Sale: ₹<span id="todaySale">0</span></span></div>
 </div>
 
-<!-- SCAN BOX -->
 <div class="scan-box">
-<h2>📷 SCAN KARO — BILL ME ADD HO JAYEGA!</h2>
-<p>Scan dabao — Camera khulega — Barcode ke saamne cheez rakho — Beep! — Add!</p>
-<div class="scan-btns">
-<button style="background:#fff;color:#111" onclick="startScan()">📷 SCAN KARO →</button>
-<button style="background:#f97316;color:#fff" onclick="stopScan()">⏹️ Camera Band</button>
-<button style="background:#111;color:#fff" onclick="addManual()">✏️ Manual Add</button>
+<h2>📷 SCAN KARO — BILL ME ADD!</h2>
+<p>Scan dabao — Camera khulega — Barcode rakho — Beep! Add!</p>
+<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+<button style="background:#fff;color:#111;padding:14px 20px;border:none;border-radius:12px;font-weight:900;cursor:pointer" onclick="startScan()">📷 SCAN KARO →</button>
+<button style="background:#f97316;color:#fff;padding:14px 20px;border:none;border-radius:12px;font-weight:900;cursor:pointer" onclick="stopScan()">⏹️ Band</button>
+<button style="background:#111;color:#fff;padding:14px 20px;border:none;border-radius:12px;font-weight:900;cursor:pointer" onclick="addManual()">✏️ Manual</button>
 </div>
 <div id="reader"></div>
-<p id="scanStatus" style="font-size:12px;margin-top:8px;background:rgba(0,0,0,.3);padding:8px;border-radius:20px;display:none">📷 Camera khul raha hai... Barcode ko box ke andar rakho!</p>
+<p id="scanStatus" style="font-size:12px;margin-top:8px;background:rgba(0,0,0,.3);padding:8px;border-radius:20px;display:none"></p>
 </div>
 
-<!-- QUICK PRODUCTS - BARCODE NA HO TO -->
 <div class="card">
-<h3>⚡ Quick Add — Barcode Na Ho To Yaha Se Dabao!</h3>
+<h3>⚡ Quick Add</h3>
 <div class="tabs"><button class="tab active" onclick="setCat('All',this)">Sab</button><button class="tab" onclick="setCat('Karyana',this)">Karyana</button><button class="tab" onclick="setCat('Dairy',this)">Dairy</button><button class="tab" onclick="setCat('Snacks',this)">Snacks</button><button class="tab" onclick="setCat('ColdDrink',this)">Cold Drink</button></div>
 <div class="prod-grid" id="prodGrid"></div>
 </div>
 
-<!-- MANUAL ADD -->
 <div class="card" id="manualCard" style="display:none">
-<h3>✏️ Manual Add — Naam + Price Likho!</h3>
-<div class="grid3" style="margin-top:10px">
-<input id="mName" placeholder="Cheez ka naam — Maggi, Parle G...">
-<input id="mPrice" placeholder="Price ₹" type="number" inputmode="numeric">
-<input id="mBarcode" placeholder="Barcode (optional)">
-</div>
-<button class="btn green" style="width:100%;margin-top:10px" onclick="addManualItem()">✅ Bill Me Add Karo →</button>
+<h3>✏️ Manual Add</h3>
+<div class="grid3" style="margin-top:10px"><input id="mName" placeholder="Naam — Maggi..."><input id="mPrice" placeholder="Price ₹" type="number"><input id="mBarcode" placeholder="Barcode"></div>
+<button class="btn green" style="width:100%;margin-top:10px" onclick="addManualItem()">✅ Add Karo →</button>
 </div>
 
-<!-- BILL ITEMS -->
 <div class="card">
-<div style="display:flex;justify-content:space-between;align-items:center"><h3>🧾 Bill — Items (<span id="itemCount">0</span>)</h3><button class="btn red" style="padding:7px 12px;font-size:12px" onclick="clearBill()">🗑️ Sab Clear</button></div>
-<div id="billList" style="margin-top:12px"><p style="color:#888;font-size:13px;text-align:center;padding:20px">Abhi bill khaali hai!<br>Scan karo ya Quick Add dabao — Item yaha aayega!</p></div>
+<div style="display:flex;justify-content:space-between"><h3>🧾 Bill (<span id="itemCount">0</span>)</h3><button class="btn red" style="padding:7px 12px;font-size:12px" onclick="clearBill()">🗑️ Clear</button></div>
+<div id="billList" style="margin-top:12px"><p style="color:#888;text-align:center;padding:20px">Bill khaali hai! Scan karo ya Quick Add dabao!</p></div>
 
-<!-- TOTAL -->
-<div style="margin-top:12px;border-top:1px solid #eee;padding-top:10px">
-<div class="grid2">
-<input id="discount" placeholder="Discount ₹ (0)" type="number" oninput="calcTotal()" value="0">
-<select id="payMethod"><option>💵 Cash</option><option>📱 UPI / PhonePe / GPay</option><option>💳 Card</option><option>📓 Udhaar / Khata</option></select>
+<!-- GUDU CARD - DISCOUNT WALA! -->
+<div class="gudu-box">
+<div style="display:flex;justify-content:space-between;align-items:center"><b>🎫 GUDU CARD — Discount Wala!</b><span style="background:#fff;color:#7c3aed;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:900">20% OFF!</span></div>
+<p style="font-size:12px;opacity:.9;margin:6px 0">Gudu Card No dalo — <b>20102610</b> — Luck Ke Husband Wala Discount Milega! 😂</p>
+<div style="display:flex;gap:8px"><input id="guduNo" placeholder="Gudu Card No — 20102610" inputmode="numeric" maxlength="8"><button class="btn white" onclick="applyGudu()" style="white-space:nowrap">✅ Apply</button></div>
+<div id="guduMsg" style="font-size:13px;font-weight:800;margin-top:8px;display:none"></div>
+<p style="font-size:11px;opacity:.7;margin-top:6px">Hint: Gudu Card No = 20102610 — Try kar ke dekh!</p>
 </div>
+
+<!-- PAYMENT - CARD CASH SAB! -->
+<div style="margin-top:14px">
+<h3>💳 Payment Kaise Hoga? — Card / Cash / UPI / Khata — Sab!</h3>
+<div class="pay-grid">
+<div class="pay-btn active" id="pay-Cash" onclick="setPay('Cash')"> <span class="e">💵</span>Cash</div>
+<div class="pay-btn" id="pay-Card" onclick="setPay('Card')"> <span class="e">💳</span>Card</div>
+<div class="pay-btn" id="pay-UPI" onclick="setPay('UPI')"> <span class="e">📱</span>UPI</div>
+<div class="pay-btn" id="pay-Khata" onclick="setPay('Khata')"> <span class="e">📓</span>Khata / Udhaar</div>
+</div>
+
+<!-- CASH -->
+<div id="payCashBox">
+<div class="grid2"><input id="cashGiven" placeholder="Customer ne kitna diya? ₹" type="number" oninput="calcCash()"><input id="cashReturn" placeholder="Wapas kitna dena hai?" readonly></div>
+<p style="font-size:11px;color:#888;margin-top:4px">Cash diya — Wapas auto nikal jayega!</p>
+</div>
+
+<!-- CARD - SWIPE WALA! -->
+<div id="payCardBox" style="display:none">
+<div class="card-visual">
+<div style="display:flex;justify-content:space-between"><b>💳 RAISTAR CARD</b><span>Visa ••••</span></div>
+<div style="font-size:22px;letter-spacing:3px;margin:12px 0;font-weight:900" id="cardNumShow">•••• •••• •••• ••••</div>
+<div style="display:flex;justify-content:space-between;font-size:12px"><span id="cardHolderShow">CARD HOLDER</span><span>EXP 12/28</span></div>
+</div>
+<input id="cardNo" placeholder="💳 Card No — 1234 5678 9012 3456" inputmode="numeric" oninput="updateCardShow()" style="margin-top:8px">
+<div class="grid2" style="margin-top:8px"><input id="cardName" placeholder="Card pe naam" oninput="updateCardShow()"><input id="cardPin" placeholder="PIN — 1234" type="password" inputmode="numeric" maxlength="4"></div>
+<!-- SWIPE -->
+<div class="swipe-area">
+<b>👉 Card Swipe Karo — Yaha Se Swipe Karo!</b>
+<p style="font-size:11px;opacity:.8">Thumb ko Right tak kheecho — Card Swipe ho jayega!</p>
+<div class="swipe-bar" id="swipeBar"><div class="swipe-thumb" id="swipeThumb">💳</div><div class="swipe-text">👉 SWIPE KARO — Card Maaro! →</div></div>
+<p id="swipeMsg" style="font-size:12px;color:#22c55e;font-weight:800;margin-top:8px"></p>
+</div>
+<p style="font-size:11px;color:#888;margin-top:6px">Kisi bhi cheez pe Card maar sakte ho — Card No daalo — Swipe karo — Payment ho jayega!</p>
+</div>
+
+<!-- UPI -->
+<div id="payUpiBox" style="display:none">
+<div style="background:#dcfce7;border:1px solid #16a34a;border-radius:12px;padding:12px;text-align:center"><div style="font-size:32px">📱</div><b>UPI Se Payment</b><p style="font-size:12px;color:#555">PhonePe / GPay / Paytm — QR dikhao — Customer scan karega!</p><div style="background:#fff;border:1px dashed #16a34a;border-radius:10px;padding:10px;margin-top:8px;font-size:12px">UPI ID: <b>raistar@upi</b> • QR Code yaha dikhega!</div></div>
+</div>
+
+<!-- KHATA -->
+<div id="payKhataBox" style="display:none">
+<div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:12px;padding:12px"><b>📓 Udhaar / Khata</b><p style="font-size:12px;color:#555;margin-top:4px">Customer ka naam upar likhna zaroori hai! Ye bill Khata me save hoga — Baad me paise lega!</p></div>
+</div>
+
+</div>
+
+<div style="margin-top:12px;border-top:1px solid #eee;padding-top:10px">
 <div class="total-row"><span>Subtotal</span><b>₹<span id="subTotal">0</span></b></div>
 <div class="total-row"><span>GST (5%)</span><b>₹<span id="gstAmt">0</span></b></div>
-<div class="total-row"><span>Discount</span><b style="color:#ef4444">- ₹<span id="discAmt">0</span></b></div>
+<div class="total-row" id="guduRow" style="display:none;color:#7c3aed"><span>🎫 Gudu Card Discount (20%)</span><b>- ₹<span id="guduAmt">0</span></b></div>
+<div class="total-row"><span>Extra Discount</span><b style="color:#ef4444">- ₹<span id="discAmt">0</span></b></div>
+<div class="total-row"><span>Payment: <b id="payShow">Cash</b></span><span id="cardSwipeStatus" style="font-size:11px;color:#16a34a;font-weight:800"></span></div>
 <div class="total-row big"><span>TOTAL</span><span style="color:#16a34a">₹<span id="grandTotal">0</span></span></div>
 </div>
-<button class="btn green" style="width:100%;padding:15px;font-size:16px;margin-top:10px" onclick="checkout()">✅ BILL DONE — Save + Print →</button>
-<button class="btn orange" style="width:100%;padding:12px;margin-top:8px" onclick="shareWhatsApp()">📱 WhatsApp Pe Bill Bhejo →</button>
+<div style="display:flex;gap:8px;margin-top:10px"><input id="discount" placeholder="Extra Discount ₹" type="number" oninput="calcTotal()" value="0"></div>
+<button class="btn green" style="width:100%;padding:15px;font-size:16px;margin-top:10px" onclick="checkout()">✅ BILL DONE — <span id="checkoutPay">Cash</span> Se Payment →</button>
+<button class="btn orange" style="width:100%;padding:12px;margin-top:8px" onclick="shareWhatsApp()">📱 WhatsApp Pe Bhejo →</button>
 </div>
 
-<!-- HISTORY -->
-<div class="card" id="historyCard" style="display:none">
-<h3>📜 History — Aaj Ke Bills</h3>
-<div id="historyList" style="margin-top:10px"></div>
-</div>
-
-<!-- BILL PREVIEW FOR PRINT -->
-<div class="card" id="printArea" style="display:none">
-<div style="text-align:center"><h2 id="printShop">RAISTAR KIRANA STORE</h2><p style="font-size:12px;color:#888">Scan Karo • Bill Banao • Khata</p><p style="font-size:12px" id="printMeta"></p><hr style="margin:8px 0;border:1px dashed #ddd"></div>
-<div id="printItems"></div>
-<div id="printTotal" style="margin-top:8px"></div>
-<p style="text-align:center;font-size:12px;color:#888;margin-top:10px">🙏 Dhanyavaad! Phir Aaiyega!</p>
-</div>
+<div class="card" id="historyCard" style="display:none"><h3>📜 History</h3><div id="historyList" style="margin-top:10px"></div></div>
+<div class="card" id="printArea" style="display:none"><div style="text-align:center"><h2 id="printShop">RAISTAR KIRANA STORE</h2><p style="font-size:12px;color:#888" id="printMeta"></p><hr style="border:1px dashed #ddd;margin:8px 0"></div><div id="printItems"></div><div id="printTotal"></div><p style="text-align:center;font-size:12px;color:#888;margin-top:10px">🙏 Dhanyavaad! Phir Aaiyega!</p></div>
 
 </div>
 
@@ -149,18 +184,12 @@ var products=[
 {name:"Amul Butter",price:58,barcode:"8901030895800",cat:"Dairy",emoji:"🧈"},
 {name:"Pepsi 500ml",price:40,barcode:"8901030895900",cat:"ColdDrink",emoji:"🥤"},
 {name:"Kurkure",price:20,barcode:"8901030896000",cat:"Snacks",emoji:"🍿"},
-{name:"Dettol Soap",price:45,barcode:"8901030896100",cat:"Karyana",emoji:"🧼"},
-{name:"Colgate Paste",price:95,barcode:"8901030896200",cat:"Karyana",emoji:"🪥"},
-{name:"Fortune Oil 1L",price:135,barcode:"8901030896300",cat:"Karyana",emoji:"🛢️"},
-{name:"Nestle Coffee",price:150,barcode:"8901030896400",cat:"Dairy",emoji:"☕"},
 ];
-var bill=[]; var history=[]; var catFilter="All"; var html5Qr=null; var scanning=false; var billNo=1001; var todaySale=0;
+var bill=[]; var history=[]; var catFilter="All"; var html5Qr=null; var scanning=false; var billNo=1001; var todaySale=0; var payMethod="Cash"; var guduApplied=false; var guduDiscount=0; var cardSwiped=false;
 try{billNo=parseInt(localStorage.getItem("raistar_billNo")||"1001");}catch(e){}
 try{history=JSON.parse(localStorage.getItem("raistar_history")||"[]"); todaySale=history.reduce(function(a,b){return a+b.total},0);}catch(e){}
 
-function toast(m){var t=document.getElementById("toast");t.innerText=m;t.style.display="block";setTimeout(function(){t.style.display="none"},2600);}
-function saveShop(){localStorage.setItem("raistar_shop",document.getElementById("shopName").value);}
-try{var s=localStorage.getItem("raistar_shop"); if(s) document.getElementById("shopName").value=s;}catch(e){}
+function toast(m){var t=document.getElementById("toast");t.innerText=m;t.style.display="block";setTimeout(function(){t.style.display="none"},2800);}
 document.getElementById("todayDate").innerText=new Date().toLocaleDateString("hi-IN",{day:"numeric",month:"long",year:"numeric"});
 document.getElementById("billNo").innerText="#"+billNo;
 document.getElementById("histCount").innerText=history.length;
@@ -169,157 +198,66 @@ document.getElementById("todaySale").innerText=todaySale;
 function setCat(c,el){catFilter=c; document.querySelectorAll(".tab").forEach(function(b){b.classList.remove("active")}); if(el) el.classList.add("active"); renderProducts();}
 function renderProducts(){
   var list=products.filter(function(p){return catFilter==="All"||p.cat===catFilter});
-  var h=""; list.forEach(function(p){
-    h+='<div class="prod" onclick="addProductByName(\''+p.name+'\')"><div class="e">'+p.emoji+'</div><b>'+p.name+'</b><span>₹'+p.price+' • '+p.cat+'</span></div>';
-  });
+  var h=""; list.forEach(function(p){h+='<div class="prod" onclick="addProductByName(\''+p.name+'\')"><div class="e">'+p.emoji+'</div><b>'+p.name+'</b><span>₹'+p.price+'</span></div>';});
   document.getElementById("prodGrid").innerHTML=h;
 }
-function addProductByName(name){
-  var p=products.find(function(x){return x.name===name});
-  if(p) addToBill(p.name,p.price,p.barcode,p.emoji);
-}
+function addProductByName(n){var p=products.find(function(x){return x.name===n}); if(p) addToBill(p.name,p.price,p.barcode,p.emoji);}
 function addToBill(name,price,barcode,emoji){
   var ex=bill.find(function(b){return b.name===name});
-  if(ex){ex.qty++;}
-  else {bill.push({name:name,price:price,barcode:barcode||"",emoji:emoji||"📦",qty:1});}
-  // Beep sound
+  if(ex) ex.qty++; else bill.push({name:name,price:price,barcode:barcode||"",emoji:emoji||"📦",qty:1});
   try{var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); o.connect(a.destination); o.frequency.value=880; o.start(); o.stop(a.currentTime+0.12);}catch(e){}
   if(navigator.vibrate) navigator.vibrate(80);
-  toast("✅ "+name+" — ₹"+price+" — Bill me add!");
+  toast("✅ "+name+" — ₹"+price+" — Add!");
   renderBill();
 }
 function renderBill(){
-  if(bill.length===0){document.getElementById("billList").innerHTML="<p style='color:#888;font-size:13px;text-align:center;padding:20px'>Abhi bill khaali hai!<br>Scan karo ya Quick Add dabao!</p>";}
+  if(bill.length===0) document.getElementById("billList").innerHTML="<p style='color:#888;text-align:center;padding:20px'>Bill khaali hai!</p>";
   else{
     var h=""; bill.forEach(function(b,i){
-      h+='<div class="item"><div class="thumb" style="background:#f1f5f9">'+b.emoji+'</div><div style="flex:1"><b>'+b.name+'</b><br><span>₹'+b.price+' x '+b.qty+' • Barcode: '+(b.barcode||"—")+'</span></div><div class="qty"><button onclick="changeQty('+i+',-1)">−</button><b>'+b.qty+'</b><button onclick="changeQty('+i+',1)">+</button></div><b style="min-width:60px;text-align:right">₹'+(b.price*b.qty)+'</b><button onclick="removeItem('+i+')" style="border:none;background:none;font-size:18px;cursor:pointer">❌</button></div>';
+      h+='<div class="item"><div class="thumb" style="background:#f1f5f9">'+b.emoji+'</div><div style="flex:1"><b>'+b.name+'</b><br><span>₹'+b.price+' x '+b.qty+'</span></div><div class="qty"><button onclick="changeQty('+i+',-1)">−</button><b>'+b.qty+'</b><button onclick="changeQty('+i+',1)">+</button></div><b style="min-width:60px;text-align:right">₹'+(b.price*b.qty)+'</b><button onclick="removeItem('+i+')" style="border:none;background:none;font-size:18px;cursor:pointer">❌</button></div>';
     });
     document.getElementById("billList").innerHTML=h;
   }
   document.getElementById("itemCount").innerText=bill.length;
-  calcTotal();
+  calcTotal(); calcCash();
 }
 function changeQty(i,d){bill[i].qty+=d; if(bill[i].qty<=0) bill.splice(i,1); renderBill();}
 function removeItem(i){bill.splice(i,1); renderBill();}
-function clearBill(){bill=[]; renderBill(); toast("Bill clear!");}
+function clearBill(){bill=[]; guduApplied=false; guduDiscount=0; document.getElementById("guduRow").style.display="none"; document.getElementById("guduMsg").style.display="none"; renderBill();}
 function calcTotal(){
   var sub=bill.reduce(function(a,b){return a+b.price*b.qty},0);
   var disc=parseInt(document.getElementById("discount").value||"0")||0;
   var gst=Math.round(sub*0.05);
-  var total=sub+gst-disc; if(total<0) total=0;
+  // Gudu discount - subtotal pe 20%
+  if(guduApplied) guduDiscount=Math.round(sub*0.20); else guduDiscount=0;
+  var total=sub+gst-disc-guduDiscount; if(total<0) total=0;
   document.getElementById("subTotal").innerText=sub;
   document.getElementById("gstAmt").innerText=gst;
   document.getElementById("discAmt").innerText=disc;
+  document.getElementById("guduAmt").innerText=guduDiscount;
   document.getElementById("grandTotal").innerText=total;
-  return {sub:sub,gst:gst,disc:disc,total:total};
+  return {sub:sub,gst:gst,disc:disc,gudu:guduDiscount,total:total};
 }
-function addManual(){document.getElementById("manualCard").style.display="block"; document.getElementById("manualCard").scrollIntoView({behavior:"smooth"});}
-function addManualItem(){
-  var n=document.getElementById("mName").value.trim();
-  var p=parseInt(document.getElementById("mPrice").value||"0");
-  var bc=document.getElementById("mBarcode").value.trim();
-  if(!n||!p){toast("Naam aur Price likho!");return;}
-  // Agar barcode pehle se hai to us product ko yaad rakho
-  if(bc){var ex=products.find(function(x){return x.barcode===bc}); if(!ex) products.push({name:n,price:p,barcode:bc,cat:"Karyana",emoji:"📦"}); renderProducts();}
-  addToBill(n,p,bc,"📦");
-  document.getElementById("mName").value=""; document.getElementById("mPrice").value=""; document.getElementById("mBarcode").value="";
+function calcCash(){
+  var t=calcTotal(); var given=parseInt(document.getElementById("cashGiven").value||"0")||0;
+  if(given>0){var ret=given-t.total; document.getElementById("cashReturn").value=ret>=0?"Wapas: ₹"+ret+" dena hai!":"Aur ₹"+Math.abs(ret)+" chahiye!";}
+  else document.getElementById("cashReturn").value="";
 }
 
-// SCAN - CAMERA KHULEGA!
-function startScan(){
-  document.getElementById("reader").style.display="block";
-  document.getElementById("scanStatus").style.display="block";
-  document.getElementById("scanStatus").innerText="📷 Camera khul raha hai... Barcode ko box ke andar rakho!";
-  if(scanning) return;
-  scanning=true;
-  html5Qr=new Html5Qrcode("reader");
-  html5Qr.start({facingMode:"environment"}, {fps:10, qrbox:{width:260,height:160}}, function(decoded){
-    // SCAN HUA!
-    onScan(decoded);
-  }, function(err){}).catch(function(err){
-    toast("Camera nahi khula! Permission do! Ya Manual Add karo!");
-    document.getElementById("scanStatus").innerText="❌ Camera permission nahi mili! Phone ki Settings me Camera ON karo!";
-  });
-  toast("📷 Camera khul gaya! Barcode ke saamne rakho!");
-}
-function stopScan(){
-  if(html5Qr && scanning){
-    html5Qr.stop().then(function(){document.getElementById("reader").style.display="none"; document.getElementById("scanStatus").style.display="none"; scanning=false; toast("Camera band!");}).catch(function(){});
-  } else {document.getElementById("reader").style.display="none"; document.getElementById("scanStatus").style.display="none";}
-}
-function onScan(code){
-  document.getElementById("scanStatus").innerText="✅ Scan hua: "+code+" — Bill me add ho raha hai!";
-  // Barcode se product dhoondo
-  var p=products.find(function(x){return x.barcode===code});
-  if(p){
-    addToBill(p.name,p.price,p.barcode,p.emoji);
+// GUDU CARD - 20102610!
+function applyGudu(){
+  var no=document.getElementById("guduNo").value.trim();
+  var msg=document.getElementById("guduMsg");
+  msg.style.display="block";
+  if(no==="20102610"){
+    guduApplied=true;
+    document.getElementById("guduRow").style.display="flex";
+    msg.innerText="🎉 GUDU CARD LAG GAYA! Luck Ke Husband Wala Discount — 20% OFF! Bhai Gudu to chha gaya!";
+    msg.style.color="#fff"; msg.style.background="rgba(0,0,0,.3)"; msg.style.padding="8px"; msg.style.borderRadius="10px";
+    toast("🎉 GUDU CARD! 20% Discount! Luck ke Husband se mila!");
+    try{var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); o.connect(a.destination); o.frequency.value=1200; o.start(); o.stop(a.currentTime+0.3);}catch(e){}
+  } else if(no===""){
+    msg.innerText="⚠️ Pehle Gudu Card No dalo — 20102610!";
+    guduApplied=false; document.getElementById("guduRow").style.display="none";
   } else {
-    // Naya product hai - naam puchho
-    var name=prompt("Naya Barcode: "+code+"\nIs cheez ka naam kya hai? (jaise Maggi, Parle-G)");
-    if(name){
-      var price=parseInt(prompt(name+" ka price kitna hai? ₹")||"0");
-      if(price>0){
-        products.push({name:name,price:price,barcode:code,cat:"Karyana",emoji:"📦"});
-        renderProducts();
-        addToBill(name,price,code,"📦");
-      }
-    } else {
-      toast("Scan hua: "+code+" — Manual me add karo!");
-      document.getElementById("mBarcode").value=code;
-      addManual();
-    }
-  }
-  // Scan ke baad camera chalu rakho - agla item scan kar sakte ho!
-  setTimeout(function(){document.getElementById("scanStatus").innerText="📷 Agla item scan karo...";},1500);
-}
-function checkout(){
-  if(bill.length===0){toast("Bill khaali hai! Pehle item add karo!");return;}
-  var t=calcTotal();
-  var cust=document.getElementById("custName").value||"Walk-in Customer";
-  var pay=document.getElementById("payMethod").value;
-  var rec={billNo:billNo,cust:cust,phone:document.getElementById("custPhone").value,items:JSON.parse(JSON.stringify(bill)),total:t.total,date:new Date().toLocaleString("hi-IN"),pay:pay};
-  history.unshift(rec);
-  try{localStorage.setItem("raistar_history",JSON.stringify(history));}catch(e){}
-  billNo++; try{localStorage.setItem("raistar_billNo",billNo);}catch(e){}
-  document.getElementById("billNo").innerText="#"+billNo;
-  document.getElementById("histCount").innerText=history.length;
-  todaySale+=t.total; document.getElementById("todaySale").innerText=todaySale;
-  // Print area banao
-  document.getElementById("printShop").innerText=document.getElementById("shopName").value;
-  document.getElementById("printMeta").innerText="Bill No: #"+rec.billNo+" • "+rec.date+" • Customer: "+cust+" • "+pay;
-  var ph=""; rec.items.forEach(function(b){ph+='<div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px dashed #eee"><span>'+b.emoji+' '+b.name+' x '+b.qty+'</span><b>₹'+(b.price*b.qty)+'</b></div>';});
-  document.getElementById("printItems").innerHTML=ph;
-  document.getElementById("printTotal").innerHTML='<div style="display:flex;justify-content:space-between"><span>Subtotal</span><b>₹'+t.sub+'</b></div><div style="display:flex;justify-content:space-between"><span>GST 5%</span><b>₹'+t.gst+'</b></div><div style="display:flex;justify-content:space-between"><span>Discount</span><b>-₹'+t.disc+'</b></div><div style="display:flex;justify-content:space-between;font-size:18px;font-weight:900;margin-top:6px"><span>TOTAL</span><span>₹'+t.total+'</span></div><p style="font-size:12px;margin-top:6px">Payment: '+pay+'</p>';
-  document.getElementById("printArea").style.display="block";
-  toast("✅ Bill #"+rec.billNo+" Save! Total ₹"+t.total+" — "+pay);
-  // Bill clear karo - naya bill
-  bill=[]; renderBill(); document.getElementById("custName").value=""; document.getElementById("custPhone").value=""; document.getElementById("discount").value="0";
-  showHistory();
-}
-function showHistory(){
-  document.getElementById("historyCard").style.display="block";
-  if(history.length===0){document.getElementById("historyList").innerHTML="<p style='color:#888;font-size:13px'>Abhi koi bill nahi hai!</p>";return;}
-  var h=""; history.slice(0,10).forEach(function(r){
-    h+='<div style="border:1px solid #eee;border-radius:12px;padding:10px;margin-bottom:8px"><div style="display:flex;justify-content:space-between"><b>🧾 #'+r.billNo+' • '+r.cust+'</b><b style="color:#16a34a">₹'+r.total+'</b></div><div style="font-size:12px;color:#888">'+r.date+' • '+r.pay+' • '+r.items.length+' items • '+r.items.map(function(i){return i.name+" x"+i.qty}).join(", ")+'</div></div>';
-  });
-  document.getElementById("historyList").innerHTML=h;
-  document.getElementById("historyCard").scrollIntoView({behavior:"smooth"});
-}
-function printBill(){
-  if(bill.length===0 && document.getElementById("printArea").style.display==="none"){toast("Pehle bill banao!");return;}
-  window.print();
-}
-function shareWhatsApp(){
-  if(bill.length===0){toast("Bill khaali hai!");return;}
-  var t=calcTotal();
-  var cust=document.getElementById("custName").value||"Customer";
-  var txt="🧾 *"+document.getElementById("shopName").value+"*\nBill No: #"+billNo+"\nCustomer: "+cust+"\n----------------\n";
-  bill.forEach(function(b){txt+=b.emoji+" "+b.name+" x "+b.qty+" = ₹"+(b.price*b.qty)+"\n";});
-  txt+="----------------\nSubtotal: ₹"+t.sub+"\nGST: ₹"+t.gst+"\nDiscount: -₹"+t.disc+"\n*TOTAL: ₹"+t.total+"*\n🙏 Dhanyavaad!";
-  window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank");
-  toast("WhatsApp khul gaya — Bill bhej do!");
-}
-renderProducts(); renderBill();
-</script>
-</body>
-</html>
+  
